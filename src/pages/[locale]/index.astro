@@ -1,0 +1,15 @@
+---
+import Layout from "@layouts/Layout.astro";
+export function getStaticPaths() {
+    return [
+        { params: { locale: "en" } },
+        { params: { locale: "es" } },
+        { params: { locale: "pt-br" } },
+    ];
+}
+---
+
+<Layout>
+    <p>teste</p>
+    <div class="container mx-auto p-4"></div>
+</Layout>

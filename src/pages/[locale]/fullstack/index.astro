@@ -1,0 +1,22 @@
+---
+import Layout from "@layouts/Layout.astro";
+import SplineViewer from "@components/SplineViewer";
+
+export function getStaticPaths() {
+    return [{ params: { locale: "en" } }, { params: { locale: "pt" } }];
+}
+const { locale } = Astro.params;
+---
+
+<Layout>
+    <SplineViewer client:load />
+    {
+        Object.values(["en", "pt"]).map((locale) => {
+            return (
+                <a class="m-6" href={`/${locale}/fullstack`}>
+                    {locale}
+                </a>
+            );
+        })
+    }
+</Layout>
