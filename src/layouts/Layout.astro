@@ -1,12 +1,12 @@
 ---
 import "../styles/global.css";
-import ThemeToggle from "../components/ThemeToggle.astro";
+import ThemeToggle from "../components/ThemeToggle";
+import LanguageToggle from "../components/LanguageToggle.astro";
 
 interface Props {
 	title?: string;
 	lang?: string;
 }
-
 const { title = "Jônatas.Dev", lang = "en" } = Astro.props;
 ---
 
@@ -14,32 +14,16 @@ const { title = "Jônatas.Dev", lang = "en" } = Astro.props;
 <html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
-		<script is:inline>
-			(function () {
-				const theme = localStorage.getItem("theme");
-				const systemTheme = window.matchMedia(
-					"(prefers-color-scheme: dark)",
-				).matches
-					? "dark"
-					: "light";
-				const appliedTheme = theme || systemTheme;
-				document.documentElement.setAttribute(
-					"data-theme",
-					appliedTheme,
-				);
-			})();
-		</script>
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body
-		class="bg-white dark:bg-black text-black dark:text-white transition-colors duration-300"
-	>
-		<div class="fixed top-4 right-4 z-50">
-			<ThemeToggle />
+	<body class="">
+		<div class="fixed top-4 right-4 z-50 flex gap-2">
+			<LanguageToggle currentLocale={lang} />
+			<ThemeToggle client:load locale={lang} />
 		</div>
 		<slot />
 	</body>

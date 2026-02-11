@@ -1,18 +1,20 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import SplineViewer from "@components/SplineViewer";
 
-import { marked } from "marked";
-const response = await fetch(
-	"https://raw.githubusercontent.com/Jonatasndossantos/JYNSGE/main/README.md",
-);
-const markdown = await response.text();
-const content = marked.parse(markdown);
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import PoC from "@components/PoC";
+
+import { configuration } from "intlayer";
+
+export function getStaticPaths() {
+    const { locales } = configuration.internationalization;
+    return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
 ---
 
-<Layout>
-	<div class="container mx-auto p-4">
-		<article set:html={content} />
-	</div>
+<Layout title="Fullstack Portfolio" lang={locale}>
+    <!-- <SplineViewer client:load /> -->
+    <PoC locale={locale} />
 </Layout>

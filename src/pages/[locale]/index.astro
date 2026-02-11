@@ -1,15 +1,20 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import SplineViewer from "@components/SplineViewer";
+
+import PoC from "@components/PoC";
+
+import { configuration } from "intlayer";
+
 export function getStaticPaths() {
-    return [
-        { params: { locale: "en" } },
-        { params: { locale: "es" } },
-        { params: { locale: "pt-br" } },
-    ];
+    const { locales } = configuration.internationalization;
+    return locales.map((locale) => ({ params: { locale } }));
 }
+
+const { locale } = Astro.params;
 ---
 
-<Layout>
-    <p>teste</p>
-    <div class="container mx-auto p-4"></div>
+<Layout title="Fullstack Portfolio" lang={locale}>
+    <!-- <SplineViewer client:load /> -->
+    <PoC client:only="react" locale={locale} />
 </Layout>

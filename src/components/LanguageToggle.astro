@@ -1,0 +1,109 @@
+---
+import { getLocale, getMultilingualUrls } from "intlayer";
+import type { Locale } from "intlayer";
+
+interface Props {
+    currentLocale?: string;
+}
+
+const { currentLocale: propLocale } = Astro.props;
+const currentLocale = propLocale || getLocale();
+
+// Map of locales to their display names and native names
+const languageMap: Record<string, { label: string; nativeName: string }> = {
+    pt: { label: "Português", nativeName: "Português" },
+    en: { label: "English", nativeName: "English (US)" },
+    "en-GB": { label: "English (UK)", nativeName: "English (UK)" },
+    fr: { label: "Français", nativeName: "Français" },
+    es: { label: "Español", nativeName: "Español" },
+    zh: { label: "Chinese", nativeName: "中文" },
+    ja: { label: "Japanese", nativeName: "日本語" },
+};
+
+// Supported locales matching intlayer.config.ts
+const supportedLocales: Locale[] = [
+    "pt",
+    "en",
+    "fr",
+    "es",
+    "zh",
+    "ja",
+    "en-GB",
+] as Locale[];
+
+// Get URLs for all provided locales
+const multilingualUrls = getMultilingualUrls(Astro.url.pathname);
+---
+
+<div title="Change Language" class="dropdown dropdown-end block">
+    <div
+        tabindex="0"
+        role="button"
+        class="btn group btn-sm gap-1.5 px-1.5 btn-ghost"
+        aria-label="Change Language"
+    >
+        <span class="uppercase font-semibold text-xs">{currentLocale}</span>
+        <svg
+            width="12px"
+            height="12px"
+            class="hidden size-2 fill-current opacity-60 sm:inline-block"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 2048 2048"
+        >
+            <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"
+            ></path>
+        </svg>
+    </div>
+    <div
+        tabindex="0"
+        class="dropdown-content bg-base-200 text-base-content rounded-box top-px max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border-(length:--border) border-white/5 shadow-2xl outline-(length:--border) outline-black/5 mt-16"
+    >
+        <ul class="menu menu-sm gap-1">
+            <li class="menu-title px-2 py-1 text-xs font-medium opacity-70">
+                Language
+            </li>
+            {
+                supportedLocales.map((locale) => (
+                    <li>
+                        <a
+                            href={multilingualUrls[locale as Locale]}
+                            class:list={[
+                                "justify-start gap-3 px-2 font-normal hover:bg-base-content/10",
+                                {
+                                    "bg-base-content/10!":
+                                        currentLocale === locale,
+                                },
+                            ]}
+                        >
+                            <div class="w-full truncate text-start">
+                                <span class="font-medium">
+                                    {languageMap[locale]?.nativeName || locale}
+                                </span>
+                                <span class="text-xs opacity-70 ml-2">
+                                    ({languageMap[locale]?.label || locale})
+                                </span>
+                            </div>
+                            {currentLocale === locale && (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    class="h-3 w-3 shrink-0 opacity-70"
+                                >
+                                    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                                </svg>
+                            )}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Optional: Close dropdown on click (handled by daisyUI mostly, but we can add behavior if needed)
+    // For links, the page reload will close it.
+</script>

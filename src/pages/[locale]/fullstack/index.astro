@@ -2,21 +2,19 @@
 import Layout from "@layouts/Layout.astro";
 import SplineViewer from "@components/SplineViewer";
 
+import PoC from "@components/PoC";
+
 export function getStaticPaths() {
-    return [{ params: { locale: "en" } }, { params: { locale: "pt" } }];
+    const availableLocales = ["pt", "en", "fr", "es", "zh", "ja", "en-GB"];
+    return availableLocales.map((locale) => ({
+        params: { locale },
+        props: { locale },
+    }));
 }
 const { locale } = Astro.params;
 ---
 
-<Layout>
-    <SplineViewer client:load />
-    {
-        Object.values(["en", "pt"]).map((locale) => {
-            return (
-                <a class="m-6" href={`/${locale}/fullstack`}>
-                    {locale}
-                </a>
-            );
-        })
-    }
+<Layout title="Fullstack Portfolio" lang={locale}>
+    <!-- <SplineViewer client:load /> -->
+    <PoC client:only="react" locale={locale} />
 </Layout>
