@@ -7,8 +7,10 @@ import PoC from "@components/PoC";
 import { configuration } from "intlayer";
 
 export function getStaticPaths() {
-    const { locales } = configuration.internationalization;
-    return locales.map((locale) => ({ params: { locale } }));
+    const { locales, defaultLocale } = configuration.internationalization;
+    return locales
+        .filter((locale) => locale !== defaultLocale)
+        .map((locale) => ({ params: { locale } }));
 }
 
 const { locale } = Astro.params;

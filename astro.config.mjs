@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from "@astrojs/sitemap";
 
 import react from "@astrojs/react";
-import { intlayer } from "astro-intlayer";
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,18 +17,12 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [sitemap({
-    i18n: {
-      defaultLocale: "en",
-      locales: {
-        "en": "en",
-        "pt": "pt",
-        "fr": "fr",
-        "es": "es",
-        "zh": "zh",
-        "ja": "ja",
-        "en-GB": "en-GB"
-      }
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "pt", "fr", "es", "zh", "ja", "en-GB"],
+    routing: {
+      prefixDefaultLocale: false
     }
-  }), react(), intlayer()]
+  },
+  integrations: [sitemap(), react()]
 });

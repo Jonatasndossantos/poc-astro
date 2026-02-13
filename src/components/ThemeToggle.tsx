@@ -1,18 +1,46 @@
-import { useIntlayer } from "react-intlayer";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useTranslations } from "../i18n/utils";
+import { ui } from "../i18n/ui";
 
 interface ThemeToggleProps {
     locale?: string;
 }
 
-export default function ThemeToggle({ locale }: ThemeToggleProps) {
-    const content = useIntlayer("theme", locale);
-    const themesList = Object.keys(content.themes).map((key) => ({
-        name: key,
-        label: content.themes[key as keyof typeof content.themes],
-    }));
-    console.log(themesList);
+export default function ThemeToggle({ locale = "en" }: ThemeToggleProps) {
+    const t = useTranslations(locale as keyof typeof ui);
+    const label = t("theme.label");
 
+    const themeKeys = [
+        "light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk",
+        "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe",
+        "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee",
+        "winter", "dim", "nord", "sunset", "caramellatte", "abyss", "silk"
+    ];
+
+    const themesList = themeKeys.map((key) => ({
+        name: key,
+        label: t(`theme.${key}` as any),
+    }));
+
+
+
+    const [selectedTheme, setSelectedTheme] = useState<string>("");
+
+    useEffect(() => {
+        // Get the current theme from the HTML tag or localStorage
+        const currentTheme = document.documentElement.getAttribute("data-theme") || localStorage.getItem("theme") || "light";
+        setSelectedTheme(currentTheme);
+    }, []);
+
+    const handleThemeChange = (theme: string) => {
+        setSelectedTheme(theme);
+        // DaisyUI theme-controller handles the actual theme switch on the HTML tag,
+        // but we might want to save it to localStorage if DaisyUI doesn't do it automatically in all setups,
+        // or just rely on the controller. 
+        // Typically the controller just sets value on the DOM.
+        // Let's ensure we save preference.
+        localStorage.setItem("theme", theme);
+    };
 
     return (
         <div title="Change Theme" className="dropdown dropdown-end block">
@@ -44,17 +72,19 @@ export default function ThemeToggle({ locale }: ThemeToggleProps) {
             >
                 <ul className="menu menu-sm gap-1">
                     <li className="menu-title px-2 py-1 text-xs font-medium opacity-70">
-                        {content.label}
+                        {label}
                     </li>
                     {themesList.map((theme) => (
                         <li key={theme.name}>
-                            <label className={`justify-start gap-3 px-2 font-normal hover:bg-base-content/10 ${theme.name === "dark" ? "!bg-base-content/10" : ""
+                            <label className={`justify-start gap-3 px-2 font-normal hover:bg-base-content/10 ${theme.name === selectedTheme ? "!bg-base-content/10" : ""
                                 }`}>
                                 <input
                                     type="radio"
                                     name="theme-dropdown"
                                     className="theme-controller hidden"
                                     value={theme.name}
+                                    onChange={() => handleThemeChange(theme.name)}
+                                    checked={theme.name === selectedTheme}
                                 />
                                 <div
                                     data-theme={theme.name}
@@ -72,7 +102,7 @@ export default function ThemeToggle({ locale }: ThemeToggleProps) {
                                     height="16"
                                     viewBox="0 0 24 24"
                                     fill="currentColor"
-                                    className={`h-3 w-3 shrink-0 opacity-70 ${theme.name === "dark" ? "" : "invisible"
+                                    className={`h-3 w-3 shrink-0 opacity-70 ${theme.name === selectedTheme ? "" : "invisible"
                                         }`}
                                 >
                                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />

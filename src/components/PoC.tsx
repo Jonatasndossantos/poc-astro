@@ -1,9 +1,13 @@
-import { getIntlayer } from "intlayer";
-
-import { IntlayerProvider, useIntlayer } from "react-intlayer";
+import { useTranslations } from "../i18n/utils";
+import { ui } from "../i18n/ui";
 
 export default function PoC({ locale }: { locale: string }) {
-    const content = useIntlayer("poc-component", locale);
+    const t = useTranslations(locale as keyof typeof ui);
+
+    const content = {
+        title: t("poc.title"),
+        description: t("poc.description"),
+    };
 
     return (
         <div>

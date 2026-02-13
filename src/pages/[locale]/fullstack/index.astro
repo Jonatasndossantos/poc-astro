@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import SplineViewer from "@components/SplineViewer";
-
+import Hero from "@components/Hero";
+import { Mode } from "../../../types";
 import PoC from "@components/PoC";
 
 export function getStaticPaths() {
@@ -15,6 +15,10 @@ const { locale } = Astro.params;
 ---
 
 <Layout title="Fullstack Portfolio" lang={locale}>
-    <!-- <SplineViewer client:load /> -->
-    <PoC client:only="react" locale={locale} />
+    <main class="relative w-full overflow-hidden">
+        <Hero client:load mode={Mode.FULLSTACK} locale={locale} />
+        <div class="relative z-10 bg-base-100">
+            <PoC client:visible locale={locale} />
+        </div>
+    </main>
 </Layout>
