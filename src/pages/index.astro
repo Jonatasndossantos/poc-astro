@@ -1,13 +1,5 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import SplineViewer from "@components/SplineViewer";
-
-import PoC from "@components/PoC";
-
-const locale = "en";
+// Root redirect — no locale, just send to default
+// Astro handles this at SSG time: creates a /index.html that redirects
+return Astro.redirect("/en/fullstack", 301);
 ---
-
-<Layout title="Fullstack Portfolio" lang={locale}>
-    <!-- <SplineViewer client:load /> -->
-    <PoC locale={locale} />
-</Layout>

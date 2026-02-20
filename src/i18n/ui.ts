@@ -1,16 +1,10 @@
+import { languageLabels, defaultLocale } from "./config";
+
 export const showDefaultLang = false;
 
-export const languages = {
-    en: 'English',
-    pt: 'Português',
-    fr: 'Français',
-    es: 'Español',
-    zh: '中文',
-    ja: '日本語',
-    'en-GB': 'English (UK)',
-};
+export const languages = languageLabels;
 
-export const defaultLang = 'en';
+export const defaultLang = defaultLocale;
 
 export const ui = {
     en: {

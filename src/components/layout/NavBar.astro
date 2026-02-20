@@ -1,14 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "../islands/ThemeToggle";
 import LanguageToggle from "./LanguageToggle.astro";
-import { Mode } from "../types";
-import { ui, defaultLang } from "../i18n/ui";
-import {
-    useTranslations,
-    getLangFromUrl,
-    useTranslatedPath,
-} from "../i18n/utils";
+import { Mode } from "../../types";
+import { getTranslations } from "../../i18n/index";
+import { useTranslatedPath, getLangFromUrl } from "../../i18n/utils";
+import { languages } from "../../i18n/ui";
 import {
     Layers,
     Server,
@@ -23,8 +20,11 @@ import {
 } from "lucide-react";
 
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
+
+// Load nav translations from src/content/nav/{locale}.json
+const nav = await getTranslations(lang, "nav");
+const navRecord = nav as Record<string, string>;
 
 // Get current mode from URL
 const { pathname } = Astro.url;
@@ -32,7 +32,8 @@ const { pathname } = Astro.url;
 // Assuming structure: /[lang]/[mode] or just /[mode] if lang is default and hidden
 const pathSegments = pathname.split("/").filter(Boolean);
 // If first segment is a lang, the second might be mode. If not, first might be mode.
-const potentialMode = pathSegments[0] in ui ? pathSegments[1] : pathSegments[0];
+const potentialMode =
+    pathSegments[0] in languages ? pathSegments[1] : pathSegments[0];
 
 const currentMode = Object.values(Mode).includes(potentialMode as Mode)
     ? (potentialMode as Mode)
@@ -148,7 +149,7 @@ const modeButtonInactive = isLight
                             isLight ? "text-black" : "text-white",
                         ]}
                     >
-                        {t("nav.title")}
+                        {navRecord.title ?? ""}
                     </span>
                 </div>
             </a>
@@ -164,7 +165,7 @@ const modeButtonInactive = isLight
                             ? "text-black/60 hover:bg-black/5"
                             : "text-white/70 hover:bg-white/10",
                     ]}
-                    title={t("nav.audio")}
+                    title={navRecord.audio ?? ""}
                 >
                     <VolumeX className="size-5" />
                 </button>
@@ -189,7 +190,7 @@ const modeButtonInactive = isLight
                                         : modeButtonInactive,
                                 ]}
                             >
-                                {mode}
+                                {navRecord[mode] ?? mode}
                             </a>
                         ))
                     }
@@ -258,7 +259,7 @@ const modeButtonInactive = isLight
                                       : "bg-white/5 text-white",
                             ]}
                         >
-                            {mode}
+                            {navRecord[mode] ?? mode}
                         </a>
                     ))
                 }

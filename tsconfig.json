@@ -18,11 +18,26 @@
       "@components/*": [
         "./src/components/*"
       ],
+      "@islands/*": [
+        "./src/components/islands/*"
+      ],
+      "@layout/*": [
+        "./src/components/layout/*"
+      ],
+      "@ui/*": [
+        "./src/components/ui/*"
+      ],
       "@assets/*": [
         "./src/assets/*"
       ],
       "@layouts/*": [
         "./src/layouts/*"
+      ],
+      "@i18n": [
+        "./src/i18n/index.ts"
+      ],
+      "@content/*": [
+        "./src/content/*"
       ]
     }
   }

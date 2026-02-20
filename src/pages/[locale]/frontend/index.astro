@@ -20,22 +20,22 @@ const profile = (await getTranslations(lang, "profile")) as Record<
     string,
     unknown
 >;
-const bio = (profile.bio as Record<string, string>)?.[Mode.FULLSTACK] ?? "";
-const role = (profile.role as Record<string, string>)?.[Mode.FULLSTACK] ?? "";
+const bio = (profile.bio as Record<string, string>)?.[Mode.FRONTEND] ?? "";
+const role = (profile.role as Record<string, string>)?.[Mode.FRONTEND] ?? "";
 const greeting = String(profile.greeting ?? "");
 const exploreWork = String(profile.exploreWork ?? "");
 const scroll = String(profile.scroll ?? "");
 ---
 
 <Layout
-    title="Fullstack"
+    title="Frontend"
     description={`${role} — ${bio.slice(0, 120)}...`}
     lang={locale}
 >
     <main class="relative w-full overflow-hidden">
         <Hero
             client:load
-            mode={Mode.FULLSTACK}
+            mode={Mode.FRONTEND}
             bio={bio}
             role={role}
             greeting={greeting}

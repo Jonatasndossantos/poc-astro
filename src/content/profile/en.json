@@ -1,0 +1,22 @@
+{
+    "greeting": "Hi, I am Jônatas",
+    "role_fallback": "Web Developer.",
+    "exploreWork": "Explore Work",
+    "scroll": "SCROLL TO NAVIGATE",
+    "bio": {
+        "fullstack": "I create immersive digital experiences, bridging the gap between robust logic and fluid design. I deliver complete solutions from database to pixel.",
+        "frontend": "I sculpt user interactions with pixel-perfect precision, focusing on motion, accessibility, and visual storytelling that captures the imagination.",
+        "backend": "I architect the invisible backbone of applications, ensuring security, speed, and massive scalability under heavy loads.",
+        "devops": "I build the factories that build the software, creating seamless pipelines and resilient infrastructure that sleeps so you don't have to.",
+        "database": "I am the guardian of data, optimizing structures for complex queries and ensuring absolute integrity across distributed systems.",
+        "ai": "I integrate intelligent models into practical applications, teaching machines to solve human problems and automating the mundane."
+    },
+    "role": {
+        "fullstack": "Senior Full-Stack Engineer",
+        "frontend": "Creative Frontend Architect",
+        "backend": "System Architecture Specialist",
+        "devops": "Infrastructure & Automation Engineer",
+        "database": "Database Administrator & Architect",
+        "ai": "AI Solutions Engineer"
+    }
+}

@@ -1,30 +1,56 @@
 ---
 import "../styles/global.css";
-import ThemeToggle from "../components/ThemeToggle";
-import LanguageToggle from "../components/LanguageToggle.astro";
-import NavBar from "../components/NavBar.astro";
+import NavBar from "../components/layout/NavBar.astro";
 
 interface Props {
 	title?: string;
+	description?: string;
 	lang?: string;
+	canonicalUrl?: string;
 }
-const { title = "Jônatas.Dev", lang = "en" } = Astro.props;
+
+const {
+	title = "Jônatas.Dev",
+	description = "Multiverse Portfolio — Full-Stack, Frontend, Backend, DevOps, Database & AI",
+	lang = "en",
+	canonicalUrl = Astro.url.href,
+} = Astro.props;
+
+const ogTitle = `${title} | Jônatas.Dev`;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Primary SEO -->
+		<title>{ogTitle}</title>
+		<meta name="description" content={description} />
+		<meta name="robots" content="index, follow" />
+		<meta name="author" content="Jônatas N. dos Santos" />
+		<link rel="canonical" href={canonicalUrl} />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:locale" content={lang} />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={description} />
+
+		<!-- Icons -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
 	</head>
-	<body class="">
-		<div class="fixed top-4 right-4 z-50 flex gap-2">
-			<NavBar />
-		</div>
+	<body>
+		<NavBar />
 		<slot />
 	</body>
 </html>

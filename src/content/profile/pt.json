@@ -1,0 +1,22 @@
+{
+    "greeting": "Olá, sou Jônatas",
+    "role_fallback": "Desenvolvedor Web.",
+    "exploreWork": "Explorar Trabalho",
+    "scroll": "ROLE PARA NAVEGAR",
+    "bio": {
+        "fullstack": "Crio experiências digitais imersivas, unindo lógica robusta e design fluido em um multiverso de tecnologia.",
+        "frontend": "Esculpo interações de usuário com precisão, focando em movimento, acessibilidade e narrativas visuais envolventes.",
+        "backend": "Arquiteto a espinha dorsal invisível das aplicações, garantindo segurança, velocidade e escalabilidade massiva.",
+        "devops": "Construo as 'fábricas' de software, criando pipelines contínuos e infraestrutura resiliente e automatizada.",
+        "database": "Sou o guardião dos dados, otimizando estruturas para consultas complexas e garantindo integridade absoluta.",
+        "ai": "Integro modelos inteligentes em aplicações práticas, ensinando máquinas a resolver problemas humanos complexos."
+    },
+    "role": {
+        "fullstack": "Engenheiro Full-Stack Sênior",
+        "frontend": "Arquiteto Criativo Frontend",
+        "backend": "Especialista em Arquitetura de Sistemas",
+        "devops": "Engenheiro de Infraestrutura e Automação",
+        "database": "Administrador e Arquiteto de Dados",
+        "ai": "Engenheiro de Soluções em IA"
+    }
+}

@@ -4,10 +4,7 @@ import { ui } from "../i18n/ui";
 export default function PoC({ locale }: { locale: string }) {
     const t = useTranslations(locale as keyof typeof ui);
 
-    const content = {
-        title: t("poc.title"),
-        description: t("poc.description"),
-    };
+
 
     return (
         <div>
@@ -15,8 +12,8 @@ export default function PoC({ locale }: { locale: string }) {
                 <h1 className="text-2xl font-bold">
                     Tradução automatica por IA com intlayer
                 </h1>
-                <h1>{content.title}</h1>
-                <p>{content.description}</p>
+                <h1>{t('poc.title')}</h1>
+                <p>{t('poc.description')}</p>
             </div>
         </div>
     );

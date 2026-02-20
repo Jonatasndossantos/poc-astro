@@ -1,40 +1,40 @@
 import { useLayoutEffect, useRef, type ComponentProps } from 'react';
 import { type Mode } from '../types';
 import gsap from 'gsap';
-import { ArrowDown } from 'lucide-react'; // Changed from phosphor-icons to lucide
+import { ArrowDown } from 'lucide-react';
 import { tv } from 'tailwind-variants';
 import { twMerge } from 'tailwind-merge';
-import { getProfileData } from '../i18n/data'; // Import data bridge
 
 const heroVariants = tv({
     base: 'relative min-h-screen w-full flex flex-col justify-center px-6 lg:px-20 overflow-hidden pt-32 pb-20',
 });
 
+/**
+ * Hero receives pre-resolved, locale+mode-aware strings from the Astro parent.
+ * No i18n logic here — pure rendering.
+ *
+ * The Astro parent does:
+ *   const profile = await getTranslations(lang, 'profile');
+ *   <Hero bio={profile.bio[mode]} role={profile.role[mode]} ... />
+ */
 interface HeroProps extends ComponentProps<'section'> {
     mode: Mode;
-    locale: string;
+    bio: string;
+    role: string;
+    greeting: string;
+    exploreWork: string;
+    scroll: string;
 }
 
-export default function Hero({ mode, locale, className, ...props }: HeroProps) {
+export default function Hero({ mode, bio, role, greeting, exploreWork, scroll, className, ...props }: HeroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const headlineRef = useRef<HTMLHeadingElement>(null);
     const subRef = useRef<HTMLParagraphElement>(null);
     const ctaRef = useRef<HTMLButtonElement>(null);
 
-    // Fetch data synchronously (data is static/JSON)
-    const profile = getProfileData(locale);
-
-    // Resolve localized strings based on mode
-    const bio = profile.bio[mode] || profile.bio['fullstack']; // fallback
-    const role = profile.role[mode] || profile.role['fullstack'];
-    const greeting = profile.greeting;
-    const exploreWork = profile.exploreWork;
-    const scrollText = profile.scroll;
-    // const universeText = profile.universeActive.replace('{0}', mode.toUpperCase()); // The json has "// Universe Active", we might need to compose it or just append the mode
-
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            const tl = gsap.timeline({ delay: 0.5 }); // Reduced delay slightly
+            const tl = gsap.timeline({ delay: 0.5 });
 
             tl.from(headlineRef.current, {
                 y: 100,
@@ -123,7 +123,7 @@ export default function Hero({ mode, locale, className, ...props }: HeroProps) {
             </div>
 
             <div className="absolute bottom-10 right-10 hidden md:block animate-bounce">
-                <div className="text-xs font-mono text-white/30 rotate-90 origin-bottom-right tracking-widest">{scrollText}</div>
+                <div className="text-xs font-mono text-white/30 rotate-90 origin-bottom-right tracking-widest">{scroll}</div>
             </div>
         </section>
     );

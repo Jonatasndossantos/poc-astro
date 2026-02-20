@@ -7,6 +7,8 @@ import sitemap from "@astrojs/sitemap";
 
 import react from "@astrojs/react";
 
+import { locales, defaultLocale } from "./src/i18n/config";
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,10 +20,10 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "pt", "fr", "es", "zh", "ja", "en-GB"],
+    defaultLocale: defaultLocale,
+    locales: [...locales],
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: true
     }
   },
   integrations: [sitemap(), react()]
