@@ -9,7 +9,7 @@ export const locales = [
     "es",
     "zh",
     "ja",
-    "en-GB",
+    // "en-GB",
 ] as const;
 
 
@@ -26,5 +26,5 @@ export const languageLabels: Record<Locale, string> = {
     es: "Español",
     zh: "中文",
     ja: "日本語",
-    "en-GB": "English (UK)",
+    // "en-GB": "English (UK)",
 };

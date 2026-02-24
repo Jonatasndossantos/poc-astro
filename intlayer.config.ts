@@ -9,30 +9,33 @@ const config: IntlayerConfig = {
     },
     plugins: [
         /**
-         * Syncs and auto-translates the flat JSON files in src/content/.
+         * Syncs and auto-translates the flat JSON files in src/dictionaries/.
          *
-         * Source of truth: src/content/<namespace>.json
+         * Source of truth: src/dictionaries/<namespace>.json
          * Format: { "en": {...}, "pt": {...}, ... }
          *
          * Run `npx intlayer fill` to auto-translate empty locales via AI.
-         * Run `npx intlayer content list` to verify discovered files.
+         * Run `npx intlayer dictionaries list` to verify discovered files.
          */
         syncJSON({
             /**
              * Maps: key=concept path, locale=locale code
-             * Result: src/content/fullstack/hero/en.json
-             *         src/content/shared/theme/pt.json
+             * Result: src/dictionaries/fullstack/hero/en.json
+             *         src/dictionaries/shared/theme/pt.json
              *
-             * intlayer content list  → lists all discovered JSON files
-             * intlayer content fill  → auto-translates missing locales
-             * intlayer content push  → pushes to Intlayer CMS
-             * intlayer content pull  → pulls from Intlayer CMS
+             * intlayer dictionaries list  → lists all discovered JSON files
+             * intlayer dictionaries fill  → auto-translates missing locales
+             * intlayer dictionaries push  → pushes to Intlayer CMS
+             * intlayer dictionaries pull  → pulls from Intlayer CMS
              */
-            source: ({ key, locale }) => `./src/content/${key}/${locale}.json`,
-            priority: 0,
-            format: "i18next",
+            source: ({ key, locale }) => `./src/dictionaries/${key}/${locale}.json`,
         }),
     ],
+    ai: {
+        provider: "openai",
+        model: "gpt-3.5-turbo",
+        apiKey: process.env.OPENAI_API_KEY,
+    },
 };
 
 export default config;

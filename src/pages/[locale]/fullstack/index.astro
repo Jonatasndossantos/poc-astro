@@ -1,20 +1,20 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Hero from "../../islands/Hero";
+import Hero from "@islands/Hero.astro";
 import { Mode } from "../../../types";
-import PoC from "../../ui/PoC.astro";
-import { getTranslations } from "../../../i18n/index";
-import { getLangFromUrl } from "../../../i18n/utils";
+import PoC from "@ui/PoC.astro";
+import { getTranslations, locales } from "@i18n";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 export function getStaticPaths() {
-    return ["pt", "en", "fr", "es", "zh", "ja", "en-GB"].map((locale) => ({
+    return locales.map((locale) => ({
         params: { locale },
         props: { locale },
     }));
 }
 
 const { locale } = Astro.params;
-const lang = getLangFromUrl(Astro.url);
+const lang = getRelativeLocaleUrl(locale);
 
 const profile = (await getTranslations(lang, "profile")) as Record<
     string,
@@ -34,7 +34,6 @@ const scroll = String(profile.scroll ?? "");
 >
     <main class="relative w-full overflow-hidden">
         <Hero
-            client:load
             mode={Mode.FULLSTACK}
             bio={bio}
             role={role}

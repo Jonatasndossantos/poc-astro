@@ -12,7 +12,7 @@ import { locales, defaultLocale } from "./src/i18n/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://jhon-portfolio.com", // Placeholder, change to actual domain
+  site: "http://localhost:4321", // Placeholder, change to actual domain
   redirects: {
     "/en/": "/en/fullstack",
   },

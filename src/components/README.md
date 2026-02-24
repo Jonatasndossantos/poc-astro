@@ -63,7 +63,6 @@ precisar de interatividade.
 | Arquivo | Tipo | Descrição |
 |---|---|---|
 | `PoC.astro` | Astro | Seção de prova de conceito do intlayer |
-| `projects.content.ts` | TS | Config de conteúdo intlayer para projetos |
 
 ---
 
@@ -81,7 +80,6 @@ Precisa de useState / useEffect / window / DOM events?
 |---|---|---|
 | `NavBar` | Links estáticos, classes calculadas em build time | — |
 | `LanguageToggle` | Dropdown sem estado (CSS/HTML nativo) | — |
-| `Hero` | — | GSAP `useLayoutEffect`, mousemove listener |
 | `ThemeToggle` | — | `localStorage` + re-render no click |
 | `SplineViewer` | — | SDK Spline só funciona no browser |
 
@@ -91,7 +89,6 @@ Precisa de useState / useEffect / window / DOM events?
 
 ```ts
 import NavBar      from "@layout/NavBar.astro";
-import Hero        from "@islands/Hero";
 import ThemeToggle from "@islands/ThemeToggle";
 import PoC         from "@ui/PoC.astro";
 ```

@@ -1,48 +1,31 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from "astro:i18n";
+import {
+    locales,
+    languageLabels,
+    getPathWithoutLocale,
+    defaultLocale,
+} from "@i18n";
 
 interface Props {
     currentLocale?: string;
 }
 
-const { currentLocale = "en" } = Astro.props;
+const { currentLocale = defaultLocale } = Astro.props;
 
 // Map of locales to their display names and native names
 const languageMap: Record<string, { label: string; nativeName: string }> = {
-    pt: { label: "Português", nativeName: "Português" },
-    en: { label: "English", nativeName: "English (US)" },
-    "en-GB": { label: "English (UK)", nativeName: "English (UK)" },
-    fr: { label: "Français", nativeName: "Français" },
-    es: { label: "Español", nativeName: "Español" },
-    zh: { label: "Chinese", nativeName: "中文" },
-    ja: { label: "Japanese", nativeName: "日本語" },
+    ...locales.reduce(
+        (acc, locale) => {
+            acc[locale] = {
+                label: languageLabels[locale],
+                nativeName: languageLabels[locale],
+            };
+            return acc;
+        },
+        {} as Record<string, { label: string; nativeName: string }>,
+    ),
 };
-
-// Supported locales matching astro.config.mjs
-const supportedLocales = ["pt", "en", "fr", "es", "zh", "ja", "en-GB"];
-
-// Helper to get URL for a locale
-const getLocaleUrl = (locale: string) => {
-    // getRelativeLocaleUrl automatically handles the prefixing based on config
-    return getRelativeLocaleUrl(
-        locale,
-        Astro.url.pathname
-            .replace(/^\/[a-z]{2}(-[A-Z]{2})?\//, "/")
-            .replace(/^\//, ""),
-    );
-};
-// Note: getRelativeLocaleUrl(locale, path)
-// If path is already relative or absolute, we might need to be careful.
-// Ideally usage: getRelativeLocaleUrl("pt", "about") -> /pt/about
-// If current path is /en/about, we want /pt/about.
-// Astro.url.pathname includes the locale if it's in the URL.
-// We need to strip current locale from pathname before passing to getRelativeLocaleUrl, OR just pass the clean path.
-// A simple regex to strip locale prefix might be safest if we aren't using named routes.
-function getPathWithoutLocale(pathname: string) {
-    const localePattern = /^\/(?:en|pt|fr|es|zh|ja|en-GB)(?:\/|$)/;
-    const stripped = pathname.replace(localePattern, "/");
-    return stripped === "" ? "/" : stripped;
-}
 
 const currentPath = getPathWithoutLocale(Astro.url.pathname);
 ---
@@ -75,10 +58,10 @@ const currentPath = getPathWithoutLocale(Astro.url.pathname);
                 Language
             </li>
             {
-                supportedLocales.map((locale) => (
+                locales.map((locale) => (
                     <li>
                         <a
-                            href={getRelativeLocaleUrl(locale, currentPath)}
+                            href={getAbsoluteLocaleUrl(locale, currentPath)}
                             class:list={[
                                 "justify-start gap-3 px-2 font-normal hover:bg-base-content/10",
                                 {
@@ -114,8 +97,3 @@ const currentPath = getPathWithoutLocale(Astro.url.pathname);
         </ul>
     </div>
 </div>
-
-<script>
-    // Optional: Close dropdown on click (handled by daisyUI mostly, but we can add behavior if needed)
-    // For links, the page reload will close it.
-</script>

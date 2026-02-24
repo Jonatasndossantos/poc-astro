@@ -1,0 +1,16 @@
+{
+  "name": "Jônatas",
+  "prefix": ".dev",
+  "title": "Portafolio Multiverso",
+  "audio": "Alternar Audio",
+  "home": "Inicio",
+  "fullstack": "Fullstack",
+  "frontend": "Frontend",
+  "backend": "Backend",
+  "devops": "DevOps",
+  "database": "Base de Datos",
+  "ai": "IA",
+  "contact": "Contacto",
+  "resume": "Currículum",
+  "language": "Idioma"
+}

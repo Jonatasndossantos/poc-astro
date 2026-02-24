@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useTranslations } from "../i18n/utils";
-import { ui } from "../i18n/ui";
+import { useTranslations } from "../../i18n/utils";
+import { ui } from "../../i18n/ui";
 
 interface ThemeToggleProps {
     locale?: string;
