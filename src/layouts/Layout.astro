@@ -20,7 +20,7 @@ const ogTitle = `${title} | Jônatas.Dev`;
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,5 +52,17 @@ const ogTitle = `${title} | Jônatas.Dev`;
 	<body>
 		<NavBar lang={lang} />
 		<slot />
+
+		<script>
+			import Lenis from "lenis";
+
+			// Initialize Lenis
+			const lenis = new Lenis({
+				autoRaf: true,
+			});
+
+			// Optional: Sync lenis scroll with GSAP ScrollTrigger if used later
+			// lenis.on('scroll', ScrollTrigger.update);
+		</script>
 	</body>
 </html>

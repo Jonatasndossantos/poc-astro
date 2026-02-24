@@ -29,6 +29,7 @@ const gradientId =
 	fill={gradient ? `url(#${gradientId})` : color}
 	{...attrs}
 >
+	<title>{icon}</title>
 	<g set:html={iconPath} />
 	{
 		gradient && (

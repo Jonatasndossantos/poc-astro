@@ -3,20 +3,35 @@
     "role_fallback": "Développeur Web.",
     "exploreWork": "Explorer le travail",
     "scroll": "DÉFILEZ POUR NAVIGUER",
-    "bio": {
-        "fullstack": "Je crée des expériences numériques immersives, comblant le fossé entre une logique robuste et un design fluide. Je fournis des solutions complètes de la base de données au pixel.",
-        "frontend": "Je sculpte les interactions utilisateur avec une précision au pixel près, en me concentrant sur le mouvement, l'accessibilité et la narration visuelle qui captive l'imagination.",
-        "backend": "J'architecture l'épine dorsale invisible des applications, garantissant sécurité, vitesse et évolutivité massive sous de lourdes charges.",
-        "devops": "Je construis les usines qui construisent le logiciel, créant des pipelines transparents et une infrastructure résiliente qui dort pour que vous n'ayez pas à le faire.",
-        "database": "Je suis le gardien des données, optimisant les structures pour les requêtes complexes et garantissant une intégrité absolue sur les systèmes distribués.",
-        "ai": "J'intègre des modèles intelligents dans des applications pratiques, apprenant aux machines à résoudre des problèmes humains et à automatiser les tâches banales."
-    },
-    "role": {
-        "fullstack": "Ingénieur Full-Stack Senior",
-        "frontend": "Architecte Frontend Créatif",
-        "backend": "Spécialiste en Architecture Système",
-        "devops": "Ingénieur Infrastructure & Automatisation",
-        "database": "Administrateur & Architecte de Bases de Données",
-        "ai": "Ingénieur Solutions IA"
+    "universeActive": "Univers Actif",
+    "providingSolutionsFor": "Fournissant des Solutions pour",
+    "designers": "Designers",
+    "developers": "Développeurs",
+    "managers": "Managers",
+    "modes": {
+        "fullstack": {
+            "bio": "Je crée des expériences numériques immersives, comblant le fossé entre une logique robuste et un design fluide. Je fournis des solutions complètes de la base de données au pixel.",
+            "role": "Ingénieur Full-Stack Senior"
+        },
+        "frontend": {
+            "bio": "Je sculpte les interactions utilisateur avec une précision au pixel près, en me concentrant sur le mouvement, l'accessibilité et la narration visuelle qui captive l'imagination.",
+            "role": "Architecte Frontend Créatif"
+        },
+        "backend": {
+            "bio": "J'architecture l'épine dorsale invisible des applications, garantissant sécurité, vitesse et évolutivité massive sous de lourdes charges.",
+            "role": "Spécialiste en Architecture Système"
+        },
+        "devops": {
+            "bio": "Je construis les usines qui construisent le logiciel, créant des pipelines transparents et une infrastructure résiliente qui dort pour que vous n'ayez pas à le faire.",
+            "role": "Ingénieur Infrastructure & Automatisation"
+        },
+        "database": {
+            "bio": "Je suis le gardien des données, optimisant les structures pour les requêtes complexes et garantissant une intégrité absolue sur les systèmes distribués.",
+            "role": "Administrateur & Architecte de Bases de Données"
+        },
+        "ai": {
+            "bio": "J'intègre des modèles intelligents dans des applications pratiques, apprenant aux machines à résoudre des problèmes humains et à automatiser les tâches banales.",
+            "role": "Ingénieur Solutions IA"
+        }
     }
 }

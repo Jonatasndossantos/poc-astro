@@ -3,20 +3,35 @@
     "role_fallback": "Desarrollador Web.",
     "exploreWork": "Explorar Trabajo",
     "scroll": "DESPLÁCESE PARA NAVEGAR",
-    "bio": {
-        "fullstack": "Creo experiencias digitales inmersivas, uniendo la lógica robusta y el diseño fluido. Entrego soluciones completas desde la base de datos hasta el píxel.",
-        "frontend": "Esculpo interacciones de usuario con precisión de píxeles, centrándome en el movimiento, la accesibilidad y la narración visual que captura la imaginación.",
-        "backend": "Arquitecto la columna vertebral invisible de las aplicaciones, garantizando seguridad, velocidad y escalabilidad masiva bajo cargas pesadas.",
-        "devops": "Construyo las fábricas que construyen el software, creando tuberías continuas e infraestructura resistente que duerme para que tú no tengas que hacerlo.",
-        "database": "Soy el guardián de los datos, optimizando estructuras para consultas complejas y garantizando una integridad absoluta en sistemas distribuidos.",
-        "ai": "Integro modelos inteligentes en aplicaciones prácticas, enseñando a las máquinas a resolver problemas humanos y automatizando lo mundano."
-    },
-    "role": {
-        "fullstack": "Ingeniero Full-Stack Senior",
-        "frontend": "Arquitecto Frontend Creativo",
-        "backend": "Especialista en Arquitectura de Sistemas",
-        "devops": "Ingeniero de Infraestructura y Automatización",
-        "database": "Administrador y Arquitecto de Bases de Datos",
-        "ai": "Ingeniero de Soluciones de IA"
+    "universeActive": "Universo Activo",
+    "providingSolutionsFor": "Creando Soluciones para",
+    "designers": "Diseñadores",
+    "developers": "Desarrolladores",
+    "managers": "Gerentes",
+    "modes": {
+        "fullstack": {
+            "bio": "Creo experiencias digitales inmersivas, uniendo la lógica robusta y el diseño fluido. Entrego soluciones completas desde la base de datos hasta el píxel.",
+            "role": "Ingeniero Full-Stack Senior"
+        },
+        "frontend": {
+            "bio": "Esculpo interacciones de usuario con precisión de píxeles, centrándome en el movimiento, la accesibilidad y la narración visual que captura la imaginación.",
+            "role": "Arquitecto Frontend Creativo"
+        },
+        "backend": {
+            "bio": "Arquitecto la columna vertebral invisible de las aplicaciones, garantizando seguridad, velocidad y escalabilidad masiva bajo cargas pesadas.",
+            "role": "Especialista en Arquitectura de Sistemas"
+        },
+        "devops": {
+            "bio": "Construyo las fábricas que construyen el software, creando tuberías continuas e infraestructura resistente que duerme para que tú no tengas que hacerlo.",
+            "role": "Ingeniero de Infraestructura y Automatización"
+        },
+        "database": {
+            "bio": "Soy el guardián de los datos, optimizando estructuras para consultas complejas y garantizando una integridad absoluta en sistemas distribuidos.",
+            "role": "Administrador y Arquitecto de Bases de Datos"
+        },
+        "ai": {
+            "bio": "Integro modelos inteligentes en aplicaciones prácticas, enseñando a las máquinas a resolver problemas humanos y automatizando lo mundano.",
+            "role": "Ingeniero de Soluciones de IA"
+        }
     }
 }

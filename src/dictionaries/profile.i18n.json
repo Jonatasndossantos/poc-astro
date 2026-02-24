@@ -141,6 +141,51 @@
             "ja": "仕事を見る",
             "en-GB": "Explore Work"
         },
+        "universeActive": {
+            "en": "Universe Active",
+            "pt": "Universo Ativo",
+            "fr": "Univers Actif",
+            "es": "Universo Activo",
+            "zh": "宇宙活跃",
+            "ja": "ユニバースアクティブ",
+            "en-GB": "Universe Active"
+        },
+        "providingSolutionsFor": {
+            "en": "Providing Solutions for",
+            "pt": "Criando Soluções para",
+            "fr": "Fournissant des Solutions pour",
+            "es": "Creando Soluciones para",
+            "zh": "为以下对象提供解决方案",
+            "ja": "ソリューションの提供対象",
+            "en-GB": "Providing Solutions for"
+        },
+        "designers": {
+            "en": "Designers",
+            "pt": "Designers",
+            "fr": "Designers",
+            "es": "Diseñadores",
+            "zh": "设计师",
+            "ja": "デザイナー",
+            "en-GB": "Designers"
+        },
+        "developers": {
+            "en": "Developers",
+            "pt": "Desenvolvedores",
+            "fr": "Développeurs",
+            "es": "Desarrolladores",
+            "zh": "开发者",
+            "ja": "開発者",
+            "en-GB": "Developers"
+        },
+        "managers": {
+            "en": "Managers",
+            "pt": "Gestores",
+            "fr": "Managers",
+            "es": "Gerentes",
+            "zh": "管理者",
+            "ja": "マネージャー",
+            "en-GB": "Managers"
+        },
         "scroll": {
             "en": "SCROLL TO NAVIGATE",
             "pt": "ROLE PARA NAVEGAR",
