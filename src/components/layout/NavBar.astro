@@ -1,11 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import ThemeToggle from "../islands/ThemeToggle";
+import ThemeToggle from "../ui/ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
 import { Mode } from "../../types";
 import { getTranslations } from "@i18n";
 import { useTranslatedPath, getLangFromUrl } from "@i18n";
-import { languageLabels } from "@i18n";
+import { locales } from "@i18n";
 import Icon from "./Icon.astro";
 import { iconPaths } from "../IconPaths";
 import {
@@ -24,8 +24,11 @@ import {
 const { lang } = Astro.props;
 const translatePath = useTranslatedPath(lang);
 
-// Load nav translations from src/content/nav/{locale}.json
 const navRecord = (await getTranslations(lang, "nav")) as Record<
+    string,
+    string
+>;
+const themeRecord = (await getTranslations(lang, "theme")) as Record<
     string,
     string
 >;
@@ -36,8 +39,9 @@ const { pathname } = Astro.url;
 // Assuming structure: /[lang]/[mode] or just /[mode] if lang is default and hidden
 const pathSegments = pathname.split("/").filter(Boolean);
 // If first segment is a lang, the second might be mode. If not, first might be mode.
-const potentialMode =
-    pathSegments[0] in languageLabels ? pathSegments[1] : pathSegments[0];
+const potentialMode = locales.includes(pathSegments[0] as any)
+    ? pathSegments[1]
+    : pathSegments[0];
 
 const currentMode = Object.values(Mode).includes(potentialMode as Mode)
     ? (potentialMode as Mode)
@@ -222,7 +226,7 @@ const iconLinks: {
 
                 <!-- Theme Toggle -->
                 <div class="flex items-center gap-4">
-                    <ThemeToggle client:load locale={lang} />
+                    <ThemeToggle locale={lang} themeDict={themeRecord} />
                 </div>
 
                 <!-- Language Selector -->
@@ -306,7 +310,7 @@ const iconLinks: {
             </div> -->
 
             <div class="mt-8 flex justify-center gap-4">
-                <ThemeToggle client:visible locale={lang} />
+                <ThemeToggle locale={lang} themeDict={themeRecord} />
                 <LanguageToggle currentLocale={lang} />
             </div>
         </div>

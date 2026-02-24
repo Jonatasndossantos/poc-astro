@@ -2,7 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import Hero from "@islands/Hero.astro";
 import { Mode } from "../../../types";
-import PoC from "@ui/PoC.astro";
 import { getTranslations, locales } from "@i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
@@ -41,8 +40,6 @@ const scroll = String(profile.scroll ?? "");
             exploreWork={exploreWork}
             scroll={scroll}
         />
-        <div class="relative z-10 bg-base-100">
-            <PoC />
-        </div>
+        <div class="relative z-10 bg-base-100"></div>
     </main>
 </Layout>

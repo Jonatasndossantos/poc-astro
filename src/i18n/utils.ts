@@ -1,23 +1,18 @@
-import { ui, defaultLang, showDefaultLang } from './ui';
+import { locales, defaultLocale } from './config';
+
+export const showDefaultLang = false;
 
 export function getLangFromUrl(url: URL) {
     const [, lang] = url.pathname.split('/');
-    if (lang in ui) return lang as keyof typeof ui;
-    return defaultLang;
+    if (locales.includes(lang as any)) return lang;
+    return defaultLocale;
 }
 
-export function useTranslations(lang: keyof typeof ui) {
-    return function t(key: keyof typeof ui[typeof defaultLang]) {
-        return ui[lang][key] || ui[defaultLang][key];
-    }
-}
-
-export function useTranslatedPath(lang: keyof typeof ui) {
+export function useTranslatedPath(lang: string) {
     return function translatePath(path: string, l: string = lang) {
-        return !showDefaultLang && l === defaultLang ? path : `/${l}${path}`
+        return !showDefaultLang && l === defaultLocale ? path : `/${l}${path}`
     }
 }
-
 
 // Note: getRelativeLocaleUrl(locale, path)
 // If path is already relative or absolute, we might need to be careful.

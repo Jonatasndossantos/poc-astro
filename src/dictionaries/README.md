@@ -9,7 +9,7 @@ O conteúdo vive aqui como JSON puro — desacoplado de TypeScript, frameworks e
 
 | Princípio | Decisão |
 |---|---|
-| Fonte da verdade | JSON por locale em `src/content/` |
+| Fonte da verdade | JSON por locale em `src/dictionaries/` |
 | Roteamento i18n | Astro nativo (`/[locale]/...`) |
 | Tradução automática | `npx intlayer fill` (preenche línguas faltantes via IA) |
 | Componentes | Recebem locale como prop, leem JSON via `getTranslations` |
@@ -20,7 +20,7 @@ O conteúdo vive aqui como JSON puro — desacoplado de TypeScript, frameworks e
 ## Estrutura de pastas
 
 ```
-src/content/
+src/dictionaries/
   nav/                ← key = "nav"
     en.json
     pt.json
@@ -40,7 +40,7 @@ src/content/
 ```
 
 > [!IMPORTANT]
-> O **key do intlayer é o nome da pasta** diretamente dentro de `src/content/`.
+> O **key do intlayer é o nome da pasta** diretamente dentro de `src/dictionaries/`.
 > Use **hífen** para separar conceitos compostos (ex: `fullstack-hero`).
 > **NUNCA use barras/subpastas** como chave — o intlayer não cria subdiretórios
 > em `.intlayer/dictionary/` e vai falhar com ENOENT.
@@ -52,7 +52,7 @@ src/content/
 Cada arquivo é **um único locale**, com chaves flat:
 
 ```json
-// src/content/nav/pt.json
+// src/dictionaries/nav/pt.json
 {
   "title": "Portfólio Multiverso",
   "audio": "Alternar Áudio",
@@ -74,7 +74,7 @@ import { getLangFromUrl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 
-// key = nome da pasta em src/content/
+// key = nome da pasta em src/dictionaries/
 const nav = await getTranslations(lang, 'nav');
 ---
 
@@ -106,7 +106,7 @@ const HeroComponent = ({ bio, role }: { bio: string; role: string }) => (
 
 ```bash
 # 1. Criar/editar o arquivo base (sempre em inglês)
-#    src/content/nav/en.json
+#    src/dictionaries/nav/en.json
 
 # 2. Construir os dicionários intlayer (verifica estrutura)
 npx intlayer build
@@ -133,8 +133,8 @@ npx intlayer build          # mostra "Plugin content: N/N" — este é o nosso n
 
 1. Criar a pasta e o arquivo base inglês:
    ```bash
-   mkdir src/content/fullstack-hero
-   # criar src/content/fullstack-hero/en.json
+   mkdir src/dictionaries/fullstack-hero
+   # criar src/dictionaries/fullstack-hero/en.json
    ```
 2. Rodar `npx intlayer build` — deve aparecer no "Plugin content"
 3. Rodar `npx intlayer fill` para preencher os outros locales

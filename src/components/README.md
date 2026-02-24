@@ -35,12 +35,10 @@ Renderizados completamente no servidor/build time.
 Componentes que **precisam rodar no browser** — animações, estado local,
 manipulação do DOM após load. Use `client:load` ou `client:visible`.
 
-| Arquivo | Modo | `client:*` | Por quê React |
+| O quê | Modo | `client:*` | Por quê React |
 |---|---|---|---|
 | `Hero.tsx` | **todos** | `load` | GSAP animations + parallax no mousemove |
-| `ThemeToggle.tsx` | todos | `load` | Lê/escreve `localStorage` |
 | `SplineViewer.tsx` | **fullstack only** | `load` | `@splinetool/react-spline` + MutationObserver |
-| `ThemeToggle.content.ts` | — | — | Config de conteúdo intlayer para ThemeToggle |
 
 > [!IMPORTANT]
 > **SplineViewer é exclusivo do modo Fullstack.**
@@ -63,6 +61,7 @@ precisar de interatividade.
 | Arquivo | Tipo | Descrição |
 |---|---|---|
 | `PoC.astro` | Astro | Seção de prova de conceito do intlayer |
+| `ThemeToggle.astro` | Astro | Troca de temas do daisyUI sem javascript |
 
 ---
 
@@ -80,7 +79,7 @@ Precisa de useState / useEffect / window / DOM events?
 |---|---|---|
 | `NavBar` | Links estáticos, classes calculadas em build time | — |
 | `LanguageToggle` | Dropdown sem estado (CSS/HTML nativo) | — |
-| `ThemeToggle` | — | `localStorage` + re-render no click |
+| `ThemeToggle` | Funcionalidade nativa do DaisyUI (`theme-controller`) | — |
 | `SplineViewer` | — | SDK Spline só funciona no browser |
 
 ---
@@ -89,6 +88,6 @@ Precisa de useState / useEffect / window / DOM events?
 
 ```ts
 import NavBar      from "@layout/NavBar.astro";
-import ThemeToggle from "@islands/ThemeToggle";
+import ThemeToggle from "@ui/ThemeToggle.astro";
 import PoC         from "@ui/PoC.astro";
 ```

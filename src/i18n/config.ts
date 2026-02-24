@@ -16,10 +16,7 @@ export const locales = [
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = "en";
 
-/**
- * Mapping for display names (native names)
- */
-export const languageLabels: Record<Locale, string> = {
+export const nativeNames: Record<Locale, string> = {
     en: "English",
     pt: "Português",
     fr: "Français",

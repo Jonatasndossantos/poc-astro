@@ -2,10 +2,11 @@
 import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from "astro:i18n";
 import {
     locales,
-    languageLabels,
+    nativeNames,
     getPathWithoutLocale,
     defaultLocale,
 } from "@i18n";
+import { getTranslations } from "@i18n";
 
 interface Props {
     currentLocale?: string;
@@ -13,21 +14,12 @@ interface Props {
 
 const { currentLocale = defaultLocale } = Astro.props;
 
-// Map of locales to their display names and native names
-const languageMap: Record<string, { label: string; nativeName: string }> = {
-    ...locales.reduce(
-        (acc, locale) => {
-            acc[locale] = {
-                label: languageLabels[locale],
-                nativeName: languageLabels[locale],
-            };
-            return acc;
-        },
-        {} as Record<string, { label: string; nativeName: string }>,
-    ),
-};
-
 const currentPath = getPathWithoutLocale(Astro.url.pathname);
+
+const langDict = (await getTranslations(currentLocale, "language")) as Record<
+    string,
+    string
+>;
 ---
 
 <div title="Change Language" class="dropdown dropdown-end block">
@@ -72,10 +64,12 @@ const currentPath = getPathWithoutLocale(Astro.url.pathname);
                         >
                             <div class="w-full truncate text-start">
                                 <span class="font-medium">
-                                    {languageMap[locale]?.nativeName || locale}
+                                    {nativeNames[
+                                        locale as keyof typeof nativeNames
+                                    ] || locale}
                                 </span>
                                 <span class="text-xs opacity-70 ml-2">
-                                    ({languageMap[locale]?.label || locale})
+                                    ({langDict[locale] || locale})
                                 </span>
                             </div>
                             {currentLocale === locale && (

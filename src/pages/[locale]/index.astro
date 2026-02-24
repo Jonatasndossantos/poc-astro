@@ -2,8 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import SplineViewer from "@components/SplineViewer";
 
-import PoC from "@components/PoC";
-
 import { configuration } from "intlayer";
 
 export function getStaticPaths() {
@@ -18,5 +16,4 @@ const { locale } = Astro.params;
 
 <Layout title="Fullstack Portfolio" lang={locale}>
     <!-- <SplineViewer client:load /> -->
-    <PoC client:only="react" locale={locale} />
 </Layout>
