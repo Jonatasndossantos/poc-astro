@@ -77,7 +77,7 @@ const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
                                         class="btn btn-primary btn-sm rounded-full text-xs"
                                         aria-label={`Read Case Study for ${project.title}`}
                                     >
-                                        Case Study
+                                        {t.projects.caseStudy}
                                     </a>
                                     {project.demoUrl && (
                                         <a

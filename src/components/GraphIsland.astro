@@ -124,32 +124,22 @@
         // Draw Nodes
         const node = svgGroup
             .append("g")
-            .selectAll("circle")
+            .selectAll("g.node-group")
             .data(data.nodes)
-            .join("circle")
-            .attr("r", nodeRadius)
-            .attr(
-                "fill",
-                (d: any) => colorMap[d.group]?.fill || colorMap.unknown.fill,
-            )
-            .attr(
-                "stroke",
-                (d: any) =>
-                    colorMap[d.group]?.stroke || colorMap.unknown.stroke,
-            )
-            .attr("stroke-width", 2)
-            .style("cursor", "pointer")
+            .join("g")
+            .attr("class", "node-group")
+            .style("cursor", (d: any) => (d.hasRoute ? "pointer" : "default"))
             .on("click", (event: any, d: any) => {
-                // Navigate to the node (assuming /[locale]/{group}/{slug})
+                if (!d.hasRoute) return;
                 const lang = window.location.pathname.split("/")[1] || "en";
-
-                // Parse the taxonomy route: e.g topics/software-engineering
-                // Or project route: projects/gov-docs-ai
                 window.location.href = `/${lang}/${d.id}`;
             })
             .on("mouseover", function (event: any, d: any) {
                 // Highlight Node
-                d3.select(this).attr("stroke", "#fff").attr("stroke-width", 3);
+                d3.select(this)
+                    .select("circle")
+                    .attr("stroke", "#fff")
+                    .attr("stroke-width", 3);
 
                 // Highlight connected edges
                 link.attr("stroke", (l: any) =>
@@ -167,6 +157,7 @@
             .on("mouseout", function (event: any, d: any) {
                 // Remove highlight from Node
                 d3.select(this)
+                    .select("circle")
                     .attr("stroke-width", 2)
                     .attr(
                         "stroke",
@@ -178,7 +169,31 @@
                     .attr("stroke-width", 2)
                     .attr("stroke-opacity", 0.6);
             })
-            .call(drag(simulation));
+            .call(drag(simulation) as any);
+
+        // Draw Circles inside node
+        node.append("circle")
+            .attr("r", nodeRadius)
+            .attr(
+                "fill",
+                (d: any) => colorMap[d.group]?.fill || colorMap.unknown.fill,
+            )
+            .attr(
+                "stroke",
+                (d: any) =>
+                    colorMap[d.group]?.stroke || colorMap.unknown.stroke,
+            )
+            .attr("stroke-width", 2);
+
+        // Draw Icons if present
+        node.filter((d: any) => !!d.icon)
+            .append("image")
+            .attr("href", (d: any) => d.icon)
+            .attr("width", (d: any) => Math.max(12, nodeRadius(d) - 6))
+            .attr("height", (d: any) => Math.max(12, nodeRadius(d) - 6))
+            .attr("x", (d: any) => -Math.max(12, nodeRadius(d) - 6) / 2)
+            .attr("y", (d: any) => -Math.max(12, nodeRadius(d) - 6) / 2)
+            .style("pointer-events", "none");
 
         // Draw node labels
         const label = svgGroup
@@ -208,7 +223,7 @@
                 .attr("x2", (d: any) => d.target.x)
                 .attr("y2", (d: any) => d.target.y);
 
-            node.attr("cx", (d: any) => d.x).attr("cy", (d: any) => d.y);
+            node.attr("transform", (d: any) => `translate(${d.x},${d.y})`);
             label.attr("x", (d: any) => d.x).attr("y", (d: any) => d.y);
         });
 

@@ -5,7 +5,8 @@ const topics = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
-        description: z.string().optional(),
+        description: z.string(),
+        icon: z.string().optional()
     })
 });
 
@@ -13,6 +14,8 @@ const tags = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
+        description: z.string(),
+        icon: z.string().optional()
     })
 });
 

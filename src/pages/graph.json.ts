@@ -11,31 +11,33 @@ export async function GET({ request }) {
     const nodes = [];
     const links = [];
 
-    // Helper: Add Node if it doesn't exist
-    const addNode = (id, group, label) => {
-        if (!nodes.find(n => n.id === id)) {
-            nodes.push({ id, group, label });
+    // 1. Helpers
+    const addNode = (id: string, group: string, label: string, iconUrl?: string, hasRoute = false) => {
+        if (!nodes.find((n: any) => n.id === id)) {
+            nodes.push({ id, group, label, icon: iconUrl, hasRoute });
         }
     };
 
-    // Helper: Add Link if it doesn't exist
-    const addLink = (source, target) => {
-        if (!links.find(l => l.source === source && l.target === target)) {
+    const addLink = (source: string, target: string) => {
+        if (!links.find((l: any) => l.source === source && l.target === target)) {
             links.push({ source, target });
         }
     };
 
     // Helper: Strip extension
-    const cleanId = (id) => id.replace(/\.mdx?$/, "");
+    const cleanId = (id: string) => id.replace(/\.mdx?$/, "");
 
-    // 2. Map Taxonomy Nodes
-    topics.forEach(t => addNode(`topics/${cleanId(t.id)}`, "topics", t.data.title));
-    tags.forEach(t => addNode(`tags/${cleanId(t.id)}`, "tags", t.data.title));
+    // Helper: Resolve SVG Icon CDN
+    const getIconInfo = (icon?: string) => icon ? `https://cdn.simpleicons.org/${icon}/ffffff` : undefined;
 
-    // 3. Map Projects
+    // 2. Map Taxonomy Nodes (hasRoute = false until pages are built)
+    topics.forEach(t => addNode(`topics/${cleanId(t.id)}`, "topics", t.data.title, getIconInfo(t.data.icon), false));
+    tags.forEach(t => addNode(`tags/${cleanId(t.id)}`, "tags", t.data.title, getIconInfo(t.data.icon), false));
+
+    // 3. Map Projects (hasRoute = true)
     projects.forEach(p => {
         const pId = `projects/${cleanId(p.id)}`;
-        addNode(pId, "projects", p.data.title);
+        addNode(pId, "projects", p.data.title, undefined, true);
 
         p.data.relatedTopics?.forEach(ref => addLink(pId, `topics/${cleanId(ref.id || ref)}`));
         p.data.tags?.forEach(ref => addLink(pId, `tags/${cleanId(ref.id || ref)}`));
@@ -43,10 +45,10 @@ export async function GET({ request }) {
         p.data.relatedPosts?.forEach(ref => addLink(pId, `blog/${cleanId(ref.id || ref)}`));
     });
 
-    // 4. Map Blog Posts
+    // 4. Map Blog Posts (hasRoute = true)
     blogs.forEach(b => {
         const bId = `blog/${cleanId(b.id)}`;
-        addNode(bId, "blog", b.data.title);
+        addNode(bId, "blog", b.data.title, undefined, true);
 
         b.data.relatedTopics?.forEach(ref => addLink(bId, `topics/${cleanId(ref.id || ref)}`));
         b.data.tags?.forEach(ref => addLink(bId, `tags/${cleanId(ref.id || ref)}`));
@@ -54,10 +56,10 @@ export async function GET({ request }) {
         if (b.data.ctaService) addLink(bId, `services/${cleanId(b.data.ctaService.id || b.data.ctaService)}`);
     });
 
-    // 5. Map Services
+    // 5. Map Services (hasRoute = true)
     services.forEach(s => {
         const sId = `services/${cleanId(s.id)}`;
-        addNode(sId, "services", s.data.title);
+        addNode(sId, "services", s.data.title, undefined, true);
         s.data.relatedTopics?.forEach(ref => addLink(sId, `topics/${cleanId(ref.id || ref)}`));
     });
 
