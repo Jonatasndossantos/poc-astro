@@ -2,10 +2,8 @@
 import ThemeToggle from "../ui/ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
 import translate from "../Translate.astro";
-import { useTranslator, useTranslatedPath, getTranslations } from "@i18n";
-import Icon from "./Icon.astro";
-import { iconPaths } from "../IconPaths";
-import { Search, Layers, Menu } from "lucide-react";
+import { useTranslator, useTranslatedPath } from "@i18n";
+import { Icon } from "astro-icon/components";
 
 const { lang } = Astro.props;
 const translatePath = useTranslatedPath(lang);
@@ -17,12 +15,12 @@ const navPrefix = ".DEV";
 const iconLinks: {
     label: string;
     href: string;
-    icon: keyof typeof iconPaths;
+    icon: string;
 }[] = [
     {
         label: "GitHub",
         href: "https://github.com/jonatasndossantos",
-        icon: "github-logo",
+        icon: "simple-icons:github",
     },
 ];
 ---
@@ -52,8 +50,9 @@ const iconLinks: {
                         <div
                             class="relative flex items-center justify-center size-8"
                         >
-                            <Layers
-                                className="size-6 relative z-10 transition-transform hover:rotate-12 text-primary"
+                            <Icon
+                                name="lucide:layers"
+                                class="size-8 relative z-10 transition-transform hover:rotate-12 text-primary"
                                 aria-hidden="true"
                             />
                             <div
@@ -85,7 +84,11 @@ const iconLinks: {
                             aria-label={__("Search")}
                             title={__("Search")}
                         >
-                            <Search className="" aria-hidden="true" />
+                            <Icon
+                                name="lucide:search"
+                                class="size-5"
+                                aria-hidden="true"
+                            />
                         </a>
                         {
                             iconLinks.map((link) => (
@@ -97,7 +100,7 @@ const iconLinks: {
                                     title={__(link.label)}
                                     aria-label={__(link.label)}
                                 >
-                                    <Icon icon={link.icon} class="" />
+                                    <Icon name={link.icon} class="size-5" />
                                     <span class="sr-only">
                                         {__(link.label)}
                                     </span>
@@ -118,7 +121,11 @@ const iconLinks: {
                             aria-label={__("Open Menu")}
                             class="btn btn-square btn-ghost"
                         >
-                            <Menu className="size-6" aria-hidden="true" />
+                            <Icon
+                                name="lucide:menu"
+                                class="size-6"
+                                aria-hidden="true"
+                            />
                             <span class="sr-only">{__("Open Menu")}</span>
                         </button>
                     </div>
@@ -193,7 +200,7 @@ const iconLinks: {
                                     title={__(link.label)}
                                     aria-label={__(link.label)}
                                 >
-                                    <Icon icon={link.icon} class="" />
+                                    <Icon name={link.icon} class="size-5" />
                                     <span class="sr-only">
                                         {__(link.label)}
                                     </span>

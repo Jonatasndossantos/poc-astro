@@ -7,7 +7,7 @@ import {
     defaultLocale,
 } from "@i18n";
 import { getTranslations, useTranslator } from "@i18n";
-import { Globe } from "lucide-react";
+import { Icon } from "astro-icon/components";
 
 interface Props {
     currentLocale?: string;
@@ -32,7 +32,7 @@ const __ = await useTranslator(currentLocale);
         aria-label={__("Change Language")}
     >
         <div class="relative flex items-center justify-center pt-0.5">
-            <Globe className="size-5 opacity-80 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
+            <Icon name="lucide:globe" class="size-5 opacity-80 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
             <span class="absolute -bottom-1 -right-2 uppercase font-black text-[8px] leading-none tracking-widest opacity-90 bg-base-100 rounded-[2px] px-0.5 border border-base-content/10">{currentLocale}</span>
         </div>
         <svg
