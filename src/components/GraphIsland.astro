@@ -79,7 +79,7 @@ const { focusId } = Astro.props;
 
         // Using similar physics configuration from second-brain-public
         const repelForce = 0.5;
-        const linkDistance = 60;
+        const linkDistance = 100;
 
         // Setup node radius math matching second-brain-public logic
         const nodeRadius = (d: any) => {
@@ -112,11 +112,11 @@ const { focusId } = Astro.props;
             .attr("height", "100%")
             .call(
                 d3
-                    .zoom()
+                    .zoom<SVGSVGElement, unknown>()
                     .scaleExtent([0.25, 4])
                     .on("zoom", (e) => {
                         svgGroup.attr("transform", e.transform);
-                    }),
+                    }) as any,
             )
             .append("g");
 
