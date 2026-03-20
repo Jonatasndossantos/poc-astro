@@ -6,24 +6,17 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import remarkWikiLink from "remark-wiki-link";
 
-import { locales, defaultLocale } from "./src/i18n/config";
-import { loadEnv } from "vite";
-
+import { locales } from "./src/i18n/config";
 import icon from "astro-icon";
-
-const env = loadEnv("all", process.cwd());
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://jonatasndossantos.com", // Placeholder, change to actual domain
-  redirects: {
-    "/en/": "/en/fullstack",
-  },
   vite: {
     plugins: [tailwindcss()]
   },
   i18n: {
-    defaultLocale: "pt",
+    defaultLocale: "en",
     locales: [...locales],
     routing: {
       prefixDefaultLocale: false
