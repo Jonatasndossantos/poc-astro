@@ -1,7 +1,8 @@
 {
   "about": {
     "title": "About Developer",
-    "heading": "Engineering digital experiences with <span class=\"text-primary\">precision & passion.</span>"
+    "heading": "Engineering digital experiences with <span class=\"text-primary\">precision & passion.</span>",
+    "bio": "I create immersive digital experiences, bridging the gap between robust logic and fluid design. I deliver complete solutions from database to pixel."
   },
   "skills": {
     "title": "Technical Arsenal",

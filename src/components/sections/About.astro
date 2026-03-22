@@ -5,18 +5,12 @@ import { Icon } from "astro-icon/components";
 import type { CuratedProfile } from "../../types";
 
 interface Props {
-    skills: {
-        id: string;
-        name: string;
-        category: string;
-        currentRelevance: number;
-    }[];
     profile: CuratedProfile;
     mode: string;
     lang: string;
 }
 
-const { skills, profile, lang } = Astro.props;
+const { profile, lang } = Astro.props;
 const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
 const __ = await useTranslator(lang);
 ---
@@ -63,42 +57,8 @@ const __ = await useTranslator(lang);
             />
 
             <p class="text-base-content/70 text-lg leading-relaxed mb-12">
-                {profile.bio}
+                {t.about.bio}
             </p>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {
-                    skills.slice(0, 8).map((skill) => (
-                        <div class="glass flex items-center gap-3 p-4 rounded-xl hover:bg-base-content/5 transition-colors group cursor-default border border-base-content/10">
-                            <div class="text-primary group-hover:text-base-content transition-colors">
-                                {(() => {
-                                    switch (skill.category) {
-                                        case "framework":
-                                            return <Icon name="lucide:globe" class="size-6" />;
-                                        case "language":
-                                            return <Icon name="lucide:code" class="size-6" />;
-                                        case "tool":
-                                            return (
-                                                <Icon name="lucide:terminal" class="size-6" />
-                                            );
-                                        case "data":
-                                            return (
-                                                <Icon name="lucide:database" class="size-6" />
-                                            );
-                                        case "cloud":
-                                            return <Icon name="lucide:cloud" class="size-6" />;
-                                        default:
-                                            return <Icon name="lucide:cpu" class="size-6" />;
-                                    }
-                                })()}
-                            </div>
-                            <span class="text-sm font-medium text-base-content/80 group-hover:text-base-content">
-                                {skill.name}
-                            </span>
-                        </div>
-                    ))
-                }
-            </div>
         </div>
     </div>
 </section>

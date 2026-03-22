@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import { locales } from "@i18n";
+import { locales, getTranslations, useTranslatedPath, defaultLocale } from "@i18n";
 
 export function getStaticPaths() {
     return locales.map((locale) => ({
@@ -11,35 +11,18 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.params;
-// const lang = getRelativeLocaleUrl(locale);
+const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<string, any>;
+const translatePath = useTranslatedPath(locale);
 
 const allTags = await getCollection("tags");
 
-// Sort tags alphabetically
+import TechCard from "@components/ui/TechCard.astro";
+
+// Pre-process sorting
 allTags.sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 // Extract unique categories for filter tabs
 const categories = [...new Set(allTags.map((tag) => tag.data.category))].sort();
-
-// Helper to map category to a nice color/styling
-const getBadgeClass = (cat: string) => {
-    switch (cat) {
-        case "framework":
-            return "badge-primary";
-        case "language":
-            return "badge-secondary";
-        case "cloud":
-            return "badge-accent";
-        case "data":
-            return "badge-info";
-        case "ai":
-            return "badge-success";
-        case "tool":
-            return "badge-ghost";
-        default:
-            return "badge-neutral";
-    }
-};
 ---
 
 <Layout
@@ -52,13 +35,13 @@ const getBadgeClass = (cat: string) => {
     >
         <div class="max-w-7xl mx-auto relative z-10">
             <h1 class="text-5xl md:text-7xl font-bold font-syncopate mb-6">
-                Tech <span class="text-primary opacity-80">{t.ecosystem.title.replace("Tech ", "")}</span>
+                Tech <span class="text-primary opacity-80">{tPortfolio.ecosystem.title.replace("Tech ", "")}</span>
             </h1>
             <p class="text-xl opacity-70 mb-12 max-w-2xl text-balance">
-                {t.ecosystem.desc}
+                {tPortfolio.ecosystem.desc}
             </p>
 
-            <!-- Search & Filtering Engine (Zero-React via Native Alpine/Vanilla JS behavior) -->
+            <!-- Search & Filtering Engine -->
             <div
                 class="flex flex-col md:flex-row gap-4 mb-10 w-full justify-between items-center bg-base-200/50 p-4 rounded-2xl backdrop-blur-sm border border-base-content/5"
                 id="filter-controls"
@@ -80,9 +63,9 @@ const getBadgeClass = (cat: string) => {
                     <input
                         type="text"
                         id="search-input"
-                        placeholder={t.ecosystem.search}
+                        placeholder={tPortfolio.ecosystem.search}
                         class="input input-bordered w-full pl-12 bg-base-100/50 focus:bg-base-100 transition-colors"
-                        aria-label={t.ecosystem.search}
+                        aria-label={tPortfolio.ecosystem.search}
                     />
                 </div>
 
@@ -90,14 +73,14 @@ const getBadgeClass = (cat: string) => {
                     <button
                         class="btn btn-sm btn-active filter-btn"
                         data-category="all"
-                        aria-label={t.ecosystem.all || "All"}>{t.ecosystem.all || "All"}</button
+                        aria-label={tPortfolio.ecosystem.all || "All"}>{tPortfolio.ecosystem.all || "All"}</button
                     >
                     {
                         categories.map((cat) => (
                             <button
                                 class="btn btn-sm filter-btn uppercase text-xs"
                                 data-category={cat}
-                                aria-label={`${t.ecosystem.filterBy || "Filter by"} ${cat}`}
+                                aria-label={`${tPortfolio.ecosystem.filterBy || "Filter by"} ${cat}`}
                             >
                                 {cat}
                             </button>
@@ -113,49 +96,24 @@ const getBadgeClass = (cat: string) => {
             >
                 {
                     allTags.map((tag) => (
-                        <a
-                            href={`/${locale}/tags/${tag.id}`}
-                            class="ecosystem-card relative p-5 rounded-2xl border bg-base-200/30 backdrop-blur-sm transition-all duration-300 group hover:border-primary/50 hover:bg-base-200/80 border-base-content/10 flex flex-col h-full"
-                            data-category={tag.data.category}
-                            data-title={tag.data.title.toLowerCase()}
-                        >
-                            <div class="flex justify-between items-start mb-4">
-                                {tag.data.icon ? (
-                                    <img
-                                        src={`https://cdn.simpleicons.org/${tag.data.icon}/${tag.data.category === "cloud" ? "f59e0b" : "ffffff"}`}
-                                        alt={tag.data.title}
-                                        class="w-8 h-8 opacity-80 group-hover:opacity-100 transition-opacity"
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <div class="w-8 h-8 rounded bg-base-content/10 flex items-center justify-center text-xs font-bold text-base-content/50">
-                                        {tag.data.title.charAt(0)}
-                                    </div>
-                                )}
-                                <span
-                                    class={`badge badge-sm badge-outline text-[10px] uppercase tracking-wider ${getBadgeClass(tag.data.category)}`}
-                                >
-                                    {tag.data.category}
-                                </span>
-                            </div>
-
-                            <h3 class="font-bold text-lg text-base-content mb-1 group-hover:text-primary transition-colors">
-                                {tag.data.title}
-                            </h3>
-                            <p class="text-xs text-base-content/50 line-clamp-2 mt-auto">
-                                {tag.data.description}
-                            </p>
-                        </a>
+                        <TechCard 
+                            id={tag.id}
+                            title={tag.data.title}
+                            description={tag.data.description}
+                            icon={tag.data.icon}
+                            category={tag.data.category}
+                            lang={locale}
+                        />
                     ))
                 }
             </div>
 
             <div id="no-results" class="hidden text-center py-20 w-full">
                 <p class="text-2xl font-bold opacity-30">
-                    {t.ecosystem.noResults}
+                    {tPortfolio.ecosystem.noResults}
                 </p>
                 <p class="text-sm opacity-50 mt-2">
-                    {t.ecosystem.tryAdjusting}
+                    {tPortfolio.ecosystem.tryAdjusting}
                 </p>
             </div>
         </div>

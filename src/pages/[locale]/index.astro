@@ -49,21 +49,6 @@ const profileData: CuratedProfile = {
 
 import { getCollection } from "astro:content";
 
-// Fetch tags collection for skills
-const allTags = await getCollection("tags");
-
-// Pre-process skills for the current Mode
-const currentSkills = allTags
-    .map((s) => ({
-        id: s.id.replace(/\.mdx?$/, ""),
-        name: s.data.title,
-        category: s.data.category,
-        currentRelevance: s.data.relevance?.[Mode.FULLSTACK] || 0,
-    }))
-    // Optional: filter out tags that have 0 relevance for this mode to avoid clutter
-    .filter((s) => s.currentRelevance > 0)
-    .sort((a, b) => b.currentRelevance - a.currentRelevance)
-    .slice(0, 10); // Display top 10 core skills in the Hero/About
 
 // Fetch projects collection
 const allProjects = await getCollection("projects");
@@ -100,13 +85,11 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
         <Hero mode={Mode.FULLSTACK} lang={locale} />
         <div class="relative z-10 bg-base-100">
             <About
-                skills={currentSkills}
                 profile={profileData}
                 mode={Mode.FULLSTACK}
                 lang={locale}
             />
             <Skills
-                skills={currentSkills}
                 mode={Mode.FULLSTACK}
                 lang={locale}
             />

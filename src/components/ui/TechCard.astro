@@ -1,0 +1,86 @@
+---
+import { Icon } from "astro-icon/components";
+import { useTranslatedPath } from "@i18n";
+
+interface Props {
+    id: string;
+    title: string;
+    description: string;
+    icon?: string;
+    category: string;
+    lang: string;
+}
+
+const { id, title, description, icon, category, lang } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+
+// Helper to map category to a nice color/styling (consistent with ecosystem page)
+const getBadgeClass = (cat: string) => {
+    switch (cat) {
+        case "framework":
+            return "badge-primary";
+        case "language":
+            return "badge-secondary";
+        case "cloud":
+            return "badge-accent";
+        case "data":
+            return "badge-info";
+        case "ai":
+            return "badge-success";
+        case "tool":
+            return "badge-ghost";
+        default:
+            return "badge-neutral";
+    }
+};
+
+// Helper to map category to a default Lucide icon fallback
+const getFallbackIcon = (cat: string) => {
+    switch(cat) {
+        case "language": return "lucide:cpu";
+        case "framework": return "lucide:globe";
+        case "tool": return "lucide:terminal";
+        case "cloud": return "lucide:cloud";
+        case "data": return "lucide:database";
+        case "ai": return "lucide:bot";
+        default: return "lucide:cpu";
+    }
+};
+
+const iconName = icon ? `simple-icons:${icon}` : getFallbackIcon(category);
+---
+
+<a
+    href={translatePath(`/tags/${id}`)}
+    class="ecosystem-card relative p-5 rounded-box border bg-base-200/30 backdrop-blur-sm transition-all duration-300 group hover:border-primary/50 hover:bg-base-200/80 border-base-content/10 flex flex-col h-full"
+    data-category={category}
+    data-title={title.toLowerCase()}
+    aria-label={`View details for ${title}`}
+>
+    <div class="flex justify-between items-start mb-4">
+        <div class="w-8 h-8 flex items-center justify-center">
+            <Icon 
+                name={iconName} 
+                class:list={[
+                    "w-full h-full transition-all duration-300",
+                    category === "cloud" ? "text-warning" : "text-base-content/70 group-hover:text-primary group-hover:opacity-100"
+                ]}
+            />
+        </div>
+        <span
+            class:list={[
+                "badge badge-sm badge-outline text-[10px] uppercase tracking-wider",
+                getBadgeClass(category)
+            ]}
+        >
+            {category}
+        </span>
+    </div>
+
+    <h3 class="font-bold text-lg text-base-content mb-1 group-hover:text-primary transition-colors">
+        {title}
+    </h3>
+    <p class="text-xs text-base-content/50 line-clamp-2 mt-auto">
+        {description}
+    </p>
+</a>
