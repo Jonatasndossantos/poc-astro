@@ -1,21 +1,23 @@
 ---
 import { getCollection, render } from "astro:content";
-import { locales, getTranslations, useTranslatedPath } from "@i18n";
+import { locales, getTranslations, useTranslatedPath, defaultLocale } from "@i18n";
 import Layout from "@layouts/Layout.astro";
 import GraphIsland from "@components/GraphIsland.astro";
 
 export async function getStaticPaths() {
     const topics = await getCollection("topics");
 
-    return locales.flatMap((locale) =>
-        topics.map((topic) => {
-            const cleanId = topic.id.replace(/\.mdx?$/, "");
-            return {
-                params: { locale, slug: cleanId },
-                props: { locale, topic, cleanId },
-            };
-        }),
-    );
+    return locales
+        .filter((l) => l !== defaultLocale)
+        .flatMap((locale) =>
+            topics.map((topic) => {
+                const cleanId = topic.id.replace(/\.mdx?$/, "");
+                return {
+                    params: { locale, slug: cleanId },
+                    props: { locale, topic, cleanId },
+                };
+            }),
+        );
 }
 
 const { locale } = Astro.params;

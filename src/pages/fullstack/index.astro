@@ -8,22 +8,14 @@ import Services from "@components/sections/Services.astro";
 import Contact from "@components/sections/Contact.astro";
 import Footer from "@components/layout/Footer.astro";
 import GraphIsland from "@components/GraphIsland.astro";
-import { Mode } from "../../../types";
-import { defaultLocale, useTranslator, locales, getTranslations } from "@i18n";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import type { CuratedProfile } from "../../../types";
+import { Mode } from "../../types";
+import { getTranslations, defaultLocale as locale, useTranslator } from "@i18n";
+import type { CuratedProfile } from "../../types";
 
-export function getStaticPaths() {
-    return locales
-        .filter((l) => l !== defaultLocale)
-        .map((locale) => ({
-            params: { locale },
-            props: { locale },
-        }));
-}
+const lang = locale;
 
-const { locale } = Astro.params;
-const lang = getRelativeLocaleUrl(locale);
+const tPortfolio = (await getTranslations(lang, "portfolio")) as Record<string, any>;
+const __ = await useTranslator(lang);
 
 const profile = (await getTranslations(lang, "profile")) as Record<
     string,
@@ -31,10 +23,6 @@ const profile = (await getTranslations(lang, "profile")) as Record<
 >;
 const bio = (profile.bio as Record<string, string>)?.[Mode.FULLSTACK] ?? "";
 const role = (profile.role as Record<string, string>)?.[Mode.FULLSTACK] ?? "";
-
-
-const tPortfolio = (await getTranslations(lang, "portfolio")) as Record<string, any>;
-const __ = await useTranslator(lang);
 
 const profileData: CuratedProfile = {
     name: "Jônatas Nascimento dos Santos",
@@ -48,7 +36,7 @@ const profileData: CuratedProfile = {
     },
 };
 
-const allTags = await getCollection("tags");
+import { getCollection } from "astro:content";
 
 // Fetch projects collection
 const allProjects = await getCollection("projects");

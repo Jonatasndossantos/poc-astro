@@ -1,11 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import { locales, useTranslator } from "@i18n";
+import { locales, useTranslator, defaultLocale } from "@i18n";
 import Layout from "@layouts/Layout.astro";
 
 // Generate paths for standard locales
 export async function getStaticPaths() {
-    return locales.map((locale) => ({ params: { locale } }));
+    return locales
+        .filter((l) => l !== defaultLocale)
+        .map((locale) => ({ params: { locale } }));
 }
 
 const { locale } = Astro.params as { locale: string };

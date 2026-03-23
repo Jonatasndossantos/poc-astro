@@ -1,30 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import {
-    locales,
-    getTranslations,
-    useTranslatedPath,
-    defaultLocale,
-} from "@i18n";
-import TechCard from "@components/ui/TechCard.astro";
+import { getTranslations, defaultLocale as locale } from "@i18n";
 
-export function getStaticPaths() {
-    return locales
-        .filter((l) => l !== defaultLocale)
-        .map((locale) => ({
-            params: { locale },
-            props: { locale },
-        }));
-}
-
-const { locale } = Astro.params;
-const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
-    string,
-    any
->;
+const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<string, any>;
 
 const allTags = await getCollection("tags");
+
+import TechCard from "@components/ui/TechCard.astro";
 
 // Pre-process sorting
 allTags.sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -43,9 +26,7 @@ const categories = [...new Set(allTags.map((tag) => tag.data.category))].sort();
     >
         <div class="max-w-7xl mx-auto relative z-10">
             <h1 class="text-5xl md:text-7xl font-bold font-syncopate mb-6">
-                Tech <span class="text-primary opacity-80"
-                    >{tPortfolio.ecosystem.title.replace("Tech ", "")}</span
-                >
+                Tech <span class="text-primary opacity-80">{tPortfolio.ecosystem.title.replace("Tech ", "")}</span>
             </h1>
             <p class="text-xl opacity-70 mb-12 max-w-2xl text-balance">
                 {tPortfolio.ecosystem.desc}
@@ -83,8 +64,7 @@ const categories = [...new Set(allTags.map((tag) => tag.data.category))].sort();
                     <button
                         class="btn btn-sm btn-active filter-btn"
                         data-category="all"
-                        aria-label={tPortfolio.ecosystem.all || "All"}
-                        >{tPortfolio.ecosystem.all || "All"}</button
+                        aria-label={tPortfolio.ecosystem.all || "All"}>{tPortfolio.ecosystem.all || "All"}</button
                     >
                     {
                         categories.map((cat) => (
@@ -107,7 +87,7 @@ const categories = [...new Set(allTags.map((tag) => tag.data.category))].sort();
             >
                 {
                     allTags.map((tag) => (
-                        <TechCard
+                        <TechCard 
                             id={tag.id}
                             title={tag.data.title}
                             description={tag.data.description}

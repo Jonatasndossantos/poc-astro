@@ -14,8 +14,7 @@ import { defaultLocale, useTranslator, locales } from "@i18n";
 import type { CuratedProfile } from "../../types";
 
 const { locale  } = Astro.params;
-const lang = Astro.currentLocale;
-
+const lang = Astro.currentLocale || defaultLocale;
 const __ = await useTranslator(lang);
 const profile = (await getTranslations(lang, "profile")) as Record<
     string,

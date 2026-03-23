@@ -1,6 +1,6 @@
 ---
 title: "Laravel"
-icon: "laravel"
+icon: "Laravel"
 description: "Technology used in Verdant Visual projects."
 category: "framework"
 relevance:

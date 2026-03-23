@@ -1,28 +1,22 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { getCollection, getEntry, render } from "astro:content";
-import { locales, getTranslations, useTranslatedPath } from "@i18n";
+import { locales, getTranslations, useTranslatedPath, defaultLocale } from "@i18n";
 
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
 
-    // Generate paths for all locale + project combinations
-    return locales.flatMap((locale) => {
-        return projects.map((project: any) => {
-            // Depending on Astro version and legacy API, it could be slug or id, we fallback to stripping extension from id
-            const resolvedSlug =
-                project.slug || project.id.replace(/\.[^/.]+$/, "");
-
-            console.log(
-                `[Astro Router] Generating path: /${locale}/projects/${resolvedSlug}`,
-            );
-
-            return {
-                params: { locale, slug: resolvedSlug },
-                props: { project, locale },
-            };
-        });
-    });
+    return locales
+        .filter((l) => l !== defaultLocale)
+        .flatMap((locale) =>
+            projects.map((project) => {
+                const cleanId = project.id.replace(/\.mdx?$/, "");
+                return {
+                    params: { locale, slug: cleanId },
+                    props: { locale, project, cleanId },
+                };
+            }),
+        );
 }
 
 const { project, locale } = Astro.props;
