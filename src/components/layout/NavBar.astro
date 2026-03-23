@@ -3,12 +3,13 @@ import ThemeToggle from "../ui/ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
 import { useTranslator, useTranslatedPath } from "@i18n";
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 
 const { lang } = Astro.props;
 const translatePath = useTranslatedPath(lang);
 const __ = await useTranslator(lang);
 
-const navName = "JÔNATAS";
+const navName = "SANTOS";
 const navPrefix = ".DEV";
 
 const iconLinks: {
@@ -43,15 +44,17 @@ const iconLinks: {
                 <div class="navbar-start">
                     <a
                         href={translatePath("/")}
-                        class="btn btn-ghost h-auto py-2 px-3 gap-3"
+                        class="btn btn-ghost h-auto"
                         aria-label={`${navName} ${navPrefix}`}
                     >
-                        <div
-                            class="relative flex items-center justify-center size-8"
-                        >
-                            <Icon
-                                name="lucide:layers"
-                                class="size-8 relative z-10 transition-transform hover:rotate-12 text-primary"
+                        <div class="relative flex items-center justify-center">
+                            <Image
+                                src="/favicon.svg"
+                                alt="Logo"
+                                width={24}
+                                height={24}
+                                loading="eager"
+                                class="size-6 relative z-10 transition-transform hover:rotate-12"
                                 aria-hidden="true"
                             />
                             <div
@@ -61,15 +64,10 @@ const iconLinks: {
                         </div>
                         <div class="flex flex-col text-left">
                             <span
-                                class="font-bold text-base leading-tight tracking-wider text-base-content group-hover:text-primary transition-colors"
+                                class="mt-auto pt-1.5 font-bold text-base leading-tight tracking-wider text-base-content group-hover:text-primary transition-colors"
                             >
                                 {navName}
                                 <span class="opacity-50">{navPrefix}</span>
-                            </span>
-                            <span
-                                class="text-[10px] uppercase tracking-[0.2em] opacity-60 mt-0.5"
-                            >
-                                {__("Portfolio Title")}
                             </span>
                         </div>
                     </a>
