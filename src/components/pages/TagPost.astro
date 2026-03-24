@@ -1,27 +1,16 @@
 ---
 import { getCollection, render } from "astro:content";
-import { defaultLocale as locale, getTranslations, useTranslatedPath } from "@i18n";
+import { getTranslations, useTranslatedPath } from "@i18n";
 import Layout from "@layouts/Layout.astro";
 import GraphIsland from "@components/GraphIsland.astro";
 
-export async function getStaticPaths() {
-    const tags = await getCollection("tags");
+const { lang: locale, tag, cleanId } = Astro.props;
 
-    return tags.map((tag) => {
-        const cleanId = tag.id.replace(/\.mdx?$/, "");
-        return {
-            params: { slug: cleanId },
-            props: { tag, cleanId },
-        };
-    });
-}
-
-const { tag, cleanId } = Astro.props;
-
-// Find all content that references this tag for en
+// Find all content that references this tag
 const allProjects = await getCollection("projects");
 const allBlogs = await getCollection("blog");
 
+// In Astro 3.5+, references are parsed as objects `{ id, collection }`
 const relatedProjects = allProjects.filter((p) =>
     p.data.tags?.some(
         (ref: any) => (ref.id || ref).replace(/\.mdx?$/, "") === cleanId,
@@ -52,14 +41,14 @@ const translatePath = useTranslatedPath(locale);
                 href={translatePath("/ecosystem")}
                 class="btn btn-ghost btn-sm mb-8 opacity-70 hover:opacity-100 uppercase tracking-widest text-xs"
             >
-                &larr; {tPortfolio.taxonomy?.backToEcosystem || 'Back'}
+                &larr; {tPortfolio.taxonomy.backToEcosystem}
             </a>
 
             <div class="flex items-center gap-6 mb-8">
                 {
                     tag.data.icon ? (
                         <img
-                            src={`https://cdn.simpleicons.org/${tag.data.icon}/ffffff`}
+                            src={`https://cdn.simpleicons.org/${tag.data.icon}/${tag.data.category === "cloud" ? "f59e0b" : "ffffff"}`}
                             alt={tag.data.title}
                             class="w-16 h-16 object-contain"
                         />
@@ -91,7 +80,7 @@ const translatePath = useTranslatedPath(locale);
                 <h2
                     class="text-2xl font-bold mb-6 border-b border-base-content/10 pb-4"
                 >
-                    {tPortfolio.graph?.knowledgeTitle || 'Knowledge Graph'}
+                    {tPortfolio.graph.knowledgeTitle}
                 </h2>
                 <GraphIsland focusId={`tags/${cleanId}`} />
             </div>
@@ -100,7 +89,7 @@ const translatePath = useTranslatedPath(locale);
                 relatedProjects.length > 0 && (
                     <div class="mb-12">
                         <h2 class="text-2xl font-bold mb-6 border-b border-base-content/10 pb-4">
-                            Relatd Projects: {tag.data.title}
+                            {tPortfolio.taxonomy.relatedProjects} {tag.data.title}
                         </h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {relatedProjects.map((p) => (
@@ -119,6 +108,38 @@ const translatePath = useTranslatedPath(locale);
                                 </a>
                             ))}
                         </div>
+                    </div>
+                )
+            }
+
+            {
+                relatedBlogs.length > 0 && (
+                    <div class="mb-12">
+                        <h2 class="text-2xl font-bold mb-6 border-b border-base-content/10 pb-4">
+                            {tPortfolio.taxonomy.relatedArticles} {tag.data.title}
+                        </h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {relatedBlogs.map((b) => (
+                                <a
+                                    href={translatePath(`/blog/${b.id.replace(/\.mdx?$/, "")}`)}
+                                    class="card bg-base-200/50 hover:bg-base-200 transition-colors border border-base-content/5"
+                                >
+                                    <div class="card-body p-6">
+                                        <h3 class="card-title text-lg">
+                                            {b.data.title}
+                                        </h3>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                relatedProjects.length === 0 && relatedBlogs.length === 0 && (
+                    <div class="text-center py-10 opacity-50 border border-dashed border-base-content/20 rounded-xl">
+                        {tPortfolio.graph.noConnections.replace("%name%", tag.data.title)}
                     </div>
                 )
             }

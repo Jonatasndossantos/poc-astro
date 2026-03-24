@@ -1,0 +1,122 @@
+---
+import { getCollection } from "astro:content";
+import { locales, defaultLocale } from "@i18n";
+import Ecosystem from "@components/pages/Ecosystem.astro";
+import Fullstack from "@components/pages/Fullstack.astro";
+import BlogIndex from "@components/pages/BlogIndex.astro";
+import BlogPost from "@components/pages/BlogPost.astro";
+import ServicePost from "@components/pages/ServicePost.astro";
+import ProjectPost from "@components/pages/ProjectPost.astro";
+import TagPost from "@components/pages/TagPost.astro";
+import TopicPost from "@components/pages/TopicPost.astro";
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection("blog");
+    const allServices = await getCollection("services");
+    const allProjects = await getCollection("projects");
+    const allTags = await getCollection("tags");
+    const allTopics = await getCollection("topics");
+    
+    // Extract unique blog slugs
+    const blogSlugs = new Set<string>();
+    allPosts.forEach(post => {
+        const parts = post.id.split('/');
+        if (parts.length > 1) {
+            const cleanSlug = parts.slice(1).join('/').replace(/\.mdx?$/, "");
+            blogSlugs.add(cleanSlug);
+        }
+    });
+
+    const indexPages = [
+        { name: "", component: "Fullstack" },
+        { name: "ecosystem", component: "Ecosystem" },
+        { name: "fullstack", component: "Fullstack" },
+        { name: "blog", component: "BlogIndex" },
+    ];
+
+    const paths = [];
+
+    for (const locale of locales) {
+        const isDefault = locale === defaultLocale;
+
+        // 1. Simple Index Pages
+        for (const page of indexPages) {
+            // Skip root index in router if it's the default locale (handled by src/pages/index.astro)
+            if (isDefault && page.name === "") continue;
+            
+            paths.push({
+                params: { slug: isDefault ? page.name : `${locale}/${page.name}` },
+                props: { lang: locale, page: page.component },
+            });
+        }
+
+        // 2. Blog Posts
+        for (const bSlug of blogSlugs) {
+            let postToRender = allPosts.find(p => p.id.replace(/\.mdx?$/, "") === `${locale}/${bSlug}`);
+            let isFallback = false;
+
+            if (!postToRender) {
+                postToRender = allPosts.find(p => p.id.replace(/\.mdx?$/, "") === `${defaultLocale}/${bSlug}`);
+                isFallback = true;
+                if (!postToRender) {
+                    postToRender = allPosts.find(p => p.id.replace(/\.mdx?$/, "").endsWith(`/${bSlug}`));
+                }
+            }
+
+            paths.push({
+                params: { slug: isDefault ? `blog/${bSlug}` : `${locale}/blog/${bSlug}` },
+                props: { lang: locale, page: "BlogPost", post: postToRender, isFallback },
+            });
+        }
+
+        // 3. Services
+        for (const service of allServices) {
+            const cleanId = service.id.replace(/\.mdx?$/, "");
+            paths.push({
+                params: { slug: isDefault ? `services/${cleanId}` : `${locale}/services/${cleanId}` },
+                props: { lang: locale, page: "ServicePost", service, cleanId },
+            });
+        }
+
+        // 4. Projects
+        for (const project of allProjects) {
+            const cleanId = project.id.replace(/\.mdx?$/, "");
+            paths.push({
+                params: { slug: isDefault ? `projects/${cleanId}` : `${locale}/projects/${cleanId}` },
+                props: { lang: locale, page: "ProjectPost", project, cleanId },
+            });
+        }
+
+        // 5. Tags
+        for (const tag of allTags) {
+            const cleanId = tag.id.replace(/\.mdx?$/, "");
+            paths.push({
+                params: { slug: isDefault ? `tags/${cleanId}` : `${locale}/tags/${cleanId}` },
+                props: { lang: locale, page: "TagPost", tag, cleanId },
+            });
+        }
+
+        // 6. Topics
+        for (const topic of allTopics) {
+            const cleanId = topic.id.replace(/\.mdx?$/, "");
+            paths.push({
+                params: { slug: isDefault ? `topics/${cleanId}` : `${locale}/topics/${cleanId}` },
+                props: { lang: locale, page: "TopicPost", topic, cleanId },
+            });
+        }
+    }
+
+    return paths;
+}
+
+const { lang, page, post, isFallback, service, project, tag, topic, cleanId } = Astro.props;
+---
+
+{page === "Ecosystem" && <Ecosystem lang={lang} />}
+{page === "Fullstack" && <Fullstack lang={lang} />}
+{page === "BlogIndex" && <BlogIndex lang={lang} />}
+{page === "BlogPost" && <BlogPost lang={lang} post={post} isFallback={isFallback} />}
+{page === "ServicePost" && <ServicePost lang={lang} service={service} cleanId={cleanId} />}
+{page === "ProjectPost" && <ProjectPost lang={lang} project={project} cleanId={cleanId} />}
+{page === "TagPost" && <TagPost lang={lang} tag={tag} cleanId={cleanId} />}
+{page === "TopicPost" && <TopicPost lang={lang} topic={topic} cleanId={cleanId} />}

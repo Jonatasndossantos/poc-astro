@@ -9,18 +9,22 @@ import Contact from "@components/sections/Contact.astro";
 import Footer from "@components/layout/Footer.astro";
 import GraphIsland from "@components/GraphIsland.astro";
 import { Mode } from "../../types";
-import { getTranslations, defaultLocale as locale, useTranslator } from "@i18n";
+import { getTranslations, useTranslator } from "@i18n";
 import type { CuratedProfile } from "../../types";
+import { getCollection } from "astro:content";
 
-const lang = locale;
+const { lang: locale } = Astro.props;
+const __ = await useTranslator(locale);
 
-const tPortfolio = (await getTranslations(lang, "portfolio")) as Record<string, any>;
-const __ = await useTranslator(lang);
-
-const profile = (await getTranslations(lang, "profile")) as Record<
+const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
+    string,
+    any
+>;
+const profile = (await getTranslations(locale, "profile")) as Record<
     string,
     unknown
 >;
+
 const bio = (profile.bio as Record<string, string>)?.[Mode.FULLSTACK] ?? "";
 const role = (profile.role as Record<string, string>)?.[Mode.FULLSTACK] ?? "";
 
@@ -35,8 +39,6 @@ const profileData: CuratedProfile = {
         email: "jonatasndossantos@gmail.com",
     },
 };
-
-import { getCollection } from "astro:content";
 
 // Fetch projects collection
 const allProjects = await getCollection("projects");
@@ -65,55 +67,34 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
 ---
 
 <Layout
-    title={(__("Home") ?? "Fullstack")}
+    title={__("Home") ?? "Fullstack"}
     description={`${role} — ${bio.slice(0, 120)}...`}
     lang={locale}
 >
     <main class="relative w-full overflow-hidden">
         <Hero mode={Mode.FULLSTACK} lang={locale} />
         <div class="relative z-10 bg-base-100">
-            <About
-                profile={profileData}
-                mode={Mode.FULLSTACK}
-                lang={locale}
-            />
-            <Skills
-                mode={Mode.FULLSTACK}
-                lang={locale}
-            />
+            <About profile={profileData} mode={Mode.FULLSTACK} lang={locale} />
+            <Skills mode={Mode.FULLSTACK} lang={locale} />
 
             <Projects projects={currentProjects} lang={locale} />
+
+            <Services lang={locale} />
 
             <section
                 class="w-full py-20 px-6 lg:px-20 bg-base-100 flex flex-col items-center"
             >
                 <div class="max-w-7xl w-full">
                     <h2 class="text-3xl font-bold mb-4 font-syncopate">
-                        {tPortfolio.graph.title.split(" ").slice(0, -2).join(" ")} <span class="text-primary"
-                            >{tPortfolio.graph.title.split(" ").slice(-2).join(" ")}</span
+                        {__("Interactive")}
+                        <span class="text-primary">{__("Knowledge Graph")}</span
                         >
                     </h2>
-                    <p class="mb-10 opacity-70 max-w-2xl">
-                        {tPortfolio.graph.desc}
-                    </p>
-                    <div class="flex flex-row gap-2">
-                        <h3 class="text-primary">primary</h3>
-                        <h3 class="text-secondary">secondary</h3>
-                        <h3 class="text-accent">accent</h3>
-                        <h3 class="text-success">success</h3>
-                        <h3 class="text-warning">warning</h3>
-                        <h3 class="text-error">error</h3>
-                        <h3 class="text-info">info</h3>
-                        <h3 class="text-neutral">neutral</h3>
-                        <h3 class="text-base">base</h3>
-                        <h3 class="text-base-content">base-content</h3>
-                    </div>
 
                     <GraphIsland lang={locale} />
                 </div>
             </section>
 
-            <Services lang={locale} />
             <Contact profile={profileData} lang={locale} />
             <Footer lang={locale} />
         </div>

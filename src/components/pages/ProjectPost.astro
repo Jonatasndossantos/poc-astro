@@ -1,25 +1,9 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import { getCollection, getEntry, render } from "astro:content";
-import { locales, getTranslations, useTranslatedPath, defaultLocale } from "@i18n";
+import { getEntry, render } from "astro:content";
+import { getTranslations, useTranslatedPath } from "@i18n";
 
-export async function getStaticPaths() {
-    const projects = await getCollection("projects");
-
-    return locales
-        .filter((l) => l !== defaultLocale)
-        .flatMap((locale) =>
-            projects.map((project) => {
-                const cleanId = project.id.replace(/\.mdx?$/, "");
-                return {
-                    params: { locale, slug: cleanId },
-                    props: { locale, project, cleanId },
-                };
-            }),
-        );
-}
-
-const { project, locale } = Astro.props;
+const { project, lang: locale } = Astro.props;
 const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<string, any>;
 const translatePath = useTranslatedPath(locale);
 const { Content } = await render(project);

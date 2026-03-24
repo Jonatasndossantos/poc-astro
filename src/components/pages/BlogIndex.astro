@@ -1,16 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import { locales, useTranslator, defaultLocale } from "@i18n";
+import { useTranslator } from "@i18n";
 import Layout from "@layouts/Layout.astro";
 
-// Generate paths for standard locales
-export async function getStaticPaths() {
-    return locales
-        .filter((l) => l !== defaultLocale)
-        .map((locale) => ({ params: { locale } }));
-}
-
-const { locale } = Astro.params as { locale: string };
+const { lang: locale } = Astro.props;
 const __ = await useTranslator(locale);
 
 // Fetch all blog posts
