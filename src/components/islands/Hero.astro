@@ -21,14 +21,20 @@ const __ = await useTranslator(lang);
     import { Application } from "@splinetool/runtime";
 
     const canvas = document.getElementById("canvas3d") as HTMLCanvasElement;
-    const muteBtn = document.getElementById("mute-btn");
-    const iconMute = document.getElementById("icon-mute");
-    const iconVol = document.getElementById("icon-vol");
+
+    // --- CONSOLE CLEANUP ---
+    // Filter out noisy THREE.js/Spline shader warnings (unroll optimizations)
+    const originalWarn = console.warn;
+    const filterShaderWarning = (method: typeof originalWarn) => (...args: any[]) => {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('X3557')) return;
+        method.apply(console, args);
+    };
+    console.warn = filterShaderWarning(originalWarn);
+    // -----------------------
 
     if (canvas) {
         let app: Application | null = null;
         let isLoaded = false;
-        let isMuted = true;
 
         const initSpline = () => {
             if (isLoaded) return;
@@ -37,16 +43,16 @@ const __ = await useTranslator(lang);
             app.load(
                 "https://prod.spline.design/LemjWKcGZtc47q1C/scene.splinecode",
             ).then(() => {
+                if (app) {
+                    try {
+                        app.setBackgroundColor("transparent");
+                    } catch (e) {
+                        console.warn("Spline Background Transparency Error:", e);
+                    }
+                }
                 canvas.classList.remove("opacity-0");
                 const fallback = document.getElementById("spline-fallback");
                 if (fallback) fallback.classList.add("opacity-0");
-
-                try {
-                    if (typeof (app as any).setVolume === "function")
-                        (app as any).setVolume(isMuted ? 0 : 1);
-                } catch (e) {
-                    console.warn("Spline Volume Init Error:", e);
-                }
             });
         };
 
@@ -82,36 +88,13 @@ const __ = await useTranslator(lang);
 
         observer.observe(canvas);
 
-        if (muteBtn) {
-            // Ensure audio handles browser policies correctly via user click.
-            muteBtn.addEventListener("click", () => {
-                isMuted = !isMuted;
-
-                if (isMuted) {
-                    iconMute?.classList.remove("hidden");
-                    iconVol?.classList.add("hidden");
-                } else {
-                    iconMute?.classList.add("hidden");
-                    iconVol?.classList.remove("hidden");
-                }
-
-                if (app) {
-                    try {
-                        if (typeof (app as any).setVolume === "function")
-                            (app as any).setVolume(isMuted ? 0 : 1);
-                    } catch (e) {
-                        console.warn("Spline Audio Error:", e);
-                    }
-                }
-            });
-        }
     }
 </script>
 
 <section
     class="relative min-h-screen w-full flex flex-col justify-center px-6 lg:px-20 overflow-hidden pt-32 pb-20"
 >
-    <div class="absolute inset-0 z-0 opacity-60 hero-parallax">
+    <div class="absolute inset-0 z-0 hero-parallax">
         <Image
             id="spline-fallback"
             src={bgFallback}
@@ -127,13 +110,13 @@ const __ = await useTranslator(lang);
 
         <!-- Watermark Hider via Gradient -->
         <div
-            class="absolute bottom-0 right-0 w-64 h-24 bg-linear-to-tl from-base-300 via-base-300/60 to-transparent z-10 pointer-events-none"
+            class="absolute bottom-0 right-0 w-64 h-24 bg-linear-to-tl from-base-100 via-base-100/60 to-transparent z-10 pointer-events-none"
         >
         </div>
     </div>
 
     <div
-        class="absolute inset-0 bg-linear-to-t from-base-300/90 via-base-300/40 to-transparent z-0 pointer-events-none"
+        class="absolute inset-0 bg-linear-to-t from-base-100 via-base-100/40 to-transparent z-0 pointer-events-none"
     >
     </div>
     <div
@@ -206,23 +189,7 @@ const __ = await useTranslator(lang);
         </div>
     </div>
 
-    <button
-        id="mute-btn"
-        type="button"
-        class="btn btn-circle btn-ghost bg-base-100/30 backdrop-blur-md absolute bottom-10 left-6 md:left-20 z-10 group hover:bg-base-100/60 transition-all border border-base-content/10"
-        aria-label={__("Toggle Spline Audio")}
-    >
-        <div id="icon-mute">
-            <Icon name="lucide:volume-x"
-                aria-hidden="true"
-                class="size-5 text-base-content opacity-70"
-            />
-        </div>
-        <div id="icon-vol" class="hidden">
-            <Icon name="lucide:volume-2"
-                aria-hidden="true"
-                class="size-5 text-base-content opacity-70"
-            />
-        </div>
-    </button>
+
+    <!-- Lower Transition Shadow Shadow -->
+    <div class="absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-base-100 to-transparent z-20 pointer-events-none"></div>
 </section>

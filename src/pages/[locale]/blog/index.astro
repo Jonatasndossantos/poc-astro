@@ -1,11 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import { locales, useTranslator } from "@i18n";
+import { locales, useTranslator, defaultLocale } from "@i18n";
 import Layout from "@layouts/Layout.astro";
 
 // Generate paths for standard locales
 export async function getStaticPaths() {
-    return locales.map((locale) => ({ params: { locale } }));
+    return locales
+        .filter((l) => l !== defaultLocale)
+        .map((locale) => ({ params: { locale } }));
 }
 
 const { locale } = Astro.params as { locale: string };
@@ -53,7 +55,7 @@ const posts = Object.entries(postsMap).map(([slug, post]) => {
 
 <Layout
     title={__("Blog")}
-    description="Multilingual blog"
+    description={__("Multilingual blog")}
     lang={locale}
 >
     <main class="w-full min-h-screen bg-base-100 pt-32 pb-20 px-6 lg:px-20 relative">

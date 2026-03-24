@@ -1,0 +1,87 @@
+---
+import { Icon } from "astro-icon/components";
+import { useTranslatedPath } from "@i18n";
+import { getSafeIcon } from "../../utils/icon-helper";
+import { marked } from "marked";
+
+interface Props {
+    id: string;
+    title: string;
+    description: string;
+    icon?: string;
+    category: string;
+    lang: string;
+}
+
+const { id, title, description, icon, category, lang } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+
+// Unified color mapping for categories
+const CATEGORY_STYLES: Record<string, { badge: string; text: string }> = {
+    framework: { badge: "badge-primary", text: "text-primary" },
+    language: { badge: "badge-secondary", text: "text-secondary" },
+    cloud: { badge: "badge-accent", text: "text-accent" },
+    data: { badge: "badge-info", text: "text-info" },
+    ai: { badge: "badge-success", text: "text-success" },
+    tool: { badge: "badge-ghost", text: "text-base-content/70" },
+};
+
+const styles = CATEGORY_STYLES[category?.toLowerCase()] || {
+    badge: "badge-neutral",
+    text: "text-base-content/70",
+};
+
+const iconName = getSafeIcon({ icon, id, title, category });
+
+// Handle "boring" default description from Obsidian/Content Collections
+const isGenericDescription =
+    description === "Technology used in Verdant Visual projects." ||
+    !description;
+
+const finalDescription = isGenericDescription
+    ? `Explore how **${title}** is integrated into my ecosystem as a key ${category}.`
+    : description;
+
+// Parse markdown for the description (to support links, bold, etc.)
+const descriptionHtml = marked.parseInline(finalDescription);
+---
+
+<a
+    href={translatePath(`/tags/${id}`)}
+    class="ecosystem-card relative p-5 rounded-box border bg-base-200/30 backdrop-blur-sm transition-all duration-300 group hover:border-primary/50 hover:bg-base-200/80 border-base-content/10 flex flex-col h-full"
+    data-category={category}
+    data-title={title.toLowerCase()}
+    aria-label={`View details for ${title}`}
+>
+    <div class="flex justify-between items-start mb-4">
+        <div class="w-8 h-8 flex items-center justify-center">
+            <Icon
+                name={iconName}
+                class:list={[
+                    "w-full h-full transition-all duration-300",
+                    "group-hover:scale-110",
+                    styles.text,
+                    "opacity-70 group-hover:opacity-100",
+                ]}
+            />
+        </div>
+        <span
+            class:list={[
+                "badge badge-sm badge-outline text-[10px] uppercase tracking-wider",
+                styles.badge,
+            ]}
+        >
+            {category}
+        </span>
+    </div>
+
+    <h3
+        class="font-bold text-lg text-base-content mb-1 group-hover:text-primary transition-colors"
+    >
+        {title}
+    </h3>
+    <div
+        class="text-xs text-base-content/50 line-clamp-2 mb-auto"
+        set:html={descriptionHtml}
+    />
+</a>

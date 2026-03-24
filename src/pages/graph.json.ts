@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import { getSafeIcon, getIconUrl } from "../utils/icon-helper";
 
 export async function GET({ request }: { request: Request }) {
     // 1. Fetch all collections
@@ -49,12 +50,20 @@ export async function GET({ request }: { request: Request }) {
         return clean;
     };
 
-    // Helper: Resolve SVG Icon CDN
-    const getIconInfo = (icon?: string) => icon ? `https://cdn.simpleicons.org/${icon}/ffffff` : undefined;
+    // Helper: Resolve Icon URL using robust utility
+    const resolveIconUrl = (data: any) => {
+        const resolved = getSafeIcon({
+            icon: data.icon,
+            id: data.id || "",
+            title: data.title || "",
+            category: data.category || "tool"
+        });
+        return getIconUrl(resolved);
+    };
 
     // 2. Map Taxonomy Nodes (Pages are now built, hasRoute = true)
-    topics.forEach(t => addNode(`topics/${cleanId(t.id)}`, "topics", t.data.title, getIconInfo(t.data.icon), true));
-    tags.forEach(t => addNode(`tags/${cleanId(t.id)}`, "tags", t.data.title, getIconInfo(t.data.icon), true));
+    topics.forEach(t => addNode(`topics/${cleanId(t.id)}`, "topics", t.data.title, resolveIconUrl({ ...t.data, id: t.id }), true));
+    tags.forEach(t => addNode(`tags/${cleanId(t.id)}`, "tags", t.data.title, resolveIconUrl({ ...t.data, id: t.id }), true));
 
     // 3. Map Projects (hasRoute = true)
     projects.forEach(p => {
