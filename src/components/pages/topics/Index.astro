@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import { getTranslations } from "@i18n";
+import Layout from "@layouts/Layout.astro";
+
+const { lang: locale } = Astro.props;
+const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<string, any>;
+const allTopics = await getCollection("topics");
+
+---
+
+<Layout
+    title={`Topics | ${tPortfolio.ecosystem.title}`}
+    description="Knowledge domains and topics."
+    lang={locale}
+>
+    <main class="w-full min-h-screen bg-base-100 pt-32 pb-20 px-6 lg:px-20 relative">
+        <div class="max-w-4xl mx-auto z-10 relative">
+            <h1 class="text-4xl md:text-5xl font-bold font-syncopate mb-12">
+                Topics
+            </h1>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {allTopics.map((topic) => (
+                    <a 
+                        href={`/${locale}/topics/${topic.id.replace(/\.mdx?$/, "")}`}
+                        class="card bg-base-200/50 hover:bg-base-200 transition-colors border border-base-content/5 group"
+                    >
+                        <div class="card-body p-6">
+                            <h2 class="card-title text-lg group-hover:text-primary transition-colors text-center w-full block">
+                                {topic.data.title}
+                            </h2>
+                        </div>
+                    </a>
+                ))}
+            </div>
+        </div>
+    </main>
+</Layout>

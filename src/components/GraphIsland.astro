@@ -146,8 +146,13 @@ const __ = await useTranslator(lang);
             .style("cursor", (d: any) => (d.hasRoute ? "pointer" : "default"))
             .on("click", (_event: any, d: any) => {
                 if (!d.hasRoute) return;
-                const lang = window.location.pathname.split("/")[1] || "en";
-                window.location.href = `/${lang}/${d.id}`;
+                
+                // Better locale detection
+                const pathParts = window.location.pathname.split("/").filter(Boolean);
+                const supportedLocales = ["pt", "fr", "es", "zh", "ja"]; 
+                const locale = supportedLocales.includes(pathParts[0]) ? pathParts[0] : "";
+                
+                window.location.href = locale ? `/${locale}/${d.id}` : `/${d.id}`;
             })
             .on("mouseover", function (_event: any, d: any) {
                 // Highlight Node

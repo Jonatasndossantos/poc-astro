@@ -1,9 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import {
-    getTranslations,
-} from "@i18n";
+import { getTranslations } from "@i18n";
 import TechCard from "@components/ui/TechCard.astro";
 
 const { lang: locale } = Astro.props;
@@ -22,7 +20,7 @@ const categories = [...new Set(allTags.map((tag) => tag.data.category))].sort();
 ---
 
 <Layout
-    title="Ecosystem | Verdant Visual"
+    title="Ecosystem"
     description="A complete taxonomy of my technological skills, frameworks, and tools."
     lang={locale}
 >
