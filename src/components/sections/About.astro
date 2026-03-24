@@ -1,7 +1,7 @@
 ---
 import { getTranslations, useTranslator } from "@i18n";
 import { Image } from "astro:assets";
-import { Icon } from "astro-icon/components";
+
 import type { CuratedProfile } from "../../types";
 
 interface Props {
@@ -10,7 +10,8 @@ interface Props {
     lang: string;
 }
 
-const { profile, lang } = Astro.props;
+const { lang } = Astro.props;
+
 const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
 const __ = await useTranslator(lang);
 ---

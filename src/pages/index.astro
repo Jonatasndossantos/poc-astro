@@ -12,6 +12,7 @@ import { Mode } from "../types";
 import { getTranslations } from "@i18n";
 import { defaultLocale as locale, useTranslator } from "@i18n";
 import type { CuratedProfile } from "../types";
+import { getCollection } from "astro:content";
 
 const lang = Astro.currentLocale || locale;
 const __ = await useTranslator(lang);
@@ -33,9 +34,6 @@ const profileData: CuratedProfile = {
         email: "jonatasndossantos@gmail.com",
     },
 };
-
-import { getCollection } from "astro:content";
-
 
 // Fetch projects collection
 const allProjects = await getCollection("projects");
@@ -71,25 +69,20 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
     <main class="relative w-full overflow-hidden">
         <Hero mode={Mode.FULLSTACK} lang={locale} />
         <div class="relative z-10 bg-base-100">
-            <About
-                profile={profileData}
-                mode={Mode.FULLSTACK}
-                lang={locale}
-            />
-            <Skills
-                mode={Mode.FULLSTACK}
-                lang={locale}
-            />
+            <About profile={profileData} mode={Mode.FULLSTACK} lang={locale} />
+            <Skills mode={Mode.FULLSTACK} lang={locale} />
 
             <Projects projects={currentProjects} lang={locale} />
+
+            <Services lang={locale} />
 
             <section
                 class="w-full py-20 px-6 lg:px-20 bg-base-100 flex flex-col items-center"
             >
                 <div class="max-w-7xl w-full">
                     <h2 class="text-3xl font-bold mb-4 font-syncopate">
-                        {__('Interactive')} <span class="text-primary"
-                            >{__('Knowledge Graph')}</span
+                        {__("Interactive")}
+                        <span class="text-primary">{__("Knowledge Graph")}</span
                         >
                     </h2>
 
@@ -97,7 +90,6 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
                 </div>
             </section>
 
-            <Services lang={locale} />
             <Contact profile={profileData} lang={locale} />
             <Footer lang={locale} />
         </div>
@@ -107,23 +99,33 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
         // Automatic language detection and redirection
         const supportedLocales = ["en", "pt", "fr", "es", "zh", "ja"];
         const defaultLocale = "en";
-        
-        const preferredLocale = localStorage.getItem('preferred-locale');
-        
-        if (preferredLocale && preferredLocale !== defaultLocale && supportedLocales.includes(preferredLocale)) {
+
+        const preferredLocale = localStorage.getItem("preferred-locale");
+
+        if (
+            preferredLocale &&
+            preferredLocale !== defaultLocale &&
+            supportedLocales.includes(preferredLocale)
+        ) {
             // Respect existing preference
             window.location.pathname = `/${preferredLocale}/`;
         } else if (!preferredLocale) {
             // First visit: detect browser language
-            const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || "";
-            const shortLang = browserLang.split('-')[0].toLowerCase();
-            
-            if (shortLang !== defaultLocale && supportedLocales.includes(shortLang)) {
-                localStorage.setItem('preferred-locale', shortLang);
+            const browserLang =
+                (navigator.languages && navigator.languages[0]) ||
+                navigator.language ||
+                "";
+            const shortLang = browserLang.split("-")[0].toLowerCase();
+
+            if (
+                shortLang !== defaultLocale &&
+                supportedLocales.includes(shortLang)
+            ) {
+                localStorage.setItem("preferred-locale", shortLang);
                 window.location.pathname = `/${shortLang}/`;
             } else {
                 // Set default preference so we don't keep detecting
-                localStorage.setItem('preferred-locale', defaultLocale);
+                localStorage.setItem("preferred-locale", defaultLocale);
             }
         }
     </script>
