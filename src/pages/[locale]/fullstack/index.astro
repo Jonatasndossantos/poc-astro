@@ -12,6 +12,8 @@ import { Mode } from "../../../types";
 import { defaultLocale, useTranslator, locales, getTranslations } from "@i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import type { CuratedProfile } from "../../../types";
+import { getCollection } from "astro:content";
+
 
 export function getStaticPaths() {
     return locales
@@ -54,7 +56,8 @@ const allTags = await getCollection("tags");
 const allProjects = await getCollection("projects");
 
 // Pre-process projects for the current language and Mode
-const currentProjects = allProjects.slice(0, 7).map((p) => {
+const currentProjects = allProjects.slice(0, 7).map((p: any) => {
+
     const cleanId = p.id.replace(/\.mdx?$/, "");
     return {
         id: cleanId,
