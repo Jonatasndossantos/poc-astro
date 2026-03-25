@@ -39,7 +39,7 @@ const isGenericDescription =
     !description;
 
 const finalDescription = isGenericDescription
-    ? `Explore how **${title}** is integrated into my ecosystem as a key ${category}.`
+    ? `Explore how **${title}** is integrated into my knowledge base as a key ${category}.`
     : description;
 
 // Parse markdown for the description (to support links, bold, etc.)
@@ -48,7 +48,7 @@ const descriptionHtml = marked.parseInline(finalDescription);
 
 <a
     href={translatePath(`/tags/${id}`)}
-    class="ecosystem-card relative p-5 rounded-box border bg-base-200/30 backdrop-blur-sm transition-all duration-300 group hover:border-primary/50 hover:bg-base-200/80 border-base-content/10 flex flex-col h-full"
+    class="knowledge-card relative p-5 rounded-box border bg-base-200/30 backdrop-blur-sm transition-all duration-300 group hover:border-primary/50 hover:bg-base-200/80 border-base-content/10 flex flex-col h-full"
     data-category={category}
     data-title={title.toLowerCase()}
     aria-label={`View details for ${title}`}

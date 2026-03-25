@@ -1,0 +1,112 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import { useTranslatedPath, useTranslator } from "@i18n";
+import Translate from "../Translate.astro";
+
+interface Props {
+    project: {
+        id: string;
+        title: string;
+        imageUrl: string;
+        demoUrl?: string;
+        repoUrl?: string;
+        technologies: { id: string; name: string }[];
+        displayDescriptionTextKey: string;
+    };
+    lang: string;
+    isFeatured?: boolean;
+    caseStudyLabel: string;
+    viewProjectLabel: string;
+    codeLabel: string;
+}
+
+const { project, lang, isFeatured = false, caseStudyLabel, viewProjectLabel, codeLabel } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+const __ = await useTranslator(lang);
+---
+
+<div
+    class:list={[
+        "card image-full group overflow-hidden bg-base-100 shadow-xl border border-base-content/5",
+        isFeatured ? "md:col-span-2" : "md:col-span-1",
+        "h-[400px]",
+    ]}
+>
+    <figure>
+        <Image
+            src={
+                project.imageUrl ||
+                "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800"
+            }
+            alt={project.title}
+            inferSize={true}
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40"
+        />
+    </figure>
+
+    <div class="card-body justify-end p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+        <div class="flex gap-2 mb-4 flex-wrap">
+            {project.technologies
+                .slice(0, 3)
+                .map((tech) => (
+                    <a
+                        href={translatePath(`/tags/${tech.id}`)}
+                        class="badge badge-outline badge-sm uppercase text-[10px] tracking-wider border-base-content/20 bg-base-100/20 hover:bg-primary hover:text-primary-content transition-colors backdrop-blur-sm text-base-content relative z-20"
+                    >
+                        {tech.name}
+                    </a>
+                ))}
+        </div>
+
+        <h3 class="card-title text-3xl font-bold text-white mb-2 shadow-sm relative z-20">
+            <a
+                href={translatePath(`/projects/${project.id}`)}
+                class="hover:text-primary transition-colors cursor-pointer"
+            >
+                {project.title}
+            </a>
+        </h3>
+        <p class="text-white/80 text-sm line-clamp-2 mb-6 group-hover:text-white transition-colors grow-0 relative z-20">
+            <Translate
+                textKey={project.displayDescriptionTextKey}
+                lang={lang}
+            />
+        </p>
+
+        <div class="card-actions flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 mt-auto relative z-20">
+            <a
+                href={translatePath(`/projects/${project.id}`)}
+                class="btn btn-primary btn-sm rounded-full text-xs"
+                aria-label={`${__("Read Case Study for")} ${project.title}`}
+            >
+                {caseStudyLabel}
+            </a>
+            {project.demoUrl && (
+                <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="btn btn-outline btn-sm rounded-full text-xs border-white/20 text-white hover:bg-white/10"
+                    aria-label={`${__("Demo of")} ${project.title}`}
+                >
+                    <Icon name="lucide:external-link" class="size-4" />
+                    {viewProjectLabel}
+                </a>
+            )}
+            {project.repoUrl && (
+                <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="btn btn-ghost btn-sm rounded-full text-xs text-white hover:bg-base-content/20"
+                    aria-label={`${__("Source Code of")} ${project.title}`}
+                >
+                    <Icon name="lucide:github" class="size-4" />
+                    {codeLabel}
+                </a>
+            )}
+        </div>
+    </div>
+</div>
