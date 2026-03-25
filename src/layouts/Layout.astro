@@ -63,6 +63,19 @@ const ogTitle = title === "Jônatas N. dos Santos" ? title : `${title} | Jônata
 			href="/apple-touch-icon.png"
 		/>
 		<link rel="manifest" href="/site.webmanifest" />
+
+		<!-- Theme Initialization -->
+		<script is:inline>
+			(function() {
+				const savedTheme = localStorage.getItem('theme');
+				if (savedTheme) {
+					document.documentElement.setAttribute('data-theme', savedTheme);
+				} else {
+					// Default to a sensible theme if none saved
+					document.documentElement.setAttribute('data-theme', 'cupcake');
+				}
+			})();
+		</script>
 	</head>
 	<body>
 		<NavBar lang={lang} />

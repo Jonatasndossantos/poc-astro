@@ -1,42 +1,90 @@
 ---
 import { getCollection } from "astro:content";
-import { getTranslations } from "@i18n";
 import Layout from "@layouts/Layout.astro";
+import { getTranslations, useTranslatedPath } from "@i18n";
+import SectionHeader from "@components/ui/SectionHeader.astro";
+import SearchFilters from "@components/ui/SearchFilters.astro";
+import ServiceCard from "@components/ui/ServiceCard.astro";
+import GraphIsland from "@components/GraphIsland.astro";
 
 const { lang: locale } = Astro.props;
-const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<string, any>;
+const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
+    string,
+    any
+>;
+const translatePath = useTranslatedPath(locale);
+
 const allServices = await getCollection("services");
 
+const iconMap: Record<string, string> = {
+    "architecture-design": "lucide:globe",
+    "performance-tuning": "lucide:cpu",
+    "security-audit": "lucide:shield",
+    "automation-cicd": "lucide:terminal"
+};
 ---
 
 <Layout
-    title={`Services | ${tPortfolio.ecosystem.title}`}
-    description="Professional services and offerings."
+    title={tPortfolio.services.title}
+    description={tPortfolio.services.desc || tPortfolio.services.title}
     lang={locale}
 >
     <main class="w-full min-h-screen bg-base-100 pt-32 pb-20 px-6 lg:px-20 relative">
-        <div class="max-w-4xl mx-auto z-10 relative">
-            <h1 class="text-4xl md:text-5xl font-bold font-syncopate mb-12">
-                Services
-            </h1>
+        <div class="max-w-7xl mx-auto">
+            <SectionHeader 
+                label={tPortfolio.services.label}
+                title={tPortfolio.services.title}
+                highlightedTitle={tPortfolio.services.highlightedTitle}
+                description={tPortfolio.services.desc}
+                viewAllLink={translatePath("/ecosystem")}
+                viewAllLabel={tPortfolio.ui.exploreKnowledge}
+            />
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {allServices.map((service) => (
-                    <a 
-                        href={`/${locale}/services/${service.id.replace(/\.mdx?$/, "")}`}
-                        class="card bg-base-200/50 hover:bg-base-200 transition-colors border border-base-content/5 group"
-                    >
-                        <div class="card-body p-8">
-                            <h2 class="card-title text-2xl group-hover:text-primary transition-colors mb-4">
-                                {service.data.title}
-                            </h2>
-                            <p class="opacity-70 mb-6">Professional tailored service</p>
-                            <div class="card-actions justify-end">
-                                <span class="btn btn-primary btn-sm">Learn More</span>
+            <SearchFilters 
+                searchPlaceholder={tPortfolio.knowledge.search}
+                allLabel={tPortfolio.knowledge.all}
+                filterByLabel={tPortfolio.knowledge.filterBy}
+                gridId="services-grid"
+                cardClass="service-card-filter"
+            />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+                {
+                    allServices.map((service) => {
+                        const cleanId = service.id.replace(/\.mdx?$/, "");
+                        const iconName = iconMap[cleanId] || "lucide:terminal";
+                        return (
+                            <div class="service-card-filter h-full" data-title={service.data.title}>
+                                <ServiceCard 
+                                    id={cleanId}
+                                    title={service.data.title}
+                                    description={service.data.description || ""}
+                                    icon={iconName}
+                                    lang={locale}
+                                />
                             </div>
-                        </div>
-                    </a>
-                ))}
+                        );
+                    })
+                }
+            </div>
+
+            <div id="no-results" class="hidden text-center py-20 w-full bg-base-200/20 rounded-3xl border border-dashed border-base-content/10 mt-8">
+                <p class="text-2xl font-bold opacity-30">
+                    {tPortfolio.knowledge.noResults}
+                </p>
+                <p class="text-sm opacity-50 mt-2">
+                    {tPortfolio.knowledge.tryAdjusting}
+                </p>
+            </div>
+
+            <!-- Knowledge Graph Section -->
+            <div class="mt-32">
+                 <SectionHeader 
+                    label={tPortfolio.graph.title}
+                    title={tPortfolio.ui.Interactive}
+                    highlightedTitle={tPortfolio.ui["Knowledge Graph"]}
+                 />
+                 <GraphIsland lang={locale} />
             </div>
         </div>
     </main>

@@ -9,12 +9,13 @@ import Contact from "@components/sections/Contact.astro";
 import Footer from "@components/layout/Footer.astro";
 import GraphIsland from "@components/GraphIsland.astro";
 import { Mode } from "../../../types";
-import { getTranslations, useTranslator } from "@i18n";
+import { getTranslations, useTranslator, useTranslatedPath } from "@i18n";
 import type { CuratedProfile } from "../../../types";
 import { getCollection } from "astro:content";
 
 const { lang: locale } = Astro.props;
 const __ = await useTranslator(locale);
+const translatePath = useTranslatedPath(locale);
 
 const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
     string,
@@ -85,11 +86,21 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
                 class="w-full py-20 px-6 lg:px-20 bg-base-100 flex flex-col items-center"
             >
                 <div class="max-w-7xl w-full">
-                    <h2 class="text-3xl font-bold mb-4 font-syncopate">
-                        {__("Interactive")}
-                        <span class="text-primary">{__("Knowledge Graph")}</span
-                        >
-                    </h2>
+                    <div class="flex justify-between items-end mb-8">
+                        <div>
+                            <h2 class="text-xs font-bold text-primary tracking-widest uppercase mb-2">
+                                // {tPortfolio.graph.title}
+                            </h2>
+                            <h3 class="text-3xl md:text-5xl font-bold font-syncopate">
+                                {tPortfolio.ui.Interactive}
+                                <span class="text-primary">{tPortfolio.ui["Knowledge Graph"]}</span>
+                            </h3>
+                        </div>
+                        <a href={translatePath("/tags")} class="btn btn-ghost btn-sm group/eco">
+                            {tPortfolio.ui.exploreKnowledge}
+                            <span class="group-hover/eco:translate-x-1 transition-transform">&rarr;</span>
+                        </a>
+                    </div>
 
                     <GraphIsland lang={locale} />
                 </div>
@@ -97,6 +108,7 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
 
             <Contact profile={profileData} lang={locale} />
             <Footer lang={locale} />
+            <slot />
         </div>
     </main>
 </Layout>
