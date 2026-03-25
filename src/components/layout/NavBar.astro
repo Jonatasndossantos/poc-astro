@@ -5,231 +5,261 @@ import { useTranslator, useTranslatedPath } from "@i18n";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 
-const { lang } = Astro.props;
-const translatePath = useTranslatedPath(lang);
-const __ = await useTranslator(lang);
+const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
+    { label: "Services", href: "/services" },
+    { label: "Blog", href: "/blog" },
+];
 
 const navName = "SANTOS";
 const navPrefix = ".DEV";
 
-const iconLinks: {
-    label: string;
-    href: string;
-    icon: string;
-}[] = [
+const iconLinks = [
     {
         label: "GitHub",
         href: "https://github.com/jonatasndossantos",
         icon: "simple-icons:github",
     },
 ];
+
+const { lang } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+const __ = await useTranslator(lang);
+
+// Logic to determine active link
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === "/" || currentPath === `/${lang}/` || currentPath === `/${lang}`;
 ---
 
-<div class="drawer drawer-end fixed top-0 w-full z-50 pointer-events-none">
-    <input
-        id="nav-drawer"
-        type="checkbox"
-        class="drawer-toggle"
-        aria-label="Toggle Navigation"
-    />
-
-    <div class="drawer-content pointer-events-auto flex flex-col w-full">
-        <!-- Navbar -->
-        <div
-            class="navbar w-full bg-base-100/20 backdrop-blur-xl border-b border-base-content/10 text-base-content"
-        >
-            <div
-                class="mx-auto flex w-full max-w-7xl items-center px-4 sm:px-6 lg:px-8"
+<header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <nav 
+        class="w-full max-w-5xl h-16 bg-base-100/60 backdrop-blur-2xl border border-base-content/10 flex items-center justify-between px-6 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] pointer-events-auto transition-all duration-500 ease-out hover:border-primary/20"
+        id="main-nav"
+    >
+        <!-- Brand / Logo -->
+        <div class="flex items-center gap-4">
+            <a
+                href={translatePath("/")}
+                class="flex items-center gap-3 group"
+                aria-label={`${navName} ${navPrefix}`}
             >
-                <div class="navbar-start">
-                    <a
-                        href={translatePath("/")}
-                        class="btn btn-ghost h-auto"
-                        aria-label={`${navName} ${navPrefix}`}
-                    >
-                        <div class="relative flex items-center justify-center">
-                            <Image
-                                src="/favicon.svg"
-                                alt="Logo"
-                                width={24}
-                                height={24}
-                                loading="eager"
-                                class="size-6 relative z-10 transition-transform hover:rotate-12"
-                                aria-hidden="true"
-                            />
-                            <div
-                                class="absolute inset-0 blur-md rounded-full bg-base-content/10"
-                            >
-                            </div>
-                        </div>
-                        <div class="flex flex-col text-left">
-                            <span
-                                class="mt-auto pt-1.5 font-bold text-base leading-tight tracking-wider text-base-content group-hover:text-primary transition-colors"
-                            >
-                                {navName}
-                                <span class="opacity-50">{navPrefix}</span>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="navbar-end gap-2 pr-2 w-full flex justify-end">
-                    <div class="hidden lg:flex items-center gap-2">
-                        <a
-                            href={translatePath("/ecosystem")}
-                            class="btn btn-ghost btn-sm btn-circle mr-2 hidden lg:flex"
-                            aria-label={__("Search")}
-                            title={__("Search")}
-                        >
-                            <Icon
-                                name="lucide:search"
-                                class="size-5"
-                                aria-hidden="true"
-                            />
-                        </a>
-                        {
-                            iconLinks.map((link) => (
-                                <a
-                                    href={link.href}
-                                    class="btn btn-ghost btn-sm btn-circle"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    title={__(link.label)}
-                                    aria-label={__(link.label)}
-                                >
-                                    <Icon name={link.icon} class="size-5" />
-                                    <span class="sr-only">
-                                        {__(link.label)}
-                                    </span>
-                                </a>
-                            ))
-                        }
-                        <div class="w-px h-6 bg-base-content/20 mx-2"></div>
-                        <ThemeToggle locale={lang} class="hidden lg:flex" />
-                        <div class="w-px h-6 bg-base-content/20 mx-2"></div>
-                        <LanguageToggle currentLocale={lang} />
-                    </div>
-
-                    <!-- Hamburger Mobile (Now on the right) -->
-                    <div class="flex-none lg:hidden">
-                        <button
-                            type="button"
-                            onclick="document.getElementById('nav-drawer').click()"
-                            aria-label={__("Open Menu")}
-                            class="btn btn-square btn-ghost"
-                        >
-                            <Icon
-                                name="lucide:menu"
-                                class="size-6"
-                                aria-hidden="true"
-                            />
-                            <span class="sr-only">{__("Open Menu")}</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile Sidebar -->
-    <div class="drawer-side pointer-events-auto z-100">
-        <div
-            onclick="document.getElementById('nav-drawer').click()"
-            aria-hidden="true"
-            class="drawer-overlay"
-        >
-        </div>
-        <div
-            class="flex flex-col p-6 w-80 min-h-full bg-base-200 text-base-content shadow-2xl"
-        >
-            <div
-                class="flex items-center justify-between mb-8 pb-4 border-b border-base-content/10"
-            >
-                <span class="text-xl font-bold">{__("Preferences")}</span>
-                <button
-                    type="button"
-                    onclick="document.getElementById('nav-drawer').click()"
-                    aria-label={__("Close Menu")}
-                    class="btn btn-circle btn-ghost btn-sm"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                <div class="relative flex items-center justify-center size-9">
+                    <div class="absolute inset-0 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/40 transition-colors"></div>
+                    <Image
+                        src="/favicon.svg"
+                        alt="Logo"
+                        width={30}
+                        height={30}
+                        loading="eager"
+                        class="size-7 relative z-10 transition-transform group-hover:rotate-12 group-hover:scale-110"
                         aria-hidden="true"
-                        ><path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path></svg
+                    />
+                </div>
+                <div class="hidden sm:flex flex-col">
+                    <span class="font-bold text-sm tracking-widest text-base-content leading-none">
+                        {navName}<span class="text-primary">{navPrefix}</span>
+                    </span>
+                    <span class="text-[9px] font-medium opacity-40 uppercase tracking-[0.2em] -mt-0.5 whitespace-nowrap">
+                        Software Architect
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center bg-base-content/5 p-1 rounded-2xl border border-base-content/5">
+            {navLinks.map((link) => {
+                const href = translatePath(link.href);
+                const isActive = (link.href === "/" && isHome) || (link.href !== "/" && currentPath.includes(link.href));
+                
+                return (
+                    <a
+                        href={href}
+                        class:list={[
+                            "px-5 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl transition-all duration-300 relative group",
+                            isActive ? "text-primary-content bg-primary shadow-lg shadow-primary/20" : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
+                        ]}
                     >
-                    <span class="sr-only">{__("Close Menu")}</span>
-                </button>
+                        {__(link.label)}
+                        {isActive && (
+                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full blur-[2px] opacity-50"></span>
+                        )}
+                    </a>
+                )
+            })}
+        </div>
+
+        <!-- Search & Actions -->
+        <div class="flex items-center gap-2">
+            <!-- Ecosystem/Brain Shortcut -->
+             <a
+                href={translatePath("/tags")}
+                class="btn btn-ghost btn-sm btn-circle text-base-content/60 hover:text-primary transition-colors hidden sm:flex"
+                aria-label={__("knowledge.title")}
+                title={__("knowledge.title")}
+            >
+                <Icon name="lucide:brain" class="size-5" />
+            </a>
+
+            <div class="hidden md:flex items-center gap-2 border-l border-base-content/10 pl-2 ml-2">
+                <ThemeToggle locale={lang} />
+                <LanguageToggle currentLocale={lang} />
             </div>
 
-            <div class="flex flex-col gap-6">
-                <!-- Ecosystem Link Mobile -->
-                <a
-                    href={translatePath("/ecosystem")}
-                    title={__("Search")}
-                    aria-label={__("Search")}
-                    class="btn btn-primary w-full shadow-md flex items-center justify-center"
-                >
-                    <Icon name="lucide:search" class="size-6" />
-                </a>
+            <!-- Mobile Menu Trigger -->
+            <button 
+                type="button" 
+                class="lg:hidden btn btn-sm btn-circle btn-ghost"
+                id="mobile-menu-trigger"
+                aria-label="Open navigation menu"
+            >
+                <Icon name="lucide:menu" class="size-5" />
+            </button>
+        </div>
+    </nav>
+</header>
 
-                <!-- Socials -->
-                <div class="flex flex-col gap-3 mt-2">
-                    <span
-                        class="text-sm font-medium opacity-60 uppercase tracking-widest px-1"
-                        >{__("Network")}</span
-                    >
-                    <div
-                        class="flex flex-col gap-2 bg-base-100 p-2 rounded-xl border border-base-content/5"
-                    >
-                        {
-                            iconLinks.map((link) => (
-                                <a
-                                    href={link.href}
-                                    class="btn btn-ghost w-full justify-between h-auto py-3 px-4"
-                                    target="_blank"
-                                    rel="noopener"
-                                    title={__(link.label)}
-                                    aria-label={__(link.label)}
-                                >
-                                    <div class="flex items-center gap-3">
-                                        <Icon name={link.icon} class="size-6" />
-                                        <span class="font-medium text-sm">
-                                            {__(link.label)}
-                                        </span>
-                                    </div>
-                                    <Icon
-                                        name="lucide:external-link"
-                                        class="size-4 opacity-50"
-                                    />
-                                </a>
-                            ))
-                        }
-                    </div>
-                </div>
+<!-- Fullscreen Mobile Menu -->
+<div 
+    id="mobile-menu-overlay" 
+    class="fixed inset-0 z-[100] bg-base-100/90 backdrop-blur-2xl transition-all duration-500 flex flex-col items-center justify-center invisible opacity-0 translate-y-4"
+>
+    <!-- Close Button -->
+    <button 
+        type="button" 
+        class="absolute top-10 right-10 btn btn-circle btn-ghost btn-lg"
+        id="mobile-menu-close"
+        aria-label="Close navigation menu"
+    >
+        <Icon name="lucide:x" class="size-8" />
+    </button>
 
-                <!-- Settings -->
-                <div class="flex flex-col gap-4 mt-4">
-                    <span
-                        class="text-sm font-medium opacity-60 uppercase tracking-widest px-1"
-                        >{__("Interface")}</span
+        <!-- Mobile Links -->
+    <nav class="flex flex-col items-center gap-8 px-10 w-full max-w-md">
+        {navLinks.map((link, i) => (
+            <a 
+                href={translatePath(link.href)} 
+                class="text-4xl md:text-5xl font-black font-syncopate uppercase tracking-tighter hover:text-primary transition-all mobile-nav-link"
+                style={`transition-delay: ${i * 50}ms`}
+                aria-label={__(link.label)}
+            >
+                {__(link.label)}
+            </a>
+        ))}
+
+        <div class="w-full h-px bg-base-content/10 my-8"></div>
+
+        <!-- Ecosystem & Settings Mobile -->
+        <div class="flex flex-col items-center gap-10 w-full">
+            <a 
+                href={translatePath("/tags")} 
+                class="btn btn-primary btn-lg rounded-2xl w-full flex items-center justify-center gap-4 group"
+                aria-label={__("knowledge.title")}
+            >
+                <Icon name="lucide:brain" class="size-6 transition-transform group-hover:rotate-12" />
+                <span class="font-syncopate font-bold text-sm uppercase">{__("knowledge.title")}</span>
+            </a>
+
+            <div class="flex items-center gap-8 scale-125">
+                 <ThemeToggle locale={lang} />
+                 <LanguageToggle currentLocale={lang} />
+            </div>
+
+            <!-- Social Links in Menu -->
+            <div class="flex gap-6 mt-4">
+                {iconLinks.map(link => (
+                    <a 
+                        href={link.href} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        class="btn btn-circle btn-ghost text-base-content/40 hover:text-primary hover:bg-primary/10"
+                        aria-label={`${__("Follow on")} ${link.label}`}
+                        title={link.label}
                     >
-                    <div
-                        class="flex flex-col gap-2 bg-base-100 p-2 rounded-xl border border-base-content/5"
-                    >
-                        <ThemeToggle locale={lang} class="w-full" />
-                        <div class="divider my-0 opacity-10"></div>
-                        <LanguageToggle currentLocale={lang} class="w-full" />
-                    </div>
-                </div>
+                        <Icon name={link.icon} class="size-6" />
+                    </a>
+                ))}
             </div>
         </div>
-    </div>
+    </nav>
 </div>
+
+<script>
+    function setupNav() {
+        const trigger = document.getElementById('mobile-menu-trigger');
+        const close = document.getElementById('mobile-menu-close');
+        const overlay = document.getElementById('mobile-menu-overlay');
+        const links = document.querySelectorAll('.mobile-nav-link');
+        const nav = document.getElementById('main-nav');
+
+        if (!trigger || !overlay || !close) return;
+
+        const openMenu = () => {
+            overlay.classList.remove('invisible', 'opacity-0', 'translate-y-4');
+            document.body.style.overflow = 'hidden';
+            
+            // Trigger link animations
+            links.forEach((link, i) => {
+                setTimeout(() => {
+                    (link as HTMLElement).style.opacity = '1';
+                    (link as HTMLElement).style.transform = 'translateY(0)';
+                }, 100 + (i * 100));
+            });
+        };
+
+        const closeMenu = () => {
+            overlay.classList.add('invisible', 'opacity-0', 'translate-y-4');
+            document.body.style.overflow = 'auto';
+            
+            links.forEach(link => {
+                (link as HTMLElement).style.opacity = '0';
+                (link as HTMLElement).style.transform = 'translateY(20px)';
+            });
+        };
+
+        trigger.addEventListener('click', openMenu);
+        close.addEventListener('click', closeMenu);
+
+        // Close on link click
+        links.forEach(link => link.addEventListener('click', closeMenu));
+
+        // Scroll management (shrink/reveal effect)
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            if (!nav) return;
+            const currentScroll = window.scrollY;
+            
+            if (currentScroll > 100) {
+                nav.classList.add('px-4', 'max-w-4xl');
+                nav.classList.remove('max-w-5xl');
+                nav.style.height = '60px';
+            } else {
+                nav.classList.remove('px-4', 'max-w-4xl');
+                nav.classList.add('max-w-5xl');
+                nav.style.height = '72px';
+            }
+            
+            if (currentScroll > lastScroll && currentScroll > 200) {
+                // Scrolling down - hide nav
+                (nav.parentElement as HTMLElement).style.transform = 'translateY(-120%)';
+            } else {
+                // Scrolling up - show nav
+                (nav.parentElement as HTMLElement).style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
+    }
+
+    // Run on init and Astro view transitions
+    document.addEventListener("astro:page-load", setupNav);
+    setupNav();
+</script>
+
+<style>
+    .mobile-nav-link {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+</style>

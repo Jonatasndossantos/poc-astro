@@ -1,5 +1,6 @@
 ---
 import { getTranslations, useTranslatedPath, useTranslator } from "@i18n";
+import { Icon } from "astro-icon/components";
 
 interface Props {
     lang: string;
@@ -37,7 +38,7 @@ const __ = await useTranslator(lang);
         </div>
 
         <nav
-            class="flex gap-8 text-xs font-mono text-base-content/70 flex-wrap justify-center"
+            class="flex gap-6 md:gap-8 text-xs font-mono text-base-content/70 flex-wrap justify-center uppercase tracking-widest"
         >
             <a
                 href={translatePath("/")}
@@ -45,17 +46,31 @@ const __ = await useTranslator(lang);
                 >{__('Home')}</a
             >
             <a
-                href={translatePath("/ecosystem")}
-                class="hover:text-primary font-bold uppercase tracking-wider text-primary transition-colors"
-                >{__('Ecosystem')}</a
-            >
-            <a href="#about" class="hover:text-primary transition-colors"
-                >{__('About us')}</a
-            >
-            <a href="#projects" class="hover:text-primary transition-colors"
+                href={translatePath("/projects")}
+                class="hover:text-primary transition-colors"
                 >{__('Work')}</a
             >
-            <a href="#contact" class="hover:text-primary transition-colors"
+            <a
+                href={translatePath("/services")}
+                class="hover:text-primary transition-colors"
+                >{__('Services')}</a
+            >
+            <a
+                href={translatePath("/blog")}
+                class="hover:text-primary transition-colors"
+                >{__('Blog')}</a
+            >
+            <a
+                href={translatePath("/tags")}
+                class="hover:text-primary transition-colors"
+                aria-label={__("knowledge.title")}
+                title={__("knowledge.title")}
+            >
+                <Icon name="lucide:brain" class="size-5" />
+            </a>
+            <a
+                href={translatePath("/#contact")}
+                class="hover:text-primary transition-colors"
                 >{__('Contact')}</a
             >
         </nav>
