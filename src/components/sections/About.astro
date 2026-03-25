@@ -1,8 +1,8 @@
 ---
 import { getTranslations, useTranslator } from "@i18n";
 import { Image } from "astro:assets";
-
 import type { CuratedProfile } from "../../types";
+import SectionHeader from "@components/ui/SectionHeader.astro";
 
 interface Props {
     profile: CuratedProfile;
@@ -16,7 +16,7 @@ const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
 const __ = await useTranslator(lang);
 ---
 
-<section id="about" class="py-32 px-6 lg:px-20 relative z-10">
+<section id="about" class="py-32 px-6 lg:px-20 relative z-10 bg-base-100">
     <div
         class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center"
     >
@@ -39,26 +39,23 @@ const __ = await useTranslator(lang);
                         alt={__("Profile")}
                         width={320}
                         height={320}
+                        loading="lazy"
                         class="w-full h-full object-cover"
                     />
                 </div>
             </div>
         </div>
 
-        <!-- Text & Skills -->
+        <!-- Text & Info -->
         <div class="w-full md:w-2/3">
-            <h2
-                class="text-xs font-bold text-primary tracking-widest uppercase mb-4"
-            >
-                // {t.about.title}
-            </h2>
-            <h3
-                class="text-3xl md:text-5xl font-bold text-base-content mb-6 leading-tight"
-                set:html={t.about.heading}
+            <SectionHeader 
+                label={t.about.label}
+                title={t.about.title}
+                highlightedTitle={t.about.highlightedTitle}
             />
 
-            <p class="text-base-content/70 text-lg leading-relaxed mb-12">
-                {t.about.bio}
+            <p class="text-base-content/70 text-lg leading-relaxed mb-12 border-l-2 border-primary/20 pl-6 text-balance">
+                {t.about.bio || ""}
             </p>
         </div>
     </div>
