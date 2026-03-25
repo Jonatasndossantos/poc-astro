@@ -1,98 +1,71 @@
 {
   "about": {
-    "title": "About Developer",
-    "heading": "Engineering digital experiences with <span class=\"text-primary\">precision & passion.</span>"
+    "label": "開発者",
+    "title": "設計と",
+    "highlightedTitle": "デジタル体験",
+    "bio": "堅牢なロジックと流動的なデザインのギャップを埋め、没入型のデジタル体験を作成します。データベースからピクセルまで、完全なソリューションを提供します。"
   },
   "skills": {
-    "title": "Technical Arsenal",
-    "desc": "Prioritized toolkit for %mode%. Items are dynamically reordered based on the active dimension.",
-    "core": "Core",
-    "power": "Power"
+    "label": "テクノロジー",
+    "title": "テクニカル",
+    "highlightedTitle": "アルセナル",
+    "desc": "現在のアクティブなディメンションに基づいて動的に再配置されたツールキット。",
+    "core": "コア",
+    "power": "パワー"
   },
   "projects": {
-    "title": "Selected Works",
-    "heading": "Featured Projects",
-    "viewProject": "View Project",
-    "code": "Code",
-    "caseStudy": "ケーススタディ"
-  },
-  "services": {
-    "title": "Core Services",
-    "items": [
-      {
-        "title": "Architecture Design",
-        "desc": "Building scalable blueprints for complex systems."
+    "label": "ポートフォリオ",
+    "title": "注目の",
+    "highlightedTitle": "プロジェクト",
+    "viewProject": "プロジェクトを見る",
+    "code": "コード",
+    "caseStudy": "ケーススタディ",
+    "items": {
+      "gov-docs-ai": {
+        "id": "7", "title": "Public Docs AI", "slug": "gov-docs-ai",
+        "description": { "fullstack": "AIとLaravelを使用した公的文書生成の自動化システム。", "frontend": "ReactとInertia.jsを使用したモダンでレスポンシブなインターフェース。" }
       },
-      {
-        "title": "Performance Tuning",
-        "desc": "Optimizing render cycles and database queries."
+      "vitanexus": {
+        "id": "8", "title": "VitaNexus", "slug": "vitanexus",
+        "description": { "fullstack": "LaravelとBootstrapを使用した総合的な健康モニタリングアプリ。" }
       },
-      {
-        "title": "Security Audits",
-        "desc": "Fortifying applications against modern threats."
+      "jynsge-news": {
+        "id": "9", "title": "JYNSGE News", "slug": "jynsge-news",
+        "description": { "fullstack": "LaravelとTailwindを使用して構築された、誤報と戦うテックニュースポータル。" }
       },
-      {
-        "title": "Automation",
-        "desc": "CI/CD pipelines that deploy while you sleep."
+      "zk-business-support": {
+        "id": "10", "title": "ZK Business Support", "slug": "zk-business-support",
+        "description": { "fullstack": "ローカルSEOの最適化とカスタムCSSスタイリングを備えたWordPressソリューション。" }
+      },
+      "espresso-d-amore": {
+        "id": "11", "title": "Espresso D' Amore", "slug": "espresso-d-amore",
+        "description": { "fullstack": "管理用のLaravel/Inertia ERPと、注文/支払い用のExpo携帯アプリのデュアルエコシステム。" }
+      },
+      "la-pool-club": {
+        "id": "12", "title": "LA Pool Club", "slug": "la-pool-club",
+        "description": { "fullstack": "UI/UXの向上とCSSのスタイリング、システムレイアウトの回復に焦点を当てたWordPressソリューション。" }
+      },
+      "brighton-cakes": {
+        "id": "13", "title": "Brighton Cakes", "slug": "brighton-cakes",
+        "description": { "fullstack": "特注のテーマ、パフォーマンスの最適化を特徴とするカスタムWordPressサイト。" }
       }
-    ]
-  },
-  "contact": {
-    "title": "Get In Touch",
-    "heading": "Let's build the future.",
-    "desc": "Open for collaborations, freelance projects, or just a chat about the next big thing in tech.",
-    "email": "Email",
-    "messageSent": "Message Sent!",
-    "sendAnother": "Send Another",
-    "nameLabel": "Name",
-    "emailLabel": "Email",
-    "messageLabel": "Message",
-    "sendMessage": "Send Message",
-    "sending": "Sending...",
-    "somethingWrong": "Something went wrong. Please try again later."
-  },
-  "footer": {
-    "copyright": "Multiverse Portfolio",
-    "links": {
-      "home": "HOME",
-      "about": "ABOUT",
-      "work": "WORK",
-      "contact": "CONTACT"
     }
   },
-  "ecosystem": {
-    "title": "技術エコシステム",
-    "desc": "プロジェクトで熟練し、活用しているツール、言語、フレームワークで構成される中心的な神経システム。",
-    "search": "技術を検索...",
-    "noResults": "技術が見つかりませんでした。",
-    "tryAdjusting": "検索語やフィルターを調整してみてください。",
-    "badgeFramework": "フレームワーク",
-    "badgeLanguage": "言語",
-    "badgeCloud": "クラウド",
-    "badgeData": "データ",
-    "badgeAi": "AI",
-    "badgeTool": "ツール"
+  "services": {
+    "label": "専門知識",
+    "title": "設計",
+    "highlightedTitle": "サービス",
+    "desc": "モダンな技術システムのためのスケーラブルな建築ソリューション。",
+    "items": [
+      { "title": "建築設計", "desc": "複雑なシステムのためのスケーラブルな設計図。" },
+      { "title": "性能調整", "desc": "描画サイクルとデータベースの最適化。" }
+    ]
   },
-  "graph": {
-    "title": "インタラクティブ知識グラフ",
-    "desc": "これは私の「第二の脳」ネットワーク全体をプロットしたものです。実際の .mdx ノードとその意味的な関係（トピック、タグ、サービス）が表示されています。ノードのズームやドラッグを試してみてください！",
-    "knowledgeTitle": "知識グラフ",
-    "noConnections": "「第二の脳」にはまだ %name% にマップされた接続がありません。"
-  },
-  "taxonomy": {
-    "relatedProjects": "使用プロジェクト",
-    "relatedArticles": "関連記事",
-    "relatedServices": "関連サービス",
-    "projectsUsingService": "このサービスを使用するプロジェクト",
-    "projectsMappedTo": "このトピックにマップされたプロジェクト",
-    "secondBrainNotes": "第二の脳ノート",
-    "contextDeepDives": "📚 文脈と技術的な深掘り",
-    "readMoreTech": "このプロジェクトの背後にある技術的な決定について詳しく読む：",
-    "needSimilarResults": "🤝 同様の成果が必要ですか？",
-    "specializedServices": "このようなソリューションの構築を支援するための専門的なサービスを提供しています。",
-    "backToPortfolio": "← ポートフォリオに戻る",
-    "backToEcosystem": "← エコシステムに戻る",
-    "backToServices": "← サービスに戻る",
-    "startingAt": "開始価格"
-  }
+  "contact": { "title": "お問い合わせ", "heading": "未来を築きましょう。" },
+  "footer": { "copyright": "Jônatas Nascimento dos Santos", "links": { "home": "ホーム", "about": "サイトについて", "work": "作品", "contact": "連絡先" } },
+  "blog": { "title": "テックブログ", "desc": "ソフトウェア工学と設計に関する考察。" },
+  "knowledge": { "title": "技術ナレッジ", "desc": "技術の探索。", "search": "検索...", "all": "すべて", "filterBy": "フィルター" },
+  "graph": { "title": "ナレッジグラフ", "desc": "第2の脳ネットワーク。" },
+  "taxonomy": { "backToPortfolio": "← 戻る", "startingAt": "開始価格" },
+  "ui": { "View All": "すべて見る", "exploreKnowledge": "技術を探索", "Interactive": "インタラクティブ", "Knowledge Graph": "ナレッジグラフ" }
 }
