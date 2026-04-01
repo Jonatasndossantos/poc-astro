@@ -1,6 +1,6 @@
 ---
 title: "Laravel"
-icon: "lucide:layers"
+icon: "simple-icons:laravel"
 description: "Expertise in high-performance Laravel engineering using Octane, FrankenPHP, and complex Multi-Tenancy SaaS patterns."
 category: "framework"
 relevance:

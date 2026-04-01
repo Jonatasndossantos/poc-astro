@@ -1,5 +1,6 @@
 ---
 title: "AI Engineering: RAG Legal Chatbot"
+description: "Advanced assistant capable of 'reading' legal contexts and analyzing proprietary user files to democratize information access."
 heroImage: "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800"
 relatedTopics:
   - "artificial-intelligence"

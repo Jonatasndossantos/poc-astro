@@ -2,7 +2,7 @@
 title: "OpenAI"
 description: "Expertise in building Contextual AI solutions using RAG (Retrieval-Augmented Generation), Function Calling, and Granular JSON Mode."
 category: "ai"
-icon: "lucide:message-square"
+icon: "simple-icons:openai"
 relevance:
     fullstack: 10
     ai: 10
