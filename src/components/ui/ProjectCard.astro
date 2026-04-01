@@ -2,7 +2,6 @@
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { useTranslatedPath, useTranslator } from "@i18n";
-import Translate from "../Translate.astro";
 
 interface Props {
     project: {
@@ -12,7 +11,7 @@ interface Props {
         demoUrl?: string;
         repoUrl?: string;
         technologies: { id: string; name: string }[];
-        displayDescriptionTextKey: string;
+        description: string;
     };
     lang: string;
     isFeatured?: boolean;
@@ -39,8 +38,9 @@ const __ = await useTranslator(lang);
                 project.imageUrl ||
                 "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800"
             }
-            alt={project.title}
-            inferSize={true}
+            alt={__(project.title)}
+            width={800}
+            height={600}
             loading="lazy"
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40"
         />
@@ -55,7 +55,7 @@ const __ = await useTranslator(lang);
                         href={translatePath(`/tags/${tech.id}`)}
                         class="badge badge-outline badge-sm uppercase text-[10px] tracking-wider border-base-content/20 bg-base-100/20 hover:bg-primary hover:text-primary-content transition-colors backdrop-blur-sm text-base-content relative z-20"
                     >
-                        {tech.name}
+                        {__(tech.name)}
                     </a>
                 ))}
         </div>
@@ -65,21 +65,18 @@ const __ = await useTranslator(lang);
                 href={translatePath(`/projects/${project.id}`)}
                 class="hover:text-primary transition-colors cursor-pointer"
             >
-                {project.title}
+                {__(project.title)}
             </a>
         </h3>
         <p class="text-white/80 text-sm line-clamp-2 mb-6 group-hover:text-white transition-colors grow-0 relative z-20">
-            <Translate
-                textKey={project.displayDescriptionTextKey}
-                lang={lang}
-            />
+            {__(project.description)}
         </p>
 
         <div class="card-actions flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 mt-auto relative z-20">
             <a
                 href={translatePath(`/projects/${project.id}`)}
                 class="btn btn-primary btn-sm rounded-full text-xs"
-                aria-label={`${__("Read Case Study for")} ${project.title}`}
+                aria-label={`${__("Read Case Study for")} ${__(project.title)}`}
             >
                 {caseStudyLabel}
             </a>
@@ -89,7 +86,7 @@ const __ = await useTranslator(lang);
                     target="_blank"
                     rel="noreferrer"
                     class="btn btn-outline btn-sm rounded-full text-xs border-white/20 text-white hover:bg-white/10"
-                    aria-label={`${__("Demo of")} ${project.title}`}
+                    aria-label={`${__("Demo of")} ${__(project.title)}`}
                 >
                     <Icon name="lucide:external-link" class="size-4" />
                     {viewProjectLabel}
@@ -101,7 +98,7 @@ const __ = await useTranslator(lang);
                     target="_blank"
                     rel="noreferrer"
                     class="btn btn-ghost btn-sm rounded-full text-xs text-white hover:bg-base-content/20"
-                    aria-label={`${__("Source Code of")} ${project.title}`}
+                    aria-label={`${__("Source Code of")} ${__(project.title)}`}
                 >
                     <Icon name="lucide:github" class="size-4" />
                     {codeLabel}

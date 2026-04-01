@@ -16,11 +16,6 @@ import { getCollection } from "astro:content";
 const { lang: locale } = Astro.props;
 const __ = await useTranslator(locale);
 const translatePath = useTranslatedPath(locale);
-
-const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
-    string,
-    any
->;
 const profile = (await getTranslations(locale, "profile")) as Record<
     string,
     unknown
@@ -67,11 +62,7 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
 });
 ---
 
-<Layout
-    title={__("Home") ?? "Fullstack"}
-    description={`${role} — ${bio.slice(0, 120)}...`}
-    lang={locale}
->
+<Layout lang={locale}>
     <main class="relative w-full overflow-hidden">
         <Hero mode={Mode.FULLSTACK} lang={locale} />
         <div class="relative z-10 bg-base-100">
@@ -89,15 +80,18 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
                     <div class="flex justify-between items-end mb-8">
                         <div>
                             <h2 class="text-xs font-bold text-primary tracking-widest uppercase mb-2">
-                                // {tPortfolio.graph.title}
+                                {__("Connection of Knowledge")}
                             </h2>
                             <h3 class="text-3xl md:text-5xl font-bold font-syncopate">
-                                {tPortfolio.ui.Interactive}
-                                <span class="text-primary">{tPortfolio.ui["Knowledge Graph"]}</span>
+                                {__("Interactive")}
+                                <span class="text-primary">{__("Ecosystem")}</span>
                             </h3>
+                            <p class="text-sm opacity-60 mt-2 max-w-sm">
+                                {__("This graph is clickable and navigable. Explore the nodes to discover connections.")}
+                            </p>
                         </div>
                         <a href={translatePath("/tags")} class="btn btn-ghost btn-sm group/eco">
-                            {tPortfolio.ui.exploreKnowledge}
+                            {__("Explore Knowledge")}
                             <span class="group-hover/eco:translate-x-1 transition-transform">&rarr;</span>
                         </a>
                     </div>

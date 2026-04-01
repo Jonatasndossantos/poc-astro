@@ -21,7 +21,7 @@ const iconName = icon.includes(":") ? icon : `lucide:${icon.toLowerCase()}`;
 <a 
     href={translatePath(`/services/${id}`)}
     class="flex flex-col h-full p-10 bg-base-100 border border-base-content/10 rounded-[2.5rem] hover:shadow-[0_20px_80px_-20px_rgba(var(--p),0.25)] hover:border-primary/40 transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden"
-    aria-label={`${__("Explore Service")}: ${title}`}
+    aria-label={`${__("Explore Service")}: ${__(title)}`}
 >
     <!-- Premium Glassmorphism Accents -->
     <div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/5 rounded-full blur-[80px] group-hover:bg-primary/20 transition-all duration-700"></div>
@@ -41,11 +41,11 @@ const iconName = icon.includes(":") ? icon : `lucide:${icon.toLowerCase()}`;
     
     <!-- Typography with Premium Tracking -->
     <h4 class="relative z-10 text-2xl font-black text-base-content mb-6 font-syncopate tracking-tighter leading-none group-hover:text-primary transition-colors">
-        {title}
+        {__(title)}
     </h4>
     
     <p class="relative z-10 text-base-content/50 text-base leading-relaxed mb-10 grow group-hover:text-base-content/80 transition-colors font-medium">
-        {description}
+        {__(description)}
     </p>
 
     <!-- Call to Action with Reveal Animation -->

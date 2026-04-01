@@ -29,23 +29,36 @@ const __ = await useTranslator(lang);
 
 // Logic to determine active link
 const currentPath = Astro.url.pathname;
-const isHome = currentPath === "/" || currentPath === `/${lang}/` || currentPath === `/${lang}`;
+const isHome =
+    currentPath === "/" ||
+    currentPath === `/${lang}/` ||
+    currentPath === `/${lang}`;
 ---
 
-<header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-    <nav 
-        class="w-full max-w-5xl h-16 bg-base-100/60 backdrop-blur-2xl border border-base-content/10 flex items-center justify-between px-6 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] pointer-events-auto transition-all duration-500 ease-out hover:border-primary/20"
-        id="main-nav"
+<header
+    class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
+>
+    <div
+        class="navbar w-full max-w-5xl h-16 bg-base-100/60 backdrop-blur-2xl border border-base-content/10 px-6 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] pointer-events-auto transition-colors duration-500 ease-out hover:border-primary/20"
     >
+        <input
+            id="nav-drawer"
+            type="checkbox"
+            class="drawer-toggle"
+            aria-label="Toggle Navigation"
+        />
         <!-- Brand / Logo -->
-        <div class="flex items-center gap-4">
+        <div class="navbar-start w-auto lg:w-1/2 flex items-center gap-4">
             <a
                 href={translatePath("/")}
                 class="flex items-center gap-3 group"
                 aria-label={`${navName} ${navPrefix}`}
             >
                 <div class="relative flex items-center justify-center size-9">
-                    <div class="absolute inset-0 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/40 transition-colors"></div>
+                    <div
+                        class="absolute inset-0 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/40 transition-colors"
+                    >
+                    </div>
                     <Image
                         src="/favicon.svg"
                         alt="Logo"
@@ -56,210 +69,84 @@ const isHome = currentPath === "/" || currentPath === `/${lang}/` || currentPath
                         aria-hidden="true"
                     />
                 </div>
-                <div class="hidden sm:flex flex-col">
-                    <span class="font-bold text-sm tracking-widest text-base-content leading-none">
+                <div class="flex-col">
+                    <span
+                        class="font-bold text-sm tracking-widest text-base-content leading-none"
+                    >
                         {navName}<span class="text-primary">{navPrefix}</span>
                     </span>
-                    <span class="text-[9px] font-medium opacity-40 uppercase tracking-[0.2em] -mt-0.5 whitespace-nowrap">
-                        Software Architect
+                    <span
+                        class="hidden sm:flex text-[9px] font-medium opacity-40 uppercase tracking-[0.2em] -mt-0.5 whitespace-nowrap"
+                    >
+                        {__("Software Architect")}
                     </span>
                 </div>
             </a>
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center bg-base-content/5 p-1 rounded-2xl border border-base-content/5">
-            {navLinks.map((link) => {
-                const href = translatePath(link.href);
-                const isActive = (link.href === "/" && isHome) || (link.href !== "/" && currentPath.includes(link.href));
-                
-                return (
-                    <a
-                        href={href}
-                        class:list={[
-                            "px-5 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl transition-all duration-300 relative group",
-                            isActive ? "text-primary-content bg-primary shadow-lg shadow-primary/20" : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
-                        ]}
-                    >
-                        {__(link.label)}
-                        {isActive && (
-                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full blur-[2px] opacity-50"></span>
-                        )}
-                    </a>
-                )
-            })}
+        <div class="navbar-center hidden lg:flex">
+            <div
+                class="flex items-center bg-base-content/5 p-1 rounded-2xl border border-base-content/5"
+            >
+                {
+                    navLinks.map((link) => {
+                        const href = translatePath(link.href);
+                        const isActive =
+                            (link.href === "/" && isHome) ||
+                            (link.href !== "/" &&
+                                currentPath.includes(link.href));
+
+                        return (
+                            <a
+                                href={href}
+                                class:list={[
+                                    "px-5 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl transition-all duration-300 relative group",
+                                    isActive
+                                        ? "text-primary-content bg-primary shadow-lg shadow-primary/20"
+                                        : "text-base-content/60 hover:text-base-content hover:bg-base-content/5",
+                                ]}
+                            >
+                                {__(link.label)}
+                                {isActive && (
+                                    <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full blur-[2px] opacity-50" />
+                                )}
+                            </a>
+                        );
+                    })
+                }
+            </div>
         </div>
 
         <!-- Search & Actions -->
-        <div class="flex items-center gap-2">
-            <!-- Ecosystem/Brain Shortcut -->
-             <a
+        <div
+            class="navbar-end w-auto lg:w-1/2 flex items-center gap-2 lg:justify-end ml-auto"
+        >
+            <a
                 href={translatePath("/tags")}
                 class="btn btn-ghost btn-sm btn-circle text-base-content/60 hover:text-primary transition-colors hidden sm:flex"
-                aria-label={__("knowledge.title")}
-                title={__("knowledge.title")}
+                aria-label={__("search")}
+                title={__("search")}
             >
                 <Icon name="lucide:brain" class="size-5" />
             </a>
 
-            <div class="hidden md:flex items-center gap-2 border-l border-base-content/10 pl-2 ml-2">
+            <div
+                class="hidden md:flex items-center gap-2 border-l border-base-content/10 pl-2 ml-2"
+            >
                 <ThemeToggle locale={lang} />
                 <LanguageToggle currentLocale={lang} />
             </div>
 
             <!-- Mobile Menu Trigger -->
-            <button 
-                type="button" 
-                class="lg:hidden btn btn-sm btn-circle btn-ghost"
-                id="mobile-menu-trigger"
-                aria-label="Open navigation menu"
+            <button
+                type="button"
+                onclick="document.getElementById('nav-drawer').click()"
+                aria-label={__("Open Menu")}
+                class="btn btn-square btn-ghost"
             >
                 <Icon name="lucide:menu" class="size-5" />
             </button>
         </div>
-    </nav>
+    </div>
 </header>
-
-<!-- Fullscreen Mobile Menu -->
-<div 
-    id="mobile-menu-overlay" 
-    class="fixed inset-0 z-[100] bg-base-100/90 backdrop-blur-2xl transition-all duration-500 flex flex-col items-center justify-center invisible opacity-0 translate-y-4"
->
-    <!-- Close Button -->
-    <button 
-        type="button" 
-        class="absolute top-10 right-10 btn btn-circle btn-ghost btn-lg"
-        id="mobile-menu-close"
-        aria-label="Close navigation menu"
-    >
-        <Icon name="lucide:x" class="size-8" />
-    </button>
-
-        <!-- Mobile Links -->
-    <nav class="flex flex-col items-center gap-8 px-10 w-full max-w-md">
-        {navLinks.map((link, i) => (
-            <a 
-                href={translatePath(link.href)} 
-                class="text-4xl md:text-5xl font-black font-syncopate uppercase tracking-tighter hover:text-primary transition-all mobile-nav-link"
-                style={`transition-delay: ${i * 50}ms`}
-                aria-label={__(link.label)}
-            >
-                {__(link.label)}
-            </a>
-        ))}
-
-        <div class="w-full h-px bg-base-content/10 my-8"></div>
-
-        <!-- Ecosystem & Settings Mobile -->
-        <div class="flex flex-col items-center gap-10 w-full">
-            <a 
-                href={translatePath("/tags")} 
-                class="btn btn-primary btn-lg rounded-2xl w-full flex items-center justify-center gap-4 group"
-                aria-label={__("knowledge.title")}
-            >
-                <Icon name="lucide:brain" class="size-6 transition-transform group-hover:rotate-12" />
-                <span class="font-syncopate font-bold text-sm uppercase">{__("knowledge.title")}</span>
-            </a>
-
-            <div class="flex items-center gap-8 scale-125">
-                 <ThemeToggle locale={lang} />
-                 <LanguageToggle currentLocale={lang} />
-            </div>
-
-            <!-- Social Links in Menu -->
-            <div class="flex gap-6 mt-4">
-                {iconLinks.map(link => (
-                    <a 
-                        href={link.href} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        class="btn btn-circle btn-ghost text-base-content/40 hover:text-primary hover:bg-primary/10"
-                        aria-label={`${__("Follow on")} ${link.label}`}
-                        title={link.label}
-                    >
-                        <Icon name={link.icon} class="size-6" />
-                    </a>
-                ))}
-            </div>
-        </div>
-    </nav>
-</div>
-
-<script>
-    function setupNav() {
-        const trigger = document.getElementById('mobile-menu-trigger');
-        const close = document.getElementById('mobile-menu-close');
-        const overlay = document.getElementById('mobile-menu-overlay');
-        const links = document.querySelectorAll('.mobile-nav-link');
-        const nav = document.getElementById('main-nav');
-
-        if (!trigger || !overlay || !close) return;
-
-        const openMenu = () => {
-            overlay.classList.remove('invisible', 'opacity-0', 'translate-y-4');
-            document.body.style.overflow = 'hidden';
-            
-            // Trigger link animations
-            links.forEach((link, i) => {
-                setTimeout(() => {
-                    (link as HTMLElement).style.opacity = '1';
-                    (link as HTMLElement).style.transform = 'translateY(0)';
-                }, 100 + (i * 100));
-            });
-        };
-
-        const closeMenu = () => {
-            overlay.classList.add('invisible', 'opacity-0', 'translate-y-4');
-            document.body.style.overflow = 'auto';
-            
-            links.forEach(link => {
-                (link as HTMLElement).style.opacity = '0';
-                (link as HTMLElement).style.transform = 'translateY(20px)';
-            });
-        };
-
-        trigger.addEventListener('click', openMenu);
-        close.addEventListener('click', closeMenu);
-
-        // Close on link click
-        links.forEach(link => link.addEventListener('click', closeMenu));
-
-        // Scroll management (shrink/reveal effect)
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            if (!nav) return;
-            const currentScroll = window.scrollY;
-            
-            if (currentScroll > 100) {
-                nav.classList.add('px-4', 'max-w-4xl');
-                nav.classList.remove('max-w-5xl');
-                nav.style.height = '60px';
-            } else {
-                nav.classList.remove('px-4', 'max-w-4xl');
-                nav.classList.add('max-w-5xl');
-                nav.style.height = '72px';
-            }
-            
-            if (currentScroll > lastScroll && currentScroll > 200) {
-                // Scrolling down - hide nav
-                (nav.parentElement as HTMLElement).style.transform = 'translateY(-120%)';
-            } else {
-                // Scrolling up - show nav
-                (nav.parentElement as HTMLElement).style.transform = 'translateY(0)';
-            }
-            lastScroll = currentScroll;
-        }, { passive: true });
-    }
-
-    // Run on init and Astro view transitions
-    document.addEventListener("astro:page-load", setupNav);
-    setupNav();
-</script>
-
-<style>
-    .mobile-nav-link {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-</style>

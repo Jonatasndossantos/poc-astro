@@ -39,8 +39,8 @@ const description = (t.skills.desc as string).replace("%mode%", mode);
     <div class="max-w-7xl mx-auto">
         <SectionHeader 
             label={t.skills.title}
-            title={t.skills.title.split(' ')[0]}
-            highlightedTitle={t.skills.title.split(' ').slice(1).join(' ')}
+            title={__("Technical")}
+            highlightedTitle={__("Arsenal")}
             description={description}
             viewAllLink={translatePath("/tags")}
             viewAllLabel={__("View All")}
@@ -53,8 +53,8 @@ const description = (t.skills.desc as string).replace("%mode%", mode);
                 skills.map((skill) => (
                     <TechCard
                         id={skill.id}
-                        title={skill.title}
-                        description={skill.description}
+                        title={__ (skill.title)}
+                        description={__ (skill.description)}
                         icon={skill.icon}
                         category={skill.category}
                         lang={lang}

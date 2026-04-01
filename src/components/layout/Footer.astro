@@ -7,7 +7,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
 const translatePath = useTranslatedPath(lang);
 const __ = await useTranslator(lang);
 ---
@@ -33,8 +32,8 @@ const __ = await useTranslator(lang);
                 <a
                     href={translatePath("/tags")}
                     class="hover:text-primary transition-colors"
-                    aria-label={__("knowledge.title")}
-                    title={__("knowledge.title")}
+                    aria-label={__("Knowledge Ecosystem")}
+                    title={__("Knowledge Ecosystem")}
                 >
                     <Icon name="lucide:brain" class="size-5" />
                 </a>
@@ -42,7 +41,7 @@ const __ = await useTranslator(lang);
             </nav>
 
             <p class="text-[10px] md:text-xs text-base-content/50 font-mono text-center md:text-right uppercase tracking-wider">
-                © {new Date().getFullYear()} {t.footer.copyright}
+                © {new Date().getFullYear()} {__('All rights reserved.')}
             </p>
         </div>
 
@@ -52,7 +51,7 @@ const __ = await useTranslator(lang);
                 <span class="text-base-content group-hover:text-base-content/80 transition-colors duration-300">J</span><span class="text-primary">.</span><span class="text-base-content group-hover:text-base-content/80 transition-colors duration-300">SANTOS</span><span class="text-primary opacity-90 group-hover:opacity-100 transition-opacity duration-300">.DEV</span>
             </h2>
             <p class="text-xs md:text-sm text-base-content/40 uppercase tracking-[0.4em] md:tracking-[0.8em] mt-4 font-medium transition-colors duration-500 group-hover:text-base-content/60">
-                Software Architect
+                {__('Software Architect')}
             </p>
         </div>
     </div>
@@ -100,13 +99,21 @@ const __ = await useTranslator(lang);
         }
     }
 
+    const deferFooterAnimations = () => {
+        if ('requestIdleCallback' in window) {
+            (window as any).requestIdleCallback(initFooterAnimations, { timeout: 1000 });
+        } else {
+            setTimeout(initFooterAnimations, 500);
+        }
+    };
+
     // Run on initial load and Astro view transitions
-    document.addEventListener("astro:page-load", initFooterAnimations);
+    document.addEventListener("astro:page-load", deferFooterAnimations);
     
     // Fallback for initial load if astro:page-load hasn't fired
     if (document.readyState === 'complete') {
-        initFooterAnimations();
+        deferFooterAnimations();
     } else {
-        window.addEventListener('load', initFooterAnimations);
+        window.addEventListener('load', deferFooterAnimations);
     }
 </script>

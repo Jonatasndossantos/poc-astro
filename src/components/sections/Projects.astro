@@ -1,23 +1,24 @@
 ---
 import { getCollection } from "astro:content";
-import { getTranslations, useTranslatedPath } from "@i18n";
+import { useTranslator, useTranslatedPath } from "@i18n";
 import SectionHeader from "@components/ui/SectionHeader.astro";
 import ProjectCard from "@components/ui/ProjectCard.astro";
 
 interface Props {
-    mode: string;
+    mode?: string;
     lang: string;
+    projects?: any[];
 }
 
-const { mode, lang } = Astro.props;
-const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
+const { lang, projects } = Astro.props;
+const __ = await useTranslator(lang);
 const translatePath = useTranslatedPath(lang);
 
 // Fetch dynamic projects from content collection
 const allProjects = await getCollection("projects");
 
 // Pre-process projects for consistent card mapping
-const projectsData = allProjects.slice(0, 6).map((p) => {
+const projectsData = projects || allProjects.slice(0, 6).map((p) => {
     const cleanId = p.id.replace(/\.mdx?$/, "");
     return {
         id: cleanId,
@@ -31,7 +32,7 @@ const projectsData = allProjects.slice(0, 6).map((p) => {
                   name: (t.id || t).split('/').pop()?.replace(/-/g, " ") || "Tech",
               }))
             : [],
-        displayDescriptionTextKey: `projects.items.${cleanId}.description.${mode}`,
+        description: p.data.description || "",
     };
 });
 ---
@@ -39,24 +40,28 @@ const projectsData = allProjects.slice(0, 6).map((p) => {
 <section id="projects" class="py-32 px-6 lg:px-20 relative bg-base-100 overflow-hidden">
     <div class="max-w-7xl mx-auto">
         <SectionHeader 
-            label={t.projects.label}
-            title={t.projects.title}
-            highlightedTitle={t.projects.highlightedTitle}
+            label={__("Design & Dev")}
+            title={__("Featured")}
+            highlightedTitle={__("Projects")}
             viewAllLink={translatePath("/projects")}
-            viewAllLabel={t.projects.title}
+            viewAllLabel={__("View All")}
         />
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {
-                projectsData.map((project) => (
-                    <ProjectCard 
-                        project={project}
-                        lang={lang}
-                        caseStudyLabel={t.projects.caseStudy}
-                        viewProjectLabel={t.projects.viewProject}
-                        codeLabel={t.projects.code}
-                    />
-                ))
+                projectsData.map((project, index) => {
+                    const isFeatured = index === 0 || index === 3;
+                    return (
+                        <ProjectCard 
+                            project={project}
+                            lang={lang}
+                            isFeatured={isFeatured}
+                            caseStudyLabel={__("Read Case Study")}
+                            viewProjectLabel={__("Live Demo")}
+                            codeLabel={__("Source Code")}
+                        />
+                    );
+                })
             }
         </div>
     </div>

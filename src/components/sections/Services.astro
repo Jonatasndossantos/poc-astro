@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { getTranslations, useTranslatedPath } from "@i18n";
+import { getTranslations, useTranslatedPath, useTranslator } from "@i18n";
 import SectionHeader from "@components/ui/SectionHeader.astro";
 import ServiceCard from "@components/ui/ServiceCard.astro";
 
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (await getTranslations(lang, "portfolio")) as Record<string, any>;
 const translatePath = useTranslatedPath(lang);
+const __ = await useTranslator(lang);
 
 // Fetch dynamic services collection
 const services = await getCollection("services");
@@ -27,12 +27,12 @@ const iconMap: Record<string, string> = {
 <section id="services" class="py-32 px-6 lg:px-20 relative bg-base-100">
     <div class="max-w-7xl mx-auto">
         <SectionHeader 
-            label={t.services.label}
-            title={t.services.title}
-            highlightedTitle={t.services.highlightedTitle}
-            description={t.services.desc}
+            label={__("Expertise")}
+            title={__("My")}
+            highlightedTitle={__("Services")}
+            description={__("Specialized consulting and architecture design for complex systems.")}
             viewAllLink={translatePath("/services")}
-            viewAllLabel={t.ui["All Services"]}
+            viewAllLabel={__("All Services")}
         />
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -44,8 +44,8 @@ const iconMap: Record<string, string> = {
                         <div class="service-card-filter h-full" data-title={(service.data as any).title}>
                             <ServiceCard 
                                 id={cleanId}
-                                title={(service.data as any).title}
-                                description={(service.data as any).description || ""}
+                                title={__((service.data as any).title)}
+                                description={__((service.data as any).description || "")}
                                 icon={iconName}
                                 lang={lang}
                             />

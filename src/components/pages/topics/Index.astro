@@ -1,25 +1,22 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import { getTranslations, useTranslatedPath } from "@i18n";
+import { useTranslator } from "@i18n";
 import SectionHeader from "@components/ui/SectionHeader.astro";
 import SearchFilters from "@components/ui/SearchFilters.astro";
 import TechCard from "@components/ui/TechCard.astro";
 import GraphIsland from "@components/GraphIsland.astro";
 
 const { lang: locale } = Astro.props;
-const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
-    string,
-    any
->;
+const __ = await useTranslator(locale);
 const allTopics = await getCollection("topics");
 allTopics.sort((a, b) => a.data.title.localeCompare(b.data.title));
-const categories = [...new Set(allTopics.map((topic) => topic.data.category || tPortfolio.knowledge.all))].sort();
+const categories = [...new Set(allTopics.map((topic) => topic.data.category || __("All")))].sort();
 ---
 
 <Layout
-    title={tPortfolio.topics.title}
-    description={tPortfolio.topics.desc}
+    title={__("Study Topics")}
+    description={__("Knowledge domains I've been exploring deeply.")}
     lang={locale}
 >
     <main
@@ -27,17 +24,17 @@ const categories = [...new Set(allTopics.map((topic) => topic.data.category || t
     >
         <div class="max-w-7xl mx-auto relative z-10">
             <SectionHeader 
-                label={tPortfolio.topics.title}
-                title={tPortfolio.topics.title.split(' ')[0]}
-                highlightedTitle={tPortfolio.topics.title.split(' ').slice(1).join(' ')}
-                description={tPortfolio.topics.desc}
+                label={__("Study Topics")}
+                title={__("Study")}
+                highlightedTitle={__("Topics")}
+                description={__("Knowledge domains I've been exploring deeply.")}
             />
 
             <SearchFilters 
-                searchPlaceholder={tPortfolio.knowledge.search}
+                searchPlaceholder={__("Search technologies...")}
                 categories={categories}
-                allLabel={tPortfolio.knowledge.all}
-                filterByLabel={tPortfolio.knowledge.filterBy}
+                allLabel={__("All")}
+                filterByLabel={__("Filter by")}
                 gridId="topics-grid"
                 cardClass="knowledge-card"
             />
@@ -54,7 +51,7 @@ const categories = [...new Set(allTopics.map((topic) => topic.data.category || t
                             title={topic.data.title}
                             description={topic.data.description}
                             icon={topic.data.icon}
-                            category={topic.data.category}
+                            category={topic.data.category || __("All")}
                             lang={locale}
                         />
                     ))
@@ -63,19 +60,19 @@ const categories = [...new Set(allTopics.map((topic) => topic.data.category || t
 
             <div id="no-results" class="hidden text-center py-20 w-full bg-base-200/20 rounded-3xl border border-dashed border-base-content/10 mt-8">
                 <p class="text-2xl font-bold opacity-30">
-                    {tPortfolio.knowledge.noResults}
+                    {__("No technologies found.")}
                 </p>
                 <p class="text-sm opacity-50 mt-2">
-                    {tPortfolio.knowledge.tryAdjusting}
+                    {__("Try adjusting your search or filters.")}
                 </p>
             </div>
 
             <!-- Knowledge Graph Section -->
             <div class="mt-32">
                  <SectionHeader 
-                    label={tPortfolio.graph.title}
-                    title={tPortfolio.ui.Interactive}
-                    highlightedTitle={tPortfolio.ui["Knowledge Graph"]}
+                    label={__("Interactive Knowledge Graph")}
+                    title={__("Interactive")}
+                    highlightedTitle={__("Ecosystem")}
                  />
                  <GraphIsland lang={locale} />
             </div>

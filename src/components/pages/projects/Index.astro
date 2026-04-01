@@ -1,17 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import { getTranslations, useTranslatedPath } from "@i18n";
+import { useTranslator, useTranslatedPath } from "@i18n";
 import SectionHeader from "@components/ui/SectionHeader.astro";
 import SearchFilters from "@components/ui/SearchFilters.astro";
 import ProjectCard from "@components/ui/ProjectCard.astro";
 import GraphIsland from "@components/GraphIsland.astro";
 
 const { lang: locale } = Astro.props;
-const tPortfolio = (await getTranslations(locale, "portfolio")) as Record<
-    string,
-    any
->;
+const __ = await useTranslator(locale);
 const translatePath = useTranslatedPath(locale);
 
 const allProjects = await getCollection("projects");
@@ -31,45 +28,46 @@ const projectsData = allProjects.map((p) => {
                   name: (t.id || t).split('/').pop()?.replace(/-/g, " ") || "Tech",
               }))
             : [],
-        displayDescriptionTextKey: `projects.items.${cleanId}.description.fullstack`,
+        description: p.data.description || "",
     };
 });
 ---
 
 <Layout
-    title={tPortfolio.projects.title}
-    description={tPortfolio.projects.desc || tPortfolio.projects.title}
+    title={__("Featured Projects")}
+    description={__("A selected list of my most important and technically challenging projects.")}
     lang={locale}
 >
     <main class="w-full min-h-screen bg-base-100 pt-32 pb-20 px-6 lg:px-20 relative">
         <div class="max-w-7xl mx-auto">
             <SectionHeader 
-                label={tPortfolio.projects.label}
-                title={tPortfolio.projects.title}
-                highlightedTitle={tPortfolio.projects.highlightedTitle}
-                description={tPortfolio.projects.desc}
+                label={__("Portfolio")}
+                title={__("Featured")}
+                highlightedTitle={__("Projects")}
+                description={__("A selected list of my most important and technically challenging projects.")}
                 viewAllLink={translatePath("/ecosystem")}
-                viewAllLabel={tPortfolio.ui.exploreKnowledge}
+                viewAllLabel={__("Explore Knowledge")}
             />
 
             <SearchFilters 
-                searchPlaceholder={tPortfolio.knowledge.search}
-                allLabel={tPortfolio.knowledge.all}
-                filterByLabel={tPortfolio.knowledge.filterBy}
+                searchPlaceholder={__("Search projects...")}
+                allLabel={__("All")}
+                filterByLabel={__("Filter by")}
                 gridId="projects-grid"
                 cardClass="project-card-filter"
             />
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
                 {
-                    projectsData.map((project) => (
-                        <div class="project-card-filter h-full" data-title={project.title}>
+                    projectsData.map((project, index) => (
+                        <div class="project-card-filter h-full" data-title={__(project.title)}>
                             <ProjectCard 
                                 project={project}
                                 lang={locale}
-                                caseStudyLabel={tPortfolio.projects.caseStudy}
-                                viewProjectLabel={tPortfolio.projects.viewProject}
-                                codeLabel={tPortfolio.projects.code}
+                                isFeatured={index === 0}
+                                caseStudyLabel={__("Case Study")}
+                                viewProjectLabel={__("View Project")}
+                                codeLabel={__("Code")}
                             />
                         </div>
                     ))
@@ -78,19 +76,19 @@ const projectsData = allProjects.map((p) => {
 
             <div id="no-results" class="hidden text-center py-20 w-full bg-base-200/20 rounded-3xl border border-dashed border-base-content/10 mt-8">
                 <p class="text-2xl font-bold opacity-30">
-                    {tPortfolio.knowledge.noResults}
+                    {__("No projects found.")}
                 </p>
                 <p class="text-sm opacity-50 mt-2">
-                    {tPortfolio.knowledge.tryAdjusting}
+                    {__("Try adjusting your search or filters.")}
                 </p>
             </div>
 
             <!-- Knowledge Graph Section -->
             <div class="mt-32">
                  <SectionHeader 
-                    label={tPortfolio.graph.title}
-                    title={tPortfolio.ui.Interactive}
-                    highlightedTitle={tPortfolio.ui["Knowledge Graph"]}
+                    label={__("Interactive Knowledge Graph")}
+                    title={__("Interactive")}
+                    highlightedTitle={__("Ecosystem")}
                  />
                  <GraphIsland lang={locale} />
             </div>
