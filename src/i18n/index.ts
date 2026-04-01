@@ -32,14 +32,26 @@ export async function getTranslations<T extends FlatDictionary = FlatDictionary>
     locale: string,
     key: string
 ): Promise<T> {
+    const fallback = await import(`../dictionaries/${key}/en.json`);
+    let file;
     try {
-        const file = await import(`../dictionaries/${key}/${locale}.json`);
-        return file.default as T;
+        file = await import(`../dictionaries/${key}/${locale}.json`);
     } catch {
-        // Fallback to English if the locale file doesn't exist yet
-        const fallback = await import(`../dictionaries/${key}/en.json`);
         return fallback.default as T;
     }
+    
+    const mergeDeep = (target: any, source: any) => {
+        const result = { ...target };
+        for (const k of Object.keys(source)) {
+            if (source[k] instanceof Object && !Array.isArray(source[k])) {
+                result[k] = mergeDeep(result[k] || {}, source[k]);
+            } else {
+                result[k] = source[k] !== undefined ? source[k] : result[k];
+            }
+        }
+        return result;
+    };
+    return mergeDeep(fallback.default, file.default) as T;
 }
 
 /**
@@ -49,17 +61,41 @@ export async function getTranslations<T extends FlatDictionary = FlatDictionary>
  *   __('Home')
  *   __('Welcome, :name', { name: 'Jhon' })
  */
-export async function useTranslator(locale: string, dictName = 'ui') {
-    let dict: Record<string, string> = {};
-    try {
-        const file = await import(`../dictionaries/${dictName}/${locale}.json`);
-        dict = file.default;
-    } catch {
-        // Safe to ignore, fallback to raw string will be used
-    }
+export async function useTranslator(locale: string) {
+    let mergedDict: Record<string, any> = {};
+
+    const loadDict = async (name: string) => {
+        try {
+            return (await import(`../dictionaries/${name}/${locale}.json`)).default;
+        } catch {
+            return {};
+        }
+    };
+
+    const ui = await loadDict('ui');
+    const portfolio = await loadDict('portfolio');
+    const profile = await loadDict('profile');
+
+    const flattenObj = (ob: any, prefix = '') => {
+        let result: any = {};
+        for (const i in ob) {
+            if ((typeof ob[i]) === 'object' && ob[i] !== null) {
+                Object.assign(result, flattenObj(ob[i], prefix + i + '.'));
+            } else {
+                result[prefix + i] = ob[i];
+            }
+        }
+        return result;
+    };
+
+    mergedDict = { 
+        ...flattenObj(ui), 
+        ...flattenObj(portfolio), 
+        ...flattenObj(profile) 
+    };
     
     return function __(text: string, replacements?: Record<string, string>) {
-        let result = dict[text] || text;
+        let result = mergedDict[text] || text;
         if (replacements) {
             for (const [key, value] of Object.entries(replacements)) {
                 result = result.replace(new RegExp(`:${key}`, 'g'), value);

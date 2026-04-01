@@ -7,7 +7,8 @@ const topics = defineCollection({
     schema: z.object({
         title: z.string(),
         description: z.string(),
-        icon: z.string().optional()
+        icon: z.string().optional(),
+        category: z.string().optional()
     })
 });
 
@@ -34,6 +35,7 @@ const projects = defineCollection({
     loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
     schema: z.object({
         title: z.string(),
+        description: z.string().optional(),
         repoUrl: z.string().url().optional(),
         demoUrl: z.string().url().optional(),
         heroImage: z.string().optional(),
@@ -69,6 +71,7 @@ const services = defineCollection({
     loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/services" }),
     schema: z.object({
         title: z.string(),
+        description: z.string().optional(),
         icon: z.string().optional(),
         priceStartingAt: z.number().optional(),
 
