@@ -274,6 +274,16 @@ const __ = await useTranslator(lang);
             )
             .attr("stroke-width", 1.5);
 
+        // 🖼️ ICONS (NEW!)
+        node.append("image")
+            .attr("href", (d: any) => d.icon)
+            .attr("x", (d: any) => -nodeRadius(d) / 1.5)
+            .attr("y", (d: any) => -nodeRadius(d) / 1.5)
+            .attr("width", (d: any) => nodeRadius(d) * 1.33)
+            .attr("height", (d: any) => nodeRadius(d) * 1.33)
+            .attr("preserveAspectRatio", "xMidYMid slice")
+            .style("pointer-events", "none");
+
         // 🔤 ESTILO DOS TEXTOS (RÓTULOS)
         node.append("text")
             .attr("text-anchor", "middle")
