@@ -23,7 +23,7 @@
     "items": {
       "gov-docs-ai": {
         "id": "7",
-        "title": "Public Docs AI",
+        "title": "Docs Públicos AI",
         "slug": "gov-docs-ai",
         "imageUrl": "https://github.com/Jonatasndossantos/Jonatasndossantos/blob/main/src/lumen.png?raw=true",
         "technologies": [
@@ -33,7 +33,7 @@
           "GCP"
         ],
         "description": {
-          "fullstack": "Sistema completo de automatización para la generación de documentos públicos usando IA y Laravel.",
+          "fullstack": "Motor autónomo de inteligencia artificial que fuerza esquemas JSON rígidos para generar contratos legales altamente complejos sin riesgo de alucinaciones.",
           "frontend": "Interfaz Web moderna y responsiva construida con React e Inertia.js.",
           "backend": "Backend robusto de Laravel que gestiona colas de procesamiento e integración con OpenAI.",
           "devops": "Monitoreo con Laravel Telescope y despliegue automatizado en GCP.",
@@ -70,7 +70,7 @@
           "Azure"
         ],
         "description": {
-          "fullstack": "Portal de noticias tecnológicas que combate la desinformación con Laravel y Tailwind.",
+          "fullstack": "Portal de noticias optimizado con capacidades Server-Side Rendering diseñado explícitamente para escalar y distribuir contenido dinámico a alta velocidad.",
           "frontend": "Interfaz moderna que utiliza plantillas Blade y Tailwind CSS.",
           "backend": "Arquitectura MVC robusta que conecta APIs RSS externas.",
           "devops": "Desplegado en Azure App Service con pipelines de prueba automatizados.",
@@ -98,7 +98,7 @@
       },
       "espresso-d-amore": {
         "id": "11",
-        "title": "Espresso D' Amore",
+        "title": "Cafetería Damore",
         "slug": "espresso-d-amore",
         "imageUrl": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800",
         "technologies": [
@@ -107,7 +107,7 @@
           "Supabase"
         ],
         "description": {
-          "fullstack": "Ecosistema dual con ERP Laravel/Inertia y aplicación móvil Expo/Supabase.",
+          "fullstack": "Plataforma integral combinando comercio digital y gestión, con una excelente experiencia de usuario para apoyar las operaciones logísticas.",
           "frontend": "Dashboard administrativo con React/Inertia y experiencia de pedidos móvil con Expo.",
           "backend": "Backend híbrido con Laravel 12 y Supabase para datos en tiempo real.",
           "devops": "Pipelines de construcción modernos para web apps y generación de APKs móviles.",
@@ -151,6 +151,42 @@
           "database": "Base de datos optimizada para consultas rápidas de posts personalizados.",
           "ai": "Estructuración de contenido generada por IA para mejorar el compromiso."
         }
+      },
+      "plataforma-lumen": {
+        "description": {
+          "fullstack": "SaaS B2G de alto rendimiento impulsado por Laravel Octane, procesando flujos complejos con estado en memoria y reduciendo drásticamente la latencia."
+        },
+        "title": "Plataforma Lumen"
+      },
+      "rag-legal-chatbot": {
+        "description": {
+          "fullstack": "Asistente virtual avanzado con IA y RAG nativo, capaz de interactuar con contextos legales y analizar archivos mediante búsquedas vectoriales."
+        },
+        "title": "RAG Legal Chatbot"
+      },
+      "doc-automation-saas": {
+        "description": {
+          "fullstack": "Tubería automatizada que redujo la generación de documentos gubernamentales de meses a minutos utilizando procesos asíncronos en segundo plano."
+        },
+        "title": "SaaS de Docs"
+      },
+      "gov-lumen-rescue": {
+        "description": {
+          "fullstack": "Refactorización profunda de un sistema gubernamental, eliminando condiciones de carrera críticas y estabilizando infraestructuras obsoletas de manera reactiva."
+        },
+        "title": "GovTech Rescate"
+      },
+      "alura-plus": {
+        "description": {
+          "fullstack": "Proyecto enfocado en la estructuración semántica y la respuesta avanzada, aplicando técnicas modernas de CSS Grid para interfaces web inmutables."
+        },
+        "title": "Alura Plus"
+      },
+      "adventure-text-game": {
+        "description": {
+          "fullstack": "Motor narrativo interactivo en JavaScript, diseñado para mutar el DOM en tiempo real según un complejo árbol de decisiones del usuario."
+        },
+        "title": "Juego de Aventura"
       }
     }
   },
@@ -160,10 +196,22 @@
     "highlightedTitle": "Ingeniería",
     "desc": "Soluciones de arquitectura escalables y auditorías de rendimiento.",
     "items": [
-      { "title": "Diseño de Arquitectura", "desc": "Planos escalables para sistemas complejos." },
-      { "title": "Optimización de Rendimiento", "desc": "Optimización de ciclos de renderizado y consultas." },
-      { "title": "Auditorías de Seguridad", "desc": "Fortalecimiento contra amenazas modernas." },
-      { "title": "Automatización", "desc": "Pipelines CI/CD para despliegues continuos." }
+      {
+        "title": "Diseño de Arquitectura",
+        "desc": "Planos escalables para sistemas complejos."
+      },
+      {
+        "title": "Optimización de Rendimiento",
+        "desc": "Optimización de ciclos de renderizado y consultas."
+      },
+      {
+        "title": "Auditorías de Seguridad",
+        "desc": "Fortalecimiento contra amenazas modernas."
+      },
+      {
+        "title": "Automatización",
+        "desc": "Pipelines CI/CD para despliegues continuos."
+      }
     ]
   },
   "contact": {
@@ -182,11 +230,36 @@
   },
   "footer": {
     "copyright": "Jônatas Nascimento dos Santos",
-    "links": { "home": "INICIO", "about": "SOBRE", "work": "TRABAJO", "contact": "CONTACTO" }
+    "links": {
+      "home": "INICIO",
+      "about": "SOBRE",
+      "work": "TRABAJO",
+      "contact": "CONTACTO"
+    }
   },
-  "blog": { "title": "Blog Técnico", "desc": "Reflexiones sobre ingeniería de software y arquitectura." },
-  "knowledge": { "title": "Conocimiento", "desc": "Exploración de tecnologías.", "search": "Buscar...", "all": "Todos", "filterBy": "Filtrar por" },
-  "graph": { "title": "Grafo Interactivo", "desc": "Red de Segundo Cerebro." },
-  "taxonomy": { "backToPortfolio": "← Volver", "startingAt": "Desde" },
-  "ui": { "View All": "Ver Todo", "exploreKnowledge": "Explorar Tech", "Interactive": "Interactivo", "Knowledge Graph": "Grafo de Conocimiento" }
+  "blog": {
+    "title": "Blog Técnico",
+    "desc": "Reflexiones sobre ingeniería de software y arquitectura."
+  },
+  "knowledge": {
+    "title": "Conocimiento",
+    "desc": "Exploración de tecnologías.",
+    "search": "Buscar...",
+    "all": "Todos",
+    "filterBy": "Filtrar por"
+  },
+  "graph": {
+    "title": "Grafo Interactivo",
+    "desc": "Red de Segundo Cerebro."
+  },
+  "taxonomy": {
+    "backToPortfolio": "← Volver",
+    "startingAt": "Desde"
+  },
+  "ui": {
+    "View All": "Ver Todo",
+    "exploreKnowledge": "Explorar Tech",
+    "Interactive": "Interactivo",
+    "Knowledge Graph": "Grafo de Conocimiento"
+  }
 }

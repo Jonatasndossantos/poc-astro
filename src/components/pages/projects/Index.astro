@@ -11,11 +11,31 @@ const { lang: locale } = Astro.props;
 const __ = await useTranslator(locale);
 const translatePath = useTranslatedPath(locale);
 
-const allProjects = await getCollection("projects");
+const allProjectsUnfiltered = await getCollection("projects");
+
+const uniqueProjectIds = [...new Set(allProjectsUnfiltered.map(p => 
+    p.id.split("/").slice(1).join("/").replace(/\.mdx?$/, "")
+))];
+
+const allProjects = [];
+for (const id of uniqueProjectIds) {
+    let entry = allProjectsUnfiltered.find(p => p.id.replace(/\.mdx?$/, "") === `${locale}/${id}`);
+    if (!entry) {
+        // Fallback to whichever is found first
+        entry = allProjectsUnfiltered.find(p => p.id.replace(/\.mdx?$/, "").endsWith(`/${id}`));
+    }
+    if (entry) {
+        allProjects.push(entry);
+    }
+}
 
 // Pre-process projects for consistent card mapping
-const projectsData = allProjects.map((p) => {
-    const cleanId = p.id.replace(/\.mdx?$/, "");
+let projectsData = allProjects.map((p) => {
+    const cleanId = p.id.split("/").slice(1).join("/").replace(/\.mdx?$/, "");
+    const primaryTopic = p.data.relatedTopics && p.data.relatedTopics.length > 0 
+        ? p.data.relatedTopics[0].id.replace(/\.mdx?$/, "")
+        : "other";
+        
     return {
         id: cleanId,
         title: p.data.title,
@@ -29,8 +49,27 @@ const projectsData = allProjects.map((p) => {
               }))
             : [],
         description: p.data.description || "",
+        date: p.data.date,
+        relevance: p.data.relevance || 0,
+        role: p.data.role,
+        company: p.data.company,
+        category: primaryTopic,
+        searchableText: `${p.data.title} ${p.data.role || ''} ${p.data.company || ''} ${p.data.description || ''}`.toLowerCase()
     };
 });
+
+// Sort by Relevance (DESC), then by Date (DESC)
+projectsData.sort((a, b) => {
+    if (b.relevance !== a.relevance) {
+        return b.relevance - a.relevance;
+    }
+    const dateB = b.date ? new Date(b.date).getTime() : 0;
+    const dateA = a.date ? new Date(a.date).getTime() : 0;
+    return dateB - dateA;
+});
+
+// Extract unique categories for the filter component
+const uniqueCategories = [...new Set(projectsData.map(p => p.category))].filter(c => c !== "other");
 ---
 
 <Layout
@@ -51,6 +90,7 @@ const projectsData = allProjects.map((p) => {
 
             <SearchFilters 
                 searchPlaceholder={__("Search projects...")}
+                categories={uniqueCategories}
                 allLabel={__("All")}
                 filterByLabel={__("Filter by")}
                 gridId="projects-grid"
@@ -60,11 +100,17 @@ const projectsData = allProjects.map((p) => {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
                 {
                     projectsData.map((project, index) => (
-                        <div class="project-card-filter h-full" data-title={__(project.title)}>
+                        <div 
+                            class="project-card-filter h-full" 
+                            data-title={__(project.title)}
+                            data-category={project.category}
+                            data-searchable={project.searchableText}
+                        >
                             <ProjectCard 
                                 project={project}
                                 lang={locale}
                                 isFeatured={index === 0}
+                                isLcp={index === 0}
                                 caseStudyLabel={__("Case Study")}
                                 viewProjectLabel={__("View Project")}
                                 codeLabel={__("Code")}

@@ -3,7 +3,39 @@
     "label": "O Desenvolvedor",
     "title": "Engenharia de",
     "highlightedTitle": "Experiências Digitais",
-    "bio": "Crio experiências digitais imersivas, unindo lógica robusta a design fluido. Especialista em resolver problemas de arquitetura legada e automatizar processos públicos complexos."
+    "intro1": "Sou Jônatas Nascimento (Jhon), tenho 19 anos e moro em Extrema - MG, com foco 100% voltado para operações e desafios no mercado global.",
+    "intro2": "Não me limito a escrever código; eu construo aplicações resilientes. Transito com naturalidade desde a infraestrutura raiz (operando ambientes Linux/Docker via SSH) até a camada de Pesquisa e Desenvolvimento (R&D), criando integrações avançadas de Inteligência Artificial com Function Calling e Chatbots. Atuo como Desenvolvedor Full-Stack Pleno, mas a complexidade das minhas entregas e as arquiteturas que lidero refletem a experiência de um nível Sênior.",
+    "stackTitle": "A Minha Stack Principal",
+    "stackText": "O núcleo da minha engenharia é <strong>PHP</strong> com o ecossistema moderno do <strong>Laravel</strong>. Embora eu domine <strong>React</strong> no front-end para interfaces interativas, tenho uma forte preferência técnica por utilizar <strong>Blade</strong> ou <strong>Livewire</strong>. Uma decisão arquitetural para garantir coesão absoluta, extrema velocidade de entrega e performance otimizada.",
+    "timelineTitle": "A Jornada",
+    "timelineSubtitle": "Grandes arquiteturas não são construídas da noite para o dia; elas são forjadas sob pressão. Esta é a evolução do meu background:",
+    "timeline": [
+      {
+        "date": "Fev/2023 - Jun/2024",
+        "title": "O Forjamento (McDonald's)",
+        "desc": "Onde aprendi execução implacável sob pressão, SLAs rigorosos, e resiliência pura. O treinamento não-oficial de SRE."
+      },
+      {
+        "date": "Abr/2024 - Jul/2025",
+        "title": "A Base (SENAC)",
+        "desc": "Curso Técnico com foco em fundamentos de web systems e arquitetura full-stack."
+      },
+      {
+        "date": "Jun/2024 - Presente",
+        "title": "Construindo End-to-End (Freelancer)",
+        "desc": "Arquiteto e Engenheiro responsável pela implantação de plataformas como Cafeteria Damore e JYNSGE News, orquestrando infraestrutura e integração complexa."
+      },
+      {
+        "date": "Mar/2025 - Nov/2025",
+        "title": "Tech Lead & Arquiteto (LUMEN Consultoria)",
+        "desc": "Construí do zero a Plataforma Lumen (SaaS B2G). Tirei o framework do modelo tradicional com Laravel Octane, fiz R&D de IA autônoma e resolvi complexas Race Conditions no legados."
+      },
+      {
+        "date": "Maio/2025 - Presente",
+        "title": "O Lastro (UNIVESP)",
+        "desc": "Bacharelado em Engenharia da Computação, mergulhando nas camadas profundas e arquiteturas de baixo nível."
+      }
+    ]
   },
   "skills": {
     "label": "Tecnologias",
@@ -22,85 +54,132 @@
     "caseStudy": "Estudo de Caso",
     "items": {
       "plataforma-lumen": {
-         "id": "1",
-         "title": "Plataforma Lumen: GovTech SaaS",
-         "slug": "plataforma-lumen",
-         "imageUrl": "https://github.com/Jonatasndossantos/Jonatasndossantos/blob/main/src/lumen.png?raw=true",
-         "technologies": ["Laravel 12", "Octane", "FrankenPHP", "Multi-Tenancy", "OpenAI"],
-         "description": {
-            "fullstack": "Arquitetei a Plataforma Lumen do zero, transicionando de uma ferramenta simples para um SaaS complexo Multi-Tenant para gestão de licitações públicas.",
-            "backend": "Arquitetura de alta performance com Laravel Octane e FrankenPHP, reduzindo o tempo de boot em requisições pesadas.",
-            "frontend": "Componentes dinâmicos com Alpine.js e blocos de conteúdo gerados por IA via JSON Schemas granulares.",
-            "ai": "Geração de blocos de conteúdo legal dinâmicos, permitindo regeneração parcial sem perda de dados.",
-            "devops": "Pipeline CI/CD configurado com workers específicos para tarefas pesadas de IA, evitando timeouts via polling no UI."
-         }
+        "id": "1",
+        "title": "Plataforma Lumen",
+        "slug": "plataforma-lumen",
+        "imageUrl": "https://github.com/Jonatasndossantos/Jonatasndossantos/blob/main/src/lumen.png?raw=true",
+        "technologies": [
+          "Laravel 12",
+          "Octane",
+          "FrankenPHP",
+          "Multi-Tenancy",
+          "OpenAI"
+        ],
+        "description": {
+          "fullstack": "SaaS Enterprise B2G de alta performance com Laravel Octane, processando fluxos complexos de licitações públicas com estado em memória e zero latência.",
+          "backend": "Arquitetura de alta performance com Laravel Octane e FrankenPHP, reduzindo o tempo de boot em requisições pesadas.",
+          "frontend": "Componentes dinâmicos com Alpine.js e blocos de conteúdo gerados por IA via JSON Schemas granulares.",
+          "ai": "Geração de blocos de conteúdo legal dinâmicos, permitindo regeneração parcial sem perda de dados.",
+          "devops": "Pipeline CI/CD configurado com workers específicos para tarefas pesadas de IA, evitando timeouts via polling no UI."
+        }
       },
       "rag-legal-chatbot": {
-         "id": "2",
-         "title": "AI Engineering: RAG Legal Chatbot",
-         "slug": "rag-legal-chatbot",
-         "imageUrl": "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800",
-         "technologies": ["Laravel 12", "React 19", "Inertia 2.0", "OpenAI Assistants"],
-         "description": {
-            "fullstack": "Assistente avançado capaz de analisar contextos legais e responder baseado em arquivos proprietários, democratizando o acesso a informações complexas da Lei 14.133.",
-            "backend": "Implementação de RAG nativo via OpenAI Assistants API para indexação precisa de decretos e documentos.",
-            "frontend": "Interface real-time com React 19 e Server-Sent Events (SSE) para eliminação de estados de carregamento.",
-            "ai": "Uso extensivo de Function Calling (Tools) permitindo que o LLM consulte o banco de dados SQL em tempo real.",
-            "devops": "Sistema de token-gating que monitora consumo e bloqueia requisições automaticamente quando as cotas excedem."
-         }
+        "id": "2",
+        "title": "RAG Legal Chatbot",
+        "slug": "rag-legal-chatbot",
+        "imageUrl": "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800",
+        "technologies": [
+          "Laravel 12",
+          "React 19",
+          "Inertia 2.0",
+          "OpenAI Assistants"
+        ],
+        "description": {
+          "fullstack": "Assistente virtual avançado impulsionado por IA e RAG nativo, capaz de interagir em tempo real com contextos legais complexos e analisar arquivos proprietários via Vector Search.",
+          "backend": "Implementação de RAG nativo via OpenAI Assistants API para indexação precisa de decretos e documentos.",
+          "frontend": "Interface real-time com React 19 e Server-Sent Events (SSE) para eliminação de estados de carregamento.",
+          "ai": "Uso extensivo de Function Calling (Tools) permitindo que o LLM consulte o banco de dados SQL em tempo real.",
+          "devops": "Sistema de token-gating que monitora consumo e bloqueia requisições automaticamente quando as cotas excedem."
+        }
       },
       "doc-automation-saas": {
-         "id": "3",
-         "title": "Public Document Automation SaaS",
-         "slug": "doc-automation-saas",
-         "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800",
-         "technologies": ["Laravel 11", "React", "OpenAI", "CI/CD"],
-         "description": {
-            "fullstack": "Plataforma que reduziu o tempo de criação de documentos técnicos para licitações (ETP/DFD) de semanas para menos de 5 minutos.",
-            "backend": "Backend robusto em Laravel 11 gerenciando filas (Queues & Jobs) para processamento assíncrono.",
-            "frontend": "Dashboard administrativo e histórico de arquivos construído com React e Inertia.js.",
-            "ai": "Integração via JSON Schemas com OpenAI para garantir outputs estruturados sem alucinações técnicas.",
-            "devops": "Configuração completa de servidor Linux (Nginx) e implantação de pipelines automatizados via GitHub Actions."
-         }
+        "id": "3",
+        "title": "Doc Automation SaaS",
+        "slug": "doc-automation-saas",
+        "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800",
+        "technologies": [
+          "Laravel 11",
+          "React",
+          "OpenAI",
+          "CI/CD"
+        ],
+        "description": {
+          "fullstack": "Pipeline automatizado que transformou a geração de documentos licitatórios de meses para minutos usando processamento assíncrono e workflows pesados.",
+          "backend": "Backend robusto em Laravel 11 gerenciando filas (Queues & Jobs) para processamento assíncrono.",
+          "frontend": "Dashboard administrativo e histórico de arquivos construído com React e Inertia.js.",
+          "ai": "Integração via JSON Schemas com OpenAI para garantir outputs estruturados sem alucinações técnicas.",
+          "devops": "Configuração completa de servidor Linux (Nginx) e implantação de pipelines automatizados via GitHub Actions."
+        }
       },
       "gov-lumen-rescue": {
-         "id": "4",
-         "title": "The Rescue Mission: Legacy Refactoring",
-         "slug": "gov-lumen-rescue",
-         "imageUrl": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800",
-         "technologies": ["AngularJS", "RxJS", "Firebase", "GovTech"],
-         "description": {
-            "fullstack": "Estabilização e auditoria técnica de uma aplicação GovTech legada com problemas críticos de concorrência e conformidade de dados.",
-            "backend": "Resolução de complexas Race Conditions usando padrões reativos RxJS no módulo de chat.",
-            "frontend": "Refatoração de arquivos monolíticos e correção de bugs de responsividade em monitores governamentais antigos.",
-            "ai": "Auditoria técnica quantificada que demonstrou a insustentabilidade financeira do stack atual para os stakeholders.",
-            "devops": "Desenho de arquitetura de transição para ambiente Single-Tenant Docker com 2FA e logs de auditoria legais."
-         }
+        "id": "4",
+        "title": "GovTech Rescue",
+        "slug": "gov-lumen-rescue",
+        "imageUrl": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800",
+        "technologies": [
+          "AngularJS",
+          "RxJS",
+          "Firebase",
+          "GovTech"
+        ],
+        "description": {
+          "fullstack": "Refatoração profunda de um sistema legado governamental, eliminando Race Conditions críticas e estabilizando a arquitetura obsoleta com padrões reativos.",
+          "backend": "Resolução de complexas Race Conditions usando padrões reativos RxJS no módulo de chat.",
+          "frontend": "Refatoração de arquivos monolíticos e correção de bugs de responsividade em monitores governamentais antigos.",
+          "ai": "Auditoria técnica quantificada que demonstrou a insustentabilidade financeira do stack atual para os stakeholders.",
+          "devops": "Desenho de arquitetura de transição para ambiente Single-Tenant Docker com 2FA e logs de auditoria legais."
+        }
       },
       "alura-plus": {
-         "id": "5",
-         "title": "Alura-Plus: Estruturação e Estilo",
-         "slug": "alura-plus",
-         "imageUrl": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800",
-         "technologies": ["HTML", "CSS", "Responsive Design"],
-         "description": {
-            "fullstack": "Página web responsiva com foco em técnicas de CSS moderno e fidelidade ao design do Figma.",
-            "frontend": "Implementação prática de Flexbox, Grid e boas práticas de estruturação HTML5.",
-            "ai": "Deploy automatizado integrado ao GitHub para visualização pública instantânea."
-         }
+        "id": "5",
+        "title": "Alura Plus",
+        "slug": "alura-plus",
+        "imageUrl": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800",
+        "technologies": [
+          "HTML",
+          "CSS",
+          "Responsive Design"
+        ],
+        "description": {
+          "fullstack": "Implementação focada em estruturação semântica e layouts responsivos avançados, aplicando técnicas modernas de CSS Grid e Flexbox com alta fidelidade.",
+          "frontend": "Implementação prática de Flexbox, Grid e boas práticas de estruturação HTML5.",
+          "ai": "Deploy automatizado integrado ao GitHub para visualização pública instantânea."
+        }
       },
       "adventure-text-game": {
-         "id": "6",
-         "title": "Em Busca da Cidade Perdida 🧭",
-         "slug": "adventure-text-game",
-         "imageUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800",
-         "technologies": ["JavaScript", "HTML", "CSS"],
-         "description": {
-            "fullstack": "Jogo de aventura baseado em texto com narrativa interativa e múltiplos finais controlados por lógica JavaScript.",
-            "backend": "Lógica de estados em JS puro que gerencia as escolhas do usuário e ramificações da história.",
-            "frontend": "Interface minimalista e imersiva com mudanças dinâmicas de cenário via DOM manipulation.",
-            "ai": "História ramificada permitindo múltiplas experiências baseadas no perfil de decisão do jogador."
-         }
+        "id": "6",
+        "title": "Adventure Text Game",
+        "slug": "adventure-text-game",
+        "imageUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800",
+        "technologies": [
+          "JavaScript",
+          "HTML",
+          "CSS"
+        ],
+        "description": {
+          "fullstack": "Motor de narrativa interativa em JS puro, manipulando o DOM em tempo real baseado nas decisões do jogador e ramificando o fluxo da história dinamicamente.",
+          "backend": "Lógica de estados em JS puro que gerencia as escolhas do usuário e ramificações da história.",
+          "frontend": "Interface minimalista e imersiva com mudanças dinâmicas de cenário via DOM manipulation.",
+          "ai": "História ramificada permitindo múltiplas experiências baseadas no perfil de decisão do jogador."
+        }
+      },
+      "gov-docs-ai": {
+        "description": {
+          "fullstack": "Motor de inteligência artificial autônomo baseado em JSON Schemas rígidos para geração de contratos governamentais estruturados de altíssima complexidade."
+        },
+        "title": "Public Docs AI"
+      },
+      "espresso-d-amore": {
+        "description": {
+          "fullstack": "Plataforma Web End-to-End para gestão e vitrine digital, focada em UX responsiva e controle operacional robusto para expansão de delivery local."
+        },
+        "title": "Cafeteria Damore"
+      },
+      "jynsge-news": {
+        "description": {
+          "fullstack": "Portal de notícias full-stack altamente otimizado, projetado com uma arquitetura flexível para entregar conteúdo no formato Server-Side Rendering rápido."
+        },
+        "title": "JYNSGE News"
       }
     }
   },
@@ -129,18 +208,18 @@
     ]
   },
   "contact": {
-     "title": "Contato",
-     "heading": "Vamos construir o futuro juntos.",
-     "desc": "Disponível para parcerias, consultorias em SaaS ou apenas uma conversa técnica.",
-     "email": "E-mail",
-     "messageSent": "Mensagem Enviada!",
-     "sendAnother": "Enviar Outra",
-     "nameLabel": "Nome",
-     "emailLabel": "E-mail",
-     "messageLabel": "Mensagem",
-     "sendMessage": "Enviar Mensagem",
-     "sending": "Enviando...",
-     "somethingWrong": "Algo deu errado. Tente novamente mais tarde."
+    "title": "Contato",
+    "heading": "Vamos construir o futuro juntos.",
+    "desc": "Disponível para parcerias, consultorias em SaaS ou apenas uma conversa técnica.",
+    "email": "E-mail",
+    "messageSent": "Mensagem Enviada!",
+    "sendAnother": "Enviar Outra",
+    "nameLabel": "Nome",
+    "emailLabel": "E-mail",
+    "messageLabel": "Mensagem",
+    "sendMessage": "Enviar Mensagem",
+    "sending": "Enviando...",
+    "somethingWrong": "Algo deu errado. Tente novamente mais tarde."
   },
   "footer": {
     "copyright": "Jônatas Nascimento dos Santos",
@@ -171,8 +250,8 @@
     "badgeTool": "Ferramenta"
   },
   "topics": {
-     "title": "Tópicos de Estudo",
-     "desc": "Domínios de conhecimento que venho explorando profundamente."
+    "title": "Tópicos de Estudo",
+    "desc": "Domínios de conhecimento que venho explorando profundamente."
   },
   "graph": {
     "title": "Grafo de Conhecimento Interativo",

@@ -22,32 +22,97 @@
     "caseStudy": "案例研究",
     "items": {
       "gov-docs-ai": {
-        "id": "7", "title": "Public Docs AI", "slug": "gov-docs-ai",
-        "description": { "fullstack": "使用AI和Laravel的公文生成全自动系统。", "frontend": "使用React和Inertia.js构建的现代响应式Web界面。" }
+        "id": "7",
+        "title": "Public Docs AI",
+        "slug": "gov-docs-ai",
+        "description": {
+          "fullstack": "Autonomous AI engine enforcing strict JSON Schemas to generate highly complex, hallcuniation-free structured government contracts dynamically.",
+          "frontend": "使用React和Inertia.js构建的现代响应式Web界面。"
+        }
       },
       "vitanexus": {
-        "id": "8", "title": "VitaNexus", "slug": "vitanexus",
-        "description": { "fullstack": "使用Laravel和Bootstrap构建的综合健康监测应用程序。" }
+        "id": "8",
+        "title": "VitaNexus",
+        "slug": "vitanexus",
+        "description": {
+          "fullstack": "使用Laravel和Bootstrap构建的综合健康监测应用程序。"
+        }
       },
       "jynsge-news": {
-        "id": "9", "title": "JYNSGE News", "slug": "jynsge-news",
-        "description": { "fullstack": "使用Laravel和Tailwind构建技术新闻门户网站。" }
+        "id": "9",
+        "title": "JYNSGE News",
+        "slug": "jynsge-news",
+        "description": {
+          "fullstack": "Highly-optimized full-stack news portal designed with a flexible architecture to rapidly deliver Server-Side Rendered content globally."
+        }
       },
       "zk-business-support": {
-        "id": "10", "title": "ZK Business Support", "slug": "zk-business-support",
-        "description": { "fullstack": "具有高级缓存和本地SEO优化的定制WordPress解决方案。" }
+        "id": "10",
+        "title": "ZK Business Support",
+        "slug": "zk-business-support",
+        "description": {
+          "fullstack": "具有高级缓存和本地SEO优化的定制WordPress解决方案。"
+        }
       },
       "espresso-d-amore": {
-        "id": "11", "title": "Espresso D' Amore", "slug": "espresso-d-amore",
-        "description": { "fullstack": "由用于管理的Laravel ERP和用于订购的Expo移动应用组成的双重生态系统。" }
+        "id": "11",
+        "title": "Cafeteria Damore",
+        "slug": "espresso-d-amore",
+        "description": {
+          "fullstack": "End-to-end digital storefront platform focused on responsive UX, seamless menu integration, and robust operational tooling for local business."
+        }
       },
       "la-pool-club": {
-        "id": "12", "title": "LA Pool Club", "slug": "la-pool-club",
-        "description": { "fullstack": "专注于UI/UX改进、CSS样式和系统布局恢复的WordPress完整解决方案。" }
+        "id": "12",
+        "title": "LA Pool Club",
+        "slug": "la-pool-club",
+        "description": {
+          "fullstack": "专注于UI/UX改进、CSS样式和系统布局恢复的WordPress完整解决方案。"
+        }
       },
       "brighton-cakes": {
-        "id": "13", "title": "Brighton Cakes", "slug": "brighton-cakes",
-        "description": { "fullstack": "具有定制主题、性能优化和个性化用户体验的自定义WordPress网站。" }
+        "id": "13",
+        "title": "Brighton Cakes",
+        "slug": "brighton-cakes",
+        "description": {
+          "fullstack": "具有定制主题、性能优化和个性化用户体验的自定义WordPress网站。"
+        }
+      },
+      "plataforma-lumen": {
+        "description": {
+          "fullstack": "High-performance Enterprise B2G SaaS powered by Laravel Octane, handling complex public procurement workflows with in-memory state and zero latency."
+        },
+        "title": "Lumen Platform"
+      },
+      "rag-legal-chatbot": {
+        "description": {
+          "fullstack": "Advanced virtual assistant driven by AI and native RAG, capable of querying complex legal contexts and analyzing proprietary files via real-time Vector Search."
+        },
+        "title": "RAG Legal Chatbot"
+      },
+      "doc-automation-saas": {
+        "description": {
+          "fullstack": "Automated pipeline that reduced public document generation from months to minutes using asynchronous background queues and heavy processing workflows."
+        },
+        "title": "Doc Automation SaaS"
+      },
+      "gov-lumen-rescue": {
+        "description": {
+          "fullstack": "Deep refactoring of a legacy government system, eliminating critical Race Conditions and stabilizing an obsolete state-machine architecture with RxJS."
+        },
+        "title": "GovTech Rescue"
+      },
+      "alura-plus": {
+        "description": {
+          "fullstack": "Semantic structuring implementation with advanced responsive layouts, applying modern CSS Grid and Flexbox techniques for true-to-design fidelity."
+        },
+        "title": "Alura Plus"
+      },
+      "adventure-text-game": {
+        "description": {
+          "fullstack": "Pure JS interactive narrative engine, mutating the DOM in real-time based on complex player decisions and branching story states dynamically."
+        },
+        "title": "Adventure Text Game"
       }
     }
   },
@@ -57,15 +122,52 @@
     "highlightedTitle": "服务",
     "desc": "现代技术系统的可扩展架构解决方案。",
     "items": [
-      { "title": "架构设计", "desc": "为复杂系统构建可扩展的蓝图。" },
-      { "title": "性能调优", "desc": "优化渲染周期和数据库查询。" }
+      {
+        "title": "架构设计",
+        "desc": "为复杂系统构建可扩展的蓝图。"
+      },
+      {
+        "title": "性能调优",
+        "desc": "优化渲染周期和数据库查询。"
+      }
     ]
   },
-  "contact": { "title": "联系我们", "heading": "让我们共创未来。" },
-  "footer": { "copyright": "Jônatas Nascimento dos Santos", "links": { "home": "首页", "about": "关于", "work": "作品", "contact": "联系" } },
-  "blog": { "title": "技术博客", "desc": "关于软件工程和架构的思考。" },
-  "knowledge": { "title": "技术知识", "desc": "探索技术。", "search": "搜索...", "all": "全部", "filterBy": "过滤" },
-  "graph": { "title": "知识图谱", "desc": "第二脑网络。" },
-  "taxonomy": { "backToPortfolio": "← 返回", "startingAt": "从" },
-  "ui": { "View All": "查看全部", "exploreKnowledge": "探索技术", "Interactive": "交互式", "Knowledge Graph": "知识图谱" }
+  "contact": {
+    "title": "联系我们",
+    "heading": "让我们共创未来。"
+  },
+  "footer": {
+    "copyright": "Jônatas Nascimento dos Santos",
+    "links": {
+      "home": "首页",
+      "about": "关于",
+      "work": "作品",
+      "contact": "联系"
+    }
+  },
+  "blog": {
+    "title": "技术博客",
+    "desc": "关于软件工程和架构的思考。"
+  },
+  "knowledge": {
+    "title": "技术知识",
+    "desc": "探索技术。",
+    "search": "搜索...",
+    "all": "全部",
+    "filterBy": "过滤"
+  },
+  "graph": {
+    "title": "知识图谱",
+    "desc": "第二脑网络。"
+  },
+  "taxonomy": {
+    "backToPortfolio": "← 返回",
+    "startingAt": "从"
+  },
+  "ui": {
+    "View All": "查看全部",
+    "exploreKnowledge": "探索技术",
+    "Interactive": "交互式",
+    "Knowledge Graph": "知识图谱"
+  }
 }

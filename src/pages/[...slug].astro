@@ -14,9 +14,11 @@ import tags_index from "@components/pages/tags/Index.astro";
 import tags_show from "@components/pages/tags/Show.astro";
 import topics_index from "@components/pages/topics/Index.astro";
 import topics_show from "@components/pages/topics/Show.astro";
+import about_index from "@components/pages/about/Index.astro";
 
 const PAGE_COMPONENTS: Record<string, any> = {
     "home/index": home_index,
+    "about/index": about_index,
     "blog/index": blog_index,
     "blog/show": blog_show,
     "projects/index": projects_index,
@@ -41,14 +43,14 @@ export async function getStaticPaths() {
         topics: await getCollection("topics"),
     };
 
-    // 2. Identify Unique Blog Slugs (handle translation fallbacks later)
     const blogSlugs = new Set([
         ...collections.blog.map((p) =>
-            p.id
-                .split("/")
-                .slice(1)
-                .join("/")
-                .replace(/\.mdx?$/, ""),
+            p.id.split("/").slice(1).join("/").replace(/\.mdx?$/, ""),
+        ),
+    ]);
+    const projectSlugs = new Set([
+        ...collections.projects.map((p) =>
+            p.id.split("/").slice(1).join("/").replace(/\.mdx?$/, ""),
         ),
     ]);
 
@@ -59,6 +61,7 @@ export async function getStaticPaths() {
         // A. Index / List Pages
         const indices = [
             { name: "", component: "home/index" },
+            { name: "about", component: "about/index" },
             { name: "blog", component: "blog/index" },
             { name: "projects", component: "projects/index" },
             { name: "services", component: "services/index" },
@@ -75,44 +78,42 @@ export async function getStaticPaths() {
             });
         }
 
-        // B. Detail Pages (Show) - Blog with fallback logic
-        for (const slug of blogSlugs) {
-            let entry = collections.blog.find(
-                (p) => p.id.replace(/\.mdx?$/, "") === `${locale}/${slug}`,
-            );
-            let isFallback = false;
-            
-            if (!entry) {
-                entry =
-                    collections.blog.find(
-                        (p) =>
-                            p.id.replace(/\.mdx?$/, "") ===
-                            `${defaultLocale}/${slug}`,
-                    ) ||
-                    collections.blog.find((p) =>
-                        p.id.replace(/\.mdx?$/, "").endsWith(`/${slug}`),
-                    );
-                isFallback = true;
-            }
+        // B. Detail Pages (Localized collections)
+        const localizedCollections = [
+            { key: "blog", items: collections.blog, slugs: blogSlugs },
+            { key: "projects", items: collections.projects, slugs: projectSlugs }
+        ];
 
-            // Only generate path if we have an entry to show
-            if (entry) {
-                paths.push({
-                    params: { slug: `${prefix}blog/${slug}` },
-                    props: {
-                        lang: locale,
-                        componentKey: "blog/show",
-                        post: entry,
-                        isFallback,
-                    },
-                });
+        for (const col of localizedCollections) {
+            for (const slug of col.slugs) {
+                let entry = col.items.find(
+                    (p) => p.id.replace(/\.mdx?$/, "") === `${locale}/${slug}`,
+                );
+                let isFallback = false;
+                
+                if (!entry) {
+                    entry = col.items.find((p) => p.id.replace(/\.mdx?$/, "") === `${defaultLocale}/${slug}`) ||
+                            col.items.find((p) => p.id.replace(/\.mdx?$/, "").endsWith(`/${slug}`));
+                    isFallback = true;
+                }
+
+                if (entry) {
+                    paths.push({
+                        params: { slug: `${prefix}${col.key}/${slug}` },
+                        props: {
+                            lang: locale,
+                            componentKey: `${col.key}/show`,
+                            [col.key === "projects" ? "project" : "post"]: entry,
+                            isFallback,
+                        },
+                    });
+                }
             }
         }
 
-        // C. Simple Detail Pages (Services, Projects, Tags, Topics)
+        // C. Simple Detail Pages (Services, Tags, Topics)
         const simpleDetails = [
             { key: "services", items: collections.services },
-            { key: "projects", items: collections.projects },
             { key: "tags", items: collections.tags },
             { key: "topics", items: collections.topics },
         ];

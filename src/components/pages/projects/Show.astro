@@ -53,9 +53,43 @@ const relatedPosts = relatedPostsRaw.filter(Boolean);
         class="w-full min-h-screen bg-base-100 text-base-content pt-32 pb-20 px-6 lg:px-20 relative z-10"
     >
         <div class="max-w-4xl mx-auto">
+            <header class="mb-12 text-center md:text-left">
+                <div class="flex flex-wrap items-center gap-3 justify-center md:justify-start mb-4">
+                    <span class="badge badge-primary badge-sm uppercase font-bold tracking-wider">{tPortfolio.projects.caseStudy || "Case Study"}</span>
+                    {project.data.date && <span class="badge badge-neutral badge-sm opacity-80">{new Date(project.data.date).getFullYear()}</span>}
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-base-content to-base-content/50 mb-6 leading-tight">
+                    {project.data.title}
+                </h1>
+                
+                <div class="flex flex-wrap items-center gap-6 text-sm font-medium opacity-80 justify-center md:justify-start">
+                    {project.data.role && (
+                        <div class="flex items-center gap-2">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+                            {project.data.role}
+                        </div>
+                    )}
+                    {project.data.company && (
+                        <div class="flex items-center gap-2">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>
+                            {project.data.company}
+                        </div>
+                    )}
+                </div>
+                
+                {project.data.tags && project.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mt-6 justify-center md:justify-start">
+                        {project.data.tags.map((tag: string) => (
+                            <span class="badge badge-outline border-base-content/20 text-xs text-base-content/70">{tag}</span>
+                        ))}
+                    </div>
+                )}
+            </header>
+
             {
                 project.data.heroImage && (
-                    <div class="w-full h-64 md:h-96 rounded-3xl overflow-hidden mb-12 shadow-2xl relative">
+                    <div class="w-full h-72 md:h-[500px] rounded-3xl overflow-hidden mb-16 shadow-2xl relative">
                         <img
                             src={project.data.heroImage}
                             alt={project.data.title}
