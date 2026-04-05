@@ -7,19 +7,34 @@ import ProjectCard from "@components/ui/ProjectCard.astro";
 interface Props {
     mode?: string;
     lang: string;
-    projects?: any[];
 }
 
-const { lang, projects } = Astro.props;
+const { lang } = Astro.props;
 const __ = await useTranslator(lang);
 const translatePath = useTranslatedPath(lang);
 
 // Fetch dynamic projects from content collection
-const allProjects = await getCollection("projects");
+// Fetch projects manually simulating fallback since getCollection gives all
+const allProjectsUnfiltered = await getCollection("projects");
+
+const uniqueProjectIds = [...new Set(allProjectsUnfiltered.map(p => 
+    p.id.split("/").slice(1).join("/").replace(/\.mdx?$/, "")
+))];
+
+const allProjects = [];
+for (const id of uniqueProjectIds) {
+    let entry = allProjectsUnfiltered.find(p => p.id.replace(/\.mdx?$/, "") === `${lang}/${id}`);
+    if (!entry) {
+        entry = allProjectsUnfiltered.find(p => p.id.replace(/\.mdx?$/, "").endsWith(`/${id}`));
+    }
+    if (entry) {
+        allProjects.push(entry);
+    }
+}
 
 // Pre-process projects for consistent card mapping
-const projectsData = projects || allProjects.slice(0, 6).map((p) => {
-    const cleanId = p.id.replace(/\.mdx?$/, "");
+let projectsData = allProjects.map((p) => {
+    const cleanId = p.id.split("/").slice(1).join("/").replace(/\.mdx?$/, "");
     return {
         id: cleanId,
         title: p.data.title,
@@ -29,20 +44,43 @@ const projectsData = projects || allProjects.slice(0, 6).map((p) => {
         technologies: p.data.tags
             ? p.data.tags.map((t: any) => ({
                   id: (t.id || t).replace(/\.mdx?$/, ""),
-                  name: (t.id || t).split('/').pop()?.replace(/-/g, " ") || "Tech",
+                  name:
+                      (t.id || t).split("/").pop()?.replace(/-/g, " ") ||
+                      "Tech",
               }))
             : [],
         description: p.data.description || "",
+        date: p.data.date,
+        relevance: p.data.relevance || 0,
+        role: p.data.role,
+        company: p.data.company,
     };
 });
+
+// Sort by Relevance (DESC), then by Date (DESC)
+projectsData.sort((a, b) => {
+    if (b.relevance !== a.relevance) {
+        return b.relevance - a.relevance;
+    }
+    const dateB = b.date ? new Date(b.date).getTime() : 0;
+    const dateA = a.date ? new Date(a.date).getTime() : 0;
+    return dateB - dateA;
+});
+
+// Take only top 6
+projectsData = projectsData.slice(0, 6);
 ---
 
-<section id="projects" class="py-32 px-6 lg:px-20 relative bg-base-100 overflow-hidden">
+<section
+    id="projects"
+    class="py-32 px-6 lg:px-20 relative bg-base-100 overflow-hidden"
+>
     <div class="max-w-7xl mx-auto">
-        <SectionHeader 
+        <SectionHeader
             label={__("Design & Dev")}
             title={__("Featured")}
             highlightedTitle={__("Projects")}
+            description={__("A selection of my most significant and complex work.")}
             viewAllLink={translatePath("/projects")}
             viewAllLabel={__("View All")}
         />
@@ -50,12 +88,14 @@ const projectsData = projects || allProjects.slice(0, 6).map((p) => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {
                 projectsData.map((project, index) => {
-                    const isFeatured = index === 0 || index === 3;
+                    const isFeatured =
+                        index === 0 || index === 3 || index === 4;
                     return (
-                        <ProjectCard 
+                        <ProjectCard
                             project={project}
                             lang={lang}
                             isFeatured={isFeatured}
+                            isLcp={index === 0}
                             caseStudyLabel={__("Read Case Study")}
                             viewProjectLabel={__("Live Demo")}
                             codeLabel={__("Source Code")}

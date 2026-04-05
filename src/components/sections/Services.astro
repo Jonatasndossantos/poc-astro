@@ -20,32 +20,39 @@ const iconMap: Record<string, string> = {
     "saas-architecture": "lucide:layout",
     "ai-engineering": "lucide:message-square",
     "legacy-rescue": "lucide:refresh-cw",
-    "devops-strategy": "lucide:terminal"
+    "devops-strategy": "lucide:terminal",
 };
 ---
 
 <section id="services" class="py-32 px-6 lg:px-20 relative bg-base-100">
     <div class="max-w-7xl mx-auto">
-        <SectionHeader 
+        <SectionHeader
             label={__("Expertise")}
             title={__("My")}
             highlightedTitle={__("Services")}
-            description={__("Specialized consulting and architecture design for complex systems.")}
+            description={__(
+                "Specialized consulting and architecture design for complex systems.",
+            )}
             viewAllLink={translatePath("/services")}
             viewAllLabel={__("All Services")}
         />
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {
-                services.map((service) => {
+                services.slice(0, 4).map((service) => {
                     const cleanId = service.id.replace(/\.mdx?$/, "");
                     const iconName = iconMap[cleanId] || "lucide:terminal";
                     return (
-                        <div class="service-card-filter h-full" data-title={(service.data as any).title}>
-                            <ServiceCard 
+                        <div
+                            class="service-card-filter h-full"
+                            data-title={(service.data as any).title}
+                        >
+                            <ServiceCard
                                 id={cleanId}
                                 title={__((service.data as any).title)}
-                                description={__((service.data as any).description || "")}
+                                description={__(
+                                    (service.data as any).description || "",
+                                )}
                                 icon={iconName}
                                 lang={lang}
                             />

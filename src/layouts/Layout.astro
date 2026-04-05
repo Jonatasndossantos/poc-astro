@@ -99,10 +99,6 @@ const fullImageUrl = new URL(image, Astro.url).href;
 			<MobileDrawer lang={lang} />
 		</div>
 
-		<style is:global>
-			html {
-				scroll-behavior: smooth;
-			}
-		</style>
+		<!-- global styles for HTML scroll-behavior removed to avoid conflicts with Lenis -->
 	</body>
 </html>

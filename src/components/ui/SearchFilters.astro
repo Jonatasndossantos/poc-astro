@@ -102,9 +102,11 @@ const {
 
             cards.forEach((c) => {
                 const card = c as HTMLElement;
-                const matchesSearch = 
-                    card.dataset.title?.toLowerCase().includes(currentSearch) || 
-                    card.innerText.toLowerCase().includes(currentSearch);
+                const searchableText = card.dataset.searchable?.toLowerCase() || 
+                    card.dataset.title?.toLowerCase() || 
+                    card.innerText.toLowerCase();
+                    
+                const matchesSearch = searchableText.includes(currentSearch);
                 const matchesCategory =
                     currentCategory === "all" ||
                     card.dataset.category === currentCategory;

@@ -12,9 +12,10 @@ import { Icon } from "astro-icon/components";
 interface Props {
     currentLocale?: string;
     class?: string;
+    dropdownPlacement?: string;
 }
 
-const { currentLocale = defaultLocale, class: className } = Astro.props;
+const { currentLocale = defaultLocale, class: className, dropdownPlacement = "dropdown-end sm:dropdown-bottom dropdown-top" } = Astro.props;
 
 const currentPath = getPathWithoutLocale(Astro.url.pathname);
 
@@ -27,7 +28,8 @@ const __ = await useTranslator(currentLocale);
 
 <div
     class:list={[
-        "dropdown dropdown-end sm:dropdown-bottom dropdown-top group",
+        "dropdown group",
+        dropdownPlacement,
         className,
     ]}
 >
@@ -35,7 +37,7 @@ const __ = await useTranslator(currentLocale);
     <button
         type="button"
         tabindex="0"
-        class="btn btn-sm btn-ghost gap-2 px-3 rounded-xl border border-base-content/5 hover:border-primary/30 transition-all hover:bg-base-content/5"
+        class="btn btn-sm btn-ghost gap-2 px-3 rounded-box border border-base-content/5 hover:border-primary/30 transition-all hover:bg-base-content/5"
         aria-label={__("Change Language")}
         title={__("Change Language")}
     >
@@ -67,7 +69,7 @@ const __ = await useTranslator(currentLocale);
     <!-- Dropdown Content with Glassmorphism -->
     <div
         tabindex="0"
-        class="dropdown-content mt-4 p-3 bg-base-100/80 backdrop-blur-2xl border border-base-content/10 shadow-2xl rounded-3xl w-60 max-h-[60vh] overflow-y-auto scrollbar-hide z-[100] animate-in fade-in zoom-in-95 duration-200"
+        class="dropdown-content mt-4 p-3 bg-base-100/90 backdrop-blur-sm border border-base-content/10 shadow-2xl rounded-box w-60 max-h-[60vh] overflow-y-auto scrollbar-hide z-[100] animate-in fade-in zoom-in-95 duration-200"
     >
         <div class="px-2 pb-3 mb-2 border-b border-base-content/5 flex items-center justify-between">
              <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-30">
@@ -83,7 +85,7 @@ const __ = await useTranslator(currentLocale);
                         href={getRelativeLocaleUrl(locale, currentPath)}
                         data-locale-link={locale}
                         class:list={[
-                            "w-full flex items-center justify-between p-3 rounded-xl transition-all group/item",
+                            "w-full flex items-center justify-between p-3 rounded-box transition-all group/item",
                             currentLocale === locale 
                                 ? "bg-primary text-primary-content shadow-lg shadow-primary/20" 
                                 : "text-sm font-medium hover:bg-primary/10 hover:text-primary"

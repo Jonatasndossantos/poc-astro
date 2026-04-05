@@ -1,12 +1,12 @@
 ---
 import { getTranslations, useTranslator } from "@i18n";
-
 export interface Props {
     locale?: string;
     class?: string;
+    dropdownPlacement?: string;
 }
 
-const { locale = "en", class: className } = Astro.props;
+const { locale = "en", class: className, dropdownPlacement = "dropdown-end sm:dropdown-bottom dropdown-top" } = Astro.props;
 const __ = await useTranslator(locale);
 const themeDict = (await getTranslations(locale, "theme")) as Record<
     string,
@@ -61,7 +61,8 @@ const themesList = themeKeys.map((key) => ({
 
 <div
     class:list={[
-        "dropdown dropdown-end sm:dropdown-bottom dropdown-top group",
+        "dropdown group",
+        dropdownPlacement,
         className,
     ]}
 >
@@ -69,17 +70,25 @@ const themesList = themeKeys.map((key) => ({
     <button
         type="button"
         tabindex="0"
-        class="btn btn-sm btn-ghost gap-2 px-3 rounded-xl border border-base-content/5 hover:border-primary/30 transition-all hover:bg-base-content/5"
+        class="btn btn-sm btn-ghost gap-2 px-3 rounded-box border border-base-content/5 hover:border-primary/30 transition-all hover:bg-base-content/5"
         aria-label={__("Change Theme")}
         title={__("Change Theme")}
     >
-        <div class="grid grid-cols-2 gap-0.5 p-1 bg-base-content/5 rounded-md group-hover:bg-primary/20 transition-colors">
-            <div class="size-1.5 rounded-full bg-primary shadow-[0_0_4px_rgba(var(--p),0.5)]"></div>
-            <div class="size-1.5 rounded-full bg-secondary"></div>
-            <div class="size-1.5 rounded-full bg-accent"></div>
-            <div class="size-1.5 rounded-full bg-neutral"></div>
+        <div
+            class="grid grid-cols-2 gap-0.5 p-1 bg-base-content/5 rounded-box group-hover:bg-primary/20 transition-colors"
+        >
+            <div
+                class="size-1.5 rounded-box bg-primary shadow-[0_0_4px_rgba(var(--p),0.5)]"
+            >
+            </div>
+            <div class="size-1.5 rounded-box bg-secondary"></div>
+            <div class="size-1.5 rounded-box bg-accent"></div>
+            <div class="size-1.5 rounded-box bg-neutral"></div>
         </div>
-        <span class="text-[10px] font-bold uppercase tracking-widest opacity-60 hidden xl:inline-block">{label}</span>
+        <span
+            class="text-[10px] font-bold uppercase tracking-widest opacity-60 hidden xl:inline-block"
+            >{label}</span
+        >
         <svg
             width="10px"
             height="10px"
@@ -87,59 +96,78 @@ const themesList = themeKeys.map((key) => ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 2048 2048"
         >
-            <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
+            <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"
+            ></path>
         </svg>
     </button>
 
     <div
         tabindex="0"
-        class="dropdown-content mt-4 p-3 bg-base-100/80 backdrop-blur-2xl border border-base-content/10 shadow-2xl rounded-3xl w-64 max-h-[60vh] overflow-y-auto scrollbar-hide z-[100] animate-in fade-in zoom-in-95 duration-200"
+        class="dropdown-content mt-4 p-3 bg-base-100/90 backdrop-blur-sm border border-base-content/10 shadow-2xl rounded-box max-h-[60vh] overflow-y-auto scrollbar-hide z-[100] animate-in fade-in zoom-in-95 duration-200"
     >
         <div class="px-2 pb-3 mb-2 border-b border-base-content/5">
-             <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-30">{label}</span>
+            <span
+                class="text-[10px] font-black uppercase tracking-[0.2em] opacity-30"
+                >{label}</span
+            >
         </div>
-        
+
         <ul class="flex flex-col gap-1">
-            {themesList.map((theme) => (
-                <li>
-                    <button
-                        type="button"
-                        data-set-theme={theme.name}
-                        data-act-class="ACTIVE_THEME"
-                        class="w-full flex items-center justify-between p-2 rounded-xl text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all group/item"
-                    >
-                        <div class="flex items-center gap-3">
-                            <div 
+            {
+                themesList.map((theme) => (
+                    <li>
+                        <button
+                            type="button"
+                            data-set-theme={theme.name}
+                            class="w-full flex items-center justify-between p-2 rounded-box text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all group/item object-selected"
+                        >
+                            <div
                                 data-theme={theme.name}
-                                class="grid grid-cols-2 gap-0.5 p-1 rounded-lg border border-base-content/10 bg-base-100"
+                                class="rounded-box bg-base flex items-center pr-3 pl-2 gap-3"
                             >
-                                <div class="size-2 rounded-full bg-primary"></div>
-                                <div class="size-2 rounded-full bg-secondary"></div>
+                                <div class="grid grid-cols-2 gap-0.5 p-1 rounded-box border border-base-content/10 bg-base-100">
+                                    <div class="size-1.5 rounded-box bg-primary shadow-[0_0_4px_rgba(var(--p),0.5)]" />
+                                    <div class="size-1.5 rounded-box bg-secondary" />
+                                    <div class="size-1.5 rounded-box bg-accent" />
+                                    <div class="size-1.5 rounded-box bg-neutral" />
+                                </div>
+                                <span class="capitalize tracking-tight">
+                                    {theme.label}
+                                </span>
                             </div>
-                            <span class="capitalize tracking-tight">{theme.label}</span>
-                        </div>
-                        
-                        <div class="size-4 rounded-full border border-base-content/20 flex items-center justify-center p-0.5 opacity-0 group-hover/item:opacity-40">
-                             <div class="size-full rounded-full bg-primary opacity-0 group-hover/item:opacity-100 scale-0 group-hover/item:scale-100 transition-all"></div>
-                        </div>
-                    </button>
-                </li>
-            ))}
+
+                            <div class="size-4 rounded-box border border-base-content/20 flex items-center justify-center p-0.5 opacity-0 group-hover/item:opacity-40">
+                                <div class="size-full rounded-box bg-primary opacity-0 group-hover/item:opacity-100 scale-0 group-hover/item:scale-100 transition-all" />
+                            </div>
+                        </button>
+                    </li>
+                ))
+            }
         </ul>
     </div>
 </div>
 
 <script is:inline>
     function setupThemeToggle() {
-        const themeButtons = document.querySelectorAll('[data-set-theme]');
-        
-        themeButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const theme = btn.getAttribute('data-set-theme');
+        const themeButtons = document.querySelectorAll("[data-set-theme]");
+        const currentTheme = localStorage.getItem("theme") || document.documentElement.getAttribute("data-theme") || "cupcake";
+
+        const activeClasses = ["bg-primary/10", "text-primary"];
+
+        themeButtons.forEach((btn) => {
+            if (btn.getAttribute("data-set-theme") === currentTheme) {
+                btn.classList.add(...activeClasses);
+            }
+
+            btn.addEventListener("click", () => {
+                const theme = btn.getAttribute("data-set-theme");
                 if (theme) {
-                    document.documentElement.setAttribute('data-theme', theme);
-                    localStorage.setItem('theme', theme);
-                    
+                    document.documentElement.setAttribute("data-theme", theme);
+                    localStorage.setItem("theme", theme);
+
+                    themeButtons.forEach((b) => b.classList.remove(...activeClasses));
+                    btn.classList.add(...activeClasses);
+
                     // Optional: Close dropdown on select
                     if (document.activeElement instanceof HTMLElement) {
                         document.activeElement.blur();

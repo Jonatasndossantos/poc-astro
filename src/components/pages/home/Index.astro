@@ -2,12 +2,13 @@
 import Layout from "@layouts/Layout.astro";
 import Hero from "@islands/Hero.astro";
 import About from "@components/sections/About.astro";
+import Timeline from "@components/sections/Timeline.astro";
 import Skills from "@components/sections/Skills.astro";
 import Projects from "@components/sections/Projects.astro";
 import Services from "@components/sections/Services.astro";
 import Contact from "@components/sections/Contact.astro";
 import Footer from "@components/layout/Footer.astro";
-import GraphIsland from "@components/GraphIsland.astro";
+import Ecosystem from "@components/sections/Ecosystem.astro";
 import { Mode } from "../../../types";
 import { getTranslations, useTranslator, useTranslatedPath } from "@i18n";
 import type { CuratedProfile } from "../../../types";
@@ -35,31 +36,6 @@ const profileData: CuratedProfile = {
         email: "jonatasndossantos@gmail.com",
     },
 };
-
-// Fetch projects collection
-const allProjects = await getCollection("projects");
-
-// Pre-process projects for the current language and Mode
-const currentProjects = allProjects.slice(0, 7).map((p) => {
-    const cleanId = p.id.replace(/\.mdx?$/, "");
-    return {
-        id: cleanId,
-        title: p.data.title,
-        imageUrl: p.data.heroImage || "",
-        demoUrl: p.data.demoUrl,
-        repoUrl: p.data.repoUrl,
-        technologies: p.data.tags
-            ? p.data.tags.map((t: any) => {
-                  const techId = (t.id || t).toString().replace(/\.mdx?$/, "");
-                  return {
-                      id: techId,
-                      name: techId.replace(/-/g, " "),
-                  };
-              })
-            : [],
-        displayDescriptionTextKey: `projects.items.${cleanId}.description.fullstack`,
-    };
-});
 ---
 
 <Layout lang={locale}>
@@ -67,38 +43,14 @@ const currentProjects = allProjects.slice(0, 7).map((p) => {
         <Hero mode={Mode.FULLSTACK} lang={locale} />
         <div class="relative z-10 bg-base-100">
             <About profile={profileData} mode={Mode.FULLSTACK} lang={locale} />
+            <Timeline lang={locale} />
             <Skills mode={Mode.FULLSTACK} lang={locale} />
 
-            <Projects projects={currentProjects} lang={locale} />
+            <Projects lang={locale} />
 
             <Services lang={locale} />
 
-            <section
-                class="w-full py-20 px-6 lg:px-20 bg-base-100 flex flex-col items-center"
-            >
-                <div class="max-w-7xl w-full">
-                    <div class="flex justify-between items-end mb-8">
-                        <div>
-                            <h2 class="text-xs font-bold text-primary tracking-widest uppercase mb-2">
-                                {__("Connection of Knowledge")}
-                            </h2>
-                            <h3 class="text-3xl md:text-5xl font-bold font-syncopate">
-                                {__("Interactive")}
-                                <span class="text-primary">{__("Ecosystem")}</span>
-                            </h3>
-                            <p class="text-sm opacity-60 mt-2 max-w-sm">
-                                {__("This graph is clickable and navigable. Explore the nodes to discover connections.")}
-                            </p>
-                        </div>
-                        <a href={translatePath("/tags")} class="btn btn-ghost btn-sm group/eco">
-                            {__("Explore Knowledge")}
-                            <span class="group-hover/eco:translate-x-1 transition-transform">&rarr;</span>
-                        </a>
-                    </div>
-
-                    <GraphIsland lang={locale} />
-                </div>
-            </section>
+            <Ecosystem lang={locale} />
 
             <Contact profile={profileData} lang={locale} />
             <Footer lang={locale} />

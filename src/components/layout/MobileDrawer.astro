@@ -28,19 +28,12 @@ const translatePath = useTranslatedPath(lang);
 const __ = await useTranslator(lang);
 ---
 
-<div class="drawer-side">
-    <div
-        onclick="document.getElementById('nav-drawer').click()"
-        aria-hidden="true"
-        class="drawer-overlay"
-    >
-    </div>
-    <label
-        for="mobile-menu"
-        class="drawer-overlay backdrop-blur-sm transition-all duration-300"
-    >
-        <span class="sr-only">{__("Close Menu")}</span>
-    </label>
+<div class="drawer-side z-50">
+    <button
+        type="button"
+        onclick="document.getElementById('mobile-menu').checked = false;"
+        class="drawer-overlay backdrop-blur-sm transition-all duration-300 w-full outline-none"
+        aria-label={__("Close Menu")}></button>
 
     <div
         class="menu bg-base-100 min-h-full w-80 p-6 flex flex-col gap-8 text-base-content shadow-2xl overflow-y-auto"
@@ -49,7 +42,7 @@ const __ = await useTranslator(lang);
         <div class="flex justify-end w-full">
             <button
                 type="button"
-                onclick="document.getElementById('nav-drawer').click()"
+                onclick="document.getElementById('mobile-menu').click()"
                 class="btn btn-ghost btn-circle"
                 aria-label={__("Close Menu")}
                 data-drawer-toggle="mobile-menu"
@@ -83,8 +76,9 @@ const __ = await useTranslator(lang);
                 aria-label={__("search")}
             >
                 <Icon
-                    name="lucide:brain"
+                    name="lucide:search"
                     class="size-5 transition-transform group-hover:rotate-12"
+                    aria-hidden="true"
                 />
                 <span class="font-syncopate font-bold text-xs uppercase"
                     >{__("search")}</span
@@ -92,8 +86,14 @@ const __ = await useTranslator(lang);
             </a>
 
             <div class="flex items-center gap-6">
-                <ThemeToggle locale={lang} />
-                <LanguageToggle currentLocale={lang} />
+                <ThemeToggle
+                    locale={lang}
+                    dropdownPlacement="dropdown-top z-[300]"
+                />
+                <LanguageToggle
+                    currentLocale={lang}
+                    dropdownPlacement="dropdown-top dropdown-end z-100"
+                />
             </div>
 
             <!-- Social Links in Menu -->
@@ -108,7 +108,11 @@ const __ = await useTranslator(lang);
                             aria-label={`${__("Follow on")} ${link.label}`}
                             title={link.label}
                         >
-                            <Icon name={link.icon} class="size-5" />
+                            <Icon
+                                name={link.icon}
+                                class="size-5"
+                                aria-hidden="true"
+                            />
                         </a>
                     ))
                 }

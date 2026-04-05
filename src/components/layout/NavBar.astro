@@ -36,17 +36,11 @@ const isHome =
 ---
 
 <header
-    class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
+    class="fixed top-6 left-0 right-0 z-20 flex justify-center px-4 pointer-events-none"
 >
     <div
-        class="navbar w-full max-w-5xl h-16 bg-base-100/60 backdrop-blur-2xl border border-base-content/10 px-6 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] pointer-events-auto transition-colors duration-500 ease-out hover:border-primary/20"
+        class="navbar w-full max-w-5xl h-16 bg-base-100/70 backdrop-blur-sm border border-base-content/10 px-6 rounded-[calc(var(--radius-box)*2)] shadow-xl pointer-events-auto transition-colors duration-500 ease-out hover:border-primary/20"
     >
-        <input
-            id="nav-drawer"
-            type="checkbox"
-            class="drawer-toggle"
-            aria-label="Toggle Navigation"
-        />
         <!-- Brand / Logo -->
         <div class="navbar-start w-auto lg:w-1/2 flex items-center gap-4">
             <a
@@ -56,7 +50,7 @@ const isHome =
             >
                 <div class="relative flex items-center justify-center size-9">
                     <div
-                        class="absolute inset-0 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/40 transition-colors"
+                        class="absolute inset-0 bg-primary/20 rounded-box blur-lg group-hover:bg-primary/40 transition-colors"
                     >
                     </div>
                     <Image
@@ -84,40 +78,6 @@ const isHome =
             </a>
         </div>
 
-        <!-- Desktop Navigation -->
-        <div class="navbar-center hidden lg:flex">
-            <div
-                class="flex items-center bg-base-content/5 p-1 rounded-2xl border border-base-content/5"
-            >
-                {
-                    navLinks.map((link) => {
-                        const href = translatePath(link.href);
-                        const isActive =
-                            (link.href === "/" && isHome) ||
-                            (link.href !== "/" &&
-                                currentPath.includes(link.href));
-
-                        return (
-                            <a
-                                href={href}
-                                class:list={[
-                                    "px-5 py-2 text-[11px] font-bold uppercase tracking-widest rounded-xl transition-all duration-300 relative group",
-                                    isActive
-                                        ? "text-primary-content bg-primary shadow-lg shadow-primary/20"
-                                        : "text-base-content/60 hover:text-base-content hover:bg-base-content/5",
-                                ]}
-                            >
-                                {__(link.label)}
-                                {isActive && (
-                                    <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full blur-[2px] opacity-50" />
-                                )}
-                            </a>
-                        );
-                    })
-                }
-            </div>
-        </div>
-
         <!-- Search & Actions -->
         <div
             class="navbar-end w-auto lg:w-1/2 flex items-center gap-2 lg:justify-end ml-auto"
@@ -128,7 +88,7 @@ const isHome =
                 aria-label={__("search")}
                 title={__("search")}
             >
-                <Icon name="lucide:brain" class="size-5" />
+                <Icon name="lucide:search" class="size-5" aria-hidden="true" />
             </a>
 
             <div
@@ -141,11 +101,11 @@ const isHome =
             <!-- Mobile Menu Trigger -->
             <button
                 type="button"
-                onclick="document.getElementById('nav-drawer').click()"
+                onclick="document.getElementById('mobile-menu').click()"
                 aria-label={__("Open Menu")}
                 class="btn btn-square btn-ghost"
             >
-                <Icon name="lucide:menu" class="size-5" />
+                <Icon name="lucide:menu" class="size-5" aria-hidden="true" />
             </button>
         </div>
     </div>
