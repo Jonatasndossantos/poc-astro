@@ -147,17 +147,24 @@ const themesList = themeKeys.map((key) => ({
     </div>
 </div>
 
-<script is:inline>
+<script>
     function setupThemeToggle() {
         const themeButtons = document.querySelectorAll("[data-set-theme]");
         const currentTheme = localStorage.getItem("theme") || document.documentElement.getAttribute("data-theme") || "cupcake";
 
         const activeClasses = ["bg-primary/10", "text-primary"];
 
+        // Reset all buttons first to be safe when layout re-renders
+        themeButtons.forEach((b) => b.classList.remove(...activeClasses));
+
         themeButtons.forEach((btn) => {
             if (btn.getAttribute("data-set-theme") === currentTheme) {
                 btn.classList.add(...activeClasses);
             }
+
+            // Prevent double initialization if run multiple times
+            if (btn.hasAttribute("data-theme-listener")) return;
+            btn.setAttribute("data-theme-listener", "true");
 
             btn.addEventListener("click", () => {
                 const theme = btn.getAttribute("data-set-theme");
@@ -166,7 +173,11 @@ const themesList = themeKeys.map((key) => ({
                     localStorage.setItem("theme", theme);
 
                     themeButtons.forEach((b) => b.classList.remove(...activeClasses));
-                    btn.classList.add(...activeClasses);
+                    
+                    // Sync up all other buttons pointing to this theme across the UI
+                    document.querySelectorAll(`[data-set-theme="${theme}"]`).forEach(b => {
+                        b.classList.add(...activeClasses);
+                    });
 
                     // Optional: Close dropdown on select
                     if (document.activeElement instanceof HTMLElement) {

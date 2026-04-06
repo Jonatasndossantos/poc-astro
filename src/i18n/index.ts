@@ -61,39 +61,46 @@ export async function getTranslations<T extends FlatDictionary = FlatDictionary>
  *   __('Home')
  *   __('Welcome, :name', { name: 'Jhon' })
  */
+
+const translatorCache = new Map<string, Record<string, any>>();
+
 export async function useTranslator(locale: string) {
-    let mergedDict: Record<string, any> = {};
-
-    const loadDict = async (name: string) => {
-        try {
-            return (await import(`../dictionaries/${name}/${locale}.json`)).default;
-        } catch {
-            return {};
-        }
-    };
-
-    const ui = await loadDict('ui');
-    const portfolio = await loadDict('portfolio');
-    const profile = await loadDict('profile');
-
-    const flattenObj = (ob: any, prefix = '') => {
-        let result: any = {};
-        for (const i in ob) {
-            if ((typeof ob[i]) === 'object' && ob[i] !== null) {
-                Object.assign(result, flattenObj(ob[i], prefix + i + '.'));
-            } else {
-                result[prefix + i] = ob[i];
+    if (!translatorCache.has(locale)) {
+        const loadDict = async (name: string) => {
+            try {
+                return (await import(`../dictionaries/${name}/${locale}.json`)).default;
+            } catch {
+                return {};
             }
-        }
-        return result;
-    };
+        };
 
-    mergedDict = { 
-        ...flattenObj(ui), 
-        ...flattenObj(portfolio), 
-        ...flattenObj(profile) 
-    };
+        const ui = await loadDict('ui');
+        const portfolio = await loadDict('portfolio');
+        const profile = await loadDict('profile');
+
+        const flattenObj = (ob: any, prefix = '') => {
+            let result: any = {};
+            for (const i in ob) {
+                if ((typeof ob[i]) === 'object' && ob[i] !== null) {
+                    Object.assign(result, flattenObj(ob[i], prefix + i + '.'));
+                } else {
+                    result[prefix + i] = ob[i];
+                }
+            }
+            return result;
+        };
+
+        const mergedDict = { 
+            ...flattenObj(ui), 
+            ...flattenObj(portfolio), 
+            ...flattenObj(profile) 
+        };
+
+        translatorCache.set(locale, mergedDict);
+    }
     
+    const mergedDict = translatorCache.get(locale)!;
+
     return function __(text: string, replacements?: Record<string, string>) {
         let result = mergedDict[text] || text;
         if (replacements) {
