@@ -2,6 +2,7 @@
 import "../assets/global.css";
 import NavBar from "../components/layout/NavBar.astro";
 import MobileDrawer from "../components/layout/MobileDrawer.astro";
+import Footer from "../components/layout/Footer.astro";
 
 interface Props {
 	title?: string;
@@ -19,7 +20,10 @@ const {
 	image = "/og-image.png",
 } = Astro.props;
 
-const ogTitle = title === "Jônatas N. dos Santos" ? title : `${title} | Jônatas N. dos Santos`;
+const ogTitle =
+	title === "Jônatas N. dos Santos"
+		? title
+		: `${title} | Jônatas N. dos Santos`;
 const fullImageUrl = new URL(image, Astro.url).href;
 ---
 
@@ -74,13 +78,19 @@ const fullImageUrl = new URL(image, Astro.url).href;
 
 		<!-- Theme Initialization -->
 		<script is:inline>
-			(function() {
-				const savedTheme = localStorage.getItem('theme');
+			(function () {
+				const savedTheme = localStorage.getItem("theme");
 				if (savedTheme) {
-					document.documentElement.setAttribute('data-theme', savedTheme);
+					document.documentElement.setAttribute(
+						"data-theme",
+						savedTheme,
+					);
 				} else {
 					// Default to a sensible theme if none saved
-					document.documentElement.setAttribute('data-theme', 'cupcake');
+					document.documentElement.setAttribute(
+						"data-theme",
+						"cupcake",
+					);
 				}
 			})();
 		</script>
@@ -89,7 +99,7 @@ const fullImageUrl = new URL(image, Astro.url).href;
 		<div class="drawer drawer-end">
 			<!-- Drawer toggle -> linked to the hamburger button in NavBar -->
 			<input id="mobile-menu" type="checkbox" class="drawer-toggle" />
-			
+
 			<div class="drawer-content flex flex-col">
 				<NavBar lang={lang} />
 				<slot />
@@ -98,6 +108,9 @@ const fullImageUrl = new URL(image, Astro.url).href;
 			<!-- Component containing the .drawer-side structure -->
 			<MobileDrawer lang={lang} />
 		</div>
+
+		<!-- if not footer -->
+		<Footer lang={lang} />
 
 		<!-- global styles for HTML scroll-behavior removed to avoid conflicts with Lenis -->
 	</body>
