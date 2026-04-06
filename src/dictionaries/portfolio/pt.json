@@ -11,6 +11,11 @@
     "timelineSubtitle": "Grandes arquiteturas não são construídas da noite para o dia; elas são forjadas sob pressão. Esta é a evolução do meu background:",
     "timeline": [
       {
+        "date": "2020 - 2023",
+        "title": "Tecnico em Informática",
+        "desc": "Fazia serviços de manutenção de computadores e formatação de computadores."
+      },
+      {
         "date": "Fev/2023 - Jun/2024",
         "title": "O Forjamento (McDonald's)",
         "desc": "Onde aprendi execução implacável sob pressão, SLAs rigorosos, e resiliência pura. O treinamento não-oficial de SRE."
